@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leviathan Nutrition | Desata tu Poder</title>
+
+<!-- ============================================================
+     FUENTES
+     - Anton: display condensada, potente, usada solo en el H1
+     - Manrope: texto de apoyo, UI, botones (limpia y moderna)
+============================================================= -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- TailwindCSS (CDN, modo JIT) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          'lv-black': '#050607',
+          'lv-dark': '#0A0E14',
+          'lv-panel': '#0D1420',
+          'lv-blue': '#1E9BFF',
+          'lv-blue-deep': '#0B5FCC',
+          'lv-cyan': '#5FD4FF',
+          'lv-green': '#39FF8A',
+          'lv-steel': '#8B96A8',
+        },
+        fontFamily: {
+          'display': ['Anton', 'sans-serif'],
+          'body': ['Manrope', 'sans-serif'],
+        },
+      },
+    },
+  }
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-lv-black text-white font-body antialiased overflow-x-hidden">
+
+<!-- ============================================================
+     FONDO CINEMATOGRÁFICO GLOBAL (detrás de todo, sutil)
+============================================================= -->
+<div class="fixed inset-0 z-0 pointer-events-none">
+  <div class="absolute inset-0 bg-lv-black"></div>
+  <canvas id="particle-canvas" class="absolute inset-0 w-full h-full"></canvas>
+</div>
+
+<!-- ============================================================
+     HEADER / NAVBAR
+============================================================= -->
+<header id="site-header" class="fixed top-0 left-0 w-full z-50 nav-solid">
+  <div class="max-w-[1600px] mx-auto px-6 md:px-8">
+    <div class="flex items-center justify-between h-24 overflow-visible">
+
+      <!-- LOGO: más grande, se sale del header hacia abajo (como una insignia),
+           sin afectar la alineación de los demás elementos del nav. -->
+      <a href="#inicio" class="logo-wrap shrink-0 group">
+        <img
+          src="assets/img/logo_leviathan.png"
+          alt="Leviathan Nutrition"
+          class="logo-mark"
+        >
+      </a>
+
+      <!-- NAV LINKS -->
+      <nav class="hidden lg:flex items-center gap-10">
+        <a href="#inicio" class="nav-link active-link">Inicio</a>
+        <a href="#productos" class="nav-link">Productos</a>
+        <a href="#categorias" class="nav-link">Categorías</a>
+        <a href="#nosotros" class="nav-link">Nosotros</a>
+        <a href="#contacto" class="nav-link">Contacto</a>
+      </nav>
+
+      <!-- ACCIONES: buscador / usuario / carrito -->
+      <div class="flex items-center gap-2">
+        <button class="icon-btn" aria-label="Buscar">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Mi cuenta">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </button>
+        <button class="icon-btn relative" aria-label="Carrito">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-badge" id="cart-count">0</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+  <div class="nav-scanline"></div>
+</header>
+
+<!-- ============================================================
+     HERO SECTION
+     La imagen ocupa TODO el ancho/alto del hero como fondo real,
+     con degradados para legibilidad y una capa de "spotlight"
+     que sigue el cursor.
+============================================================= -->
+<section id="inicio" class="relative z-10 min-h-screen flex items-end overflow-hidden">
+
+  <!-- Franja negra sólida que respeta el alto exacto del header:
+       el fondo cinematográfico NUNCA se dibuja detrás del nav. -->
+  <div class="absolute top-0 left-0 w-full h-24 bg-lv-black z-0"></div>
+
+  <!-- Contenedor que RECORTA el fondo exactamente por debajo del header.
+       El parallax se aplica adentro, así nunca puede asomarse hacia la franja negra. -->
+  <div class="absolute left-0 right-0 bottom-0 z-0 hero-bg-clip" style="top: 6rem;">
+    <div id="hero-bg-layer" class="hero-bg-layer-inner">
+      <img
+        src="assets/img/fondo_hero.jpg"
+        alt="Leviathan Nutrition"
+        class="hero-bg-image"
+        id="hero-bg-image"
+      >
+    </div>
+  </div>
+
+  <!-- Degradados de legibilidad -->
+  <div class="absolute inset-0 z-[1] hero-gradient-left pointer-events-none"></div>
+  <div class="absolute inset-0 z-[1] hero-gradient-bottom pointer-events-none"></div>
+  <div class="absolute inset-0 z-[1] hero-vignette pointer-events-none"></div>
+
+  <!-- Spotlight que sigue el cursor -->
+  <div id="hero-spotlight" class="absolute inset-0 z-[2] pointer-events-none"></div>
+
+  <!-- Rayos / destellos sutiles sobre la imagen -->
+  <div class="absolute inset-0 z-[2] lightning-layer pointer-events-none">
+    <div class="bolt bolt-1"></div>
+    <div class="bolt bolt-2"></div>
+  </div>
+
+  <!-- Chispas ambientales -->
+  <div class="absolute inset-0 z-[2] pointer-events-none overflow-hidden" id="hero-sparks"></div>
+
+  <!-- ===================== CONTENIDO ===================== -->
+  <div class="relative z-10 max-w-[1600px] w-full mx-auto px-6 md:px-8 pt-40 pb-16">
+    <div class="max-w-xl">
+
+      <!-- Eyebrow -->
+      <div class="sr flex items-center gap-3 mb-6">
+        <span class="eyebrow-line"></span>
+        <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Suplementos de alto rendimiento</span>
+      </div>
+
+      <!-- Título gigante (las letras se animan individualmente vía JS) -->
+      <h1 class="font-display leading-[0.85] mb-6">
+        <span class="block title-line title-chrome text-[clamp(3rem,6.5vw,6rem)]" id="title-line-1" data-text="DESATA"></span>
+        <span class="block title-line title-electric text-[clamp(3rem,6.5vw,6rem)]" id="title-line-2" data-text="TU PODER"></span>
+      </h1>
+
+      <!-- Subtítulo -->
+      <p class="sr sr-delay-1 text-lv-steel text-lg max-w-md mb-10 leading-relaxed">
+        Suplementos premium para atletas y apasionados del fitness que buscan superar sus límites cada día.
+      </p>
+
+      <!-- Botones -->
+      <div class="sr sr-delay-2 flex flex-wrap items-center gap-5 mb-16">
+        <button class="btn-primary group" data-ripple>
+          <span>Ver Productos</span>
+          <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+        <button class="btn-secondary" data-ripple>Sobre Nosotros</button>
+      </div>
+
+      <!-- Beneficios con iconos -->
+      <div class="sr sr-delay-3 grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-8">
+
+        <div class="benefit-item">
+          <div class="benefit-icon">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5"/><path d="M14 3l7 7-2.5 2.5L11 5.5 14 3z"/><path d="M3 14l7 7-2.5 2.5-7-7L3 14z"/><path d="M6.5 17.5 3 21"/><path d="M17.5 6.5 21 3"/></svg>
+          </div>
+          <p class="benefit-title">Máxima Calidad</p>
+          <p class="benefit-desc">Ingredientes premium</p>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-icon">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.5L4.5 18a1.5 1.5 0 0 0 1.3 2.3h12.4a1.5 1.5 0 0 0 1.3-2.3L14 8.5V3"/><path d="M7.5 14h9"/></svg>
+          </div>
+          <p class="benefit-title">Fórmulas Avanzadas</p>
+          <p class="benefit-desc">Ciencia + Rendimiento</p>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-icon">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+          </div>
+          <p class="benefit-title">Más Energía</p>
+          <p class="benefit-desc">Entrena sin límites</p>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-icon">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <p class="benefit-title">Resultados Reales</p>
+          <p class="benefit-desc">Comprobado por atletas</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Indicador de scroll -->
+  <div class="scroll-indicator sr sr-delay-4">
+    <span>Desliza</span>
+    <div class="scroll-line"><div class="scroll-dot"></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BARRA DE CONFIANZA (trust bar)
+============================================================= -->
+<section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 pt-14 pb-10">
+  <div class="trust-bar reveal-on-scroll">
+
+    <div class="trust-item">
+      <div class="trust-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10l-1 8a4 4 0 0 1-8 0L7 4z"/><path d="M5 4h14M5 8H3.5A1.5 1.5 0 0 1 2 6.5v0A1.5 1.5 0 0 1 3.5 5H5m14 3h1.5A1.5 1.5 0 0 0 22 6.5v0A1.5 1.5 0 0 0 20.5 5H19"/></svg></div>
+      <div><p class="trust-title">Alto Rendimiento</p><p class="trust-desc">Potencia tu mejor versión</p></div>
+    </div>
+
+    <div class="trust-item">
+      <div class="trust-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg></div>
+      <div><p class="trust-title">Calidad Garantizada</p><p class="trust-desc">Productos 100% originales</p></div>
+    </div>
+
+    <div class="trust-item trust-item--accent">
+      <div class="trust-icon trust-icon--accent"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="7" width="15" height="11" rx="1"/><path d="M16 10h3.5L22 13.5V18h-6"/><circle cx="6" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/></svg></div>
+      <div><p class="trust-title">Envíos a todo el Perú</p><p class="trust-desc">Rápido y seguro</p></div>
+    </div>
+
+    <div class="trust-item">
+      <div class="trust-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+      <div><p class="trust-title">Compra Segura</p><p class="trust-desc">Protegemos tu información</p></div>
+    </div>
+
+    <div class="trust-item">
+      <div class="trust-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3v5zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3v5z"/></svg></div>
+      <div><p class="trust-title">Atención Personalizada</p><p class="trust-desc">Estamos para ayudarte</p></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     BARRA DE MARCAS (placeholder, preparado para logos reales)
+============================================================= -->
+<section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 pb-20">
+  <div class="flex items-center justify-between flex-wrap gap-8 reveal-on-scroll">
+    <span class="brand-placeholder">OPTIMUM NUTRITION</span>
+    <span class="brand-placeholder">MUSCLETECH</span>
+    <span class="brand-placeholder">CELLUCOR</span>
+    <span class="brand-placeholder">XTEND</span>
+    <span class="brand-placeholder">DYMATIZE</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     CATEGORÍAS
+============================================================= -->
+<section id="categorias" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-24">
+
+  <div class="section-heading reveal-on-scroll">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="eyebrow-line"></span>
+      <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Encuentra tu arsenal</span>
+    </div>
+    <h2 class="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[0.95] mb-4">EXPLORA POR <span class="text-electric-inline">CATEGORÍA</span></h2>
+    <p class="text-lv-steel max-w-lg">Cada objetivo tiene su fórmula. Elige la categoría que se alinea con tu entrenamiento.</p>
+  </div>
+
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5 mt-14">
+
+    <a href="#productos" class="category-card reveal-on-scroll" data-category-filter="proteina">
+      <div class="category-img-wrap">
+        <img src="assets/img/categorias/proteinas.jpg" alt="Proteínas" class="category-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="category-placeholder" style="display:none">
+          <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.5L4.5 18a1.5 1.5 0 0 0 1.3 2.3h12.4a1.5 1.5 0 0 0 1.3-2.3L14 8.5V3"/></svg>
+        </div>
+        <div class="category-overlay"></div>
+      </div>
+      <p class="category-name">Proteínas</p>
+      <p class="category-count">18 productos</p>
+    </a>
+
+    <a href="#productos" class="category-card reveal-on-scroll" data-category-filter="pre-entreno">
+      <div class="category-img-wrap">
+        <img src="assets/img/categorias/pre-entrenos.jpg" alt="Pre-Entrenos" class="category-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="category-placeholder" style="display:none">
+          <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        </div>
+        <div class="category-overlay"></div>
+      </div>
+      <p class="category-name">Pre-Entrenos</p>
+      <p class="category-count">12 productos</p>
+    </a>
+
+    <a href="#productos" class="category-card reveal-on-scroll" data-category-filter="creatina">
+      <div class="category-img-wrap">
+        <img src="assets/img/categorias/creatina.jpg" alt="Creatina" class="category-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="category-placeholder" style="display:none">
+          <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        </div>
+        <div class="category-overlay"></div>
+      </div>
+      <p class="category-name">Creatina</p>
+      <p class="category-count">7 productos</p>
+    </a>
+
+    <a href="#productos" class="category-card reveal-on-scroll" data-category-filter="quemadores">
+      <div class="category-img-wrap">
+        <img src="assets/img/categorias/quemadores.jpg" alt="Quemadores de Grasa" class="category-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="category-placeholder" style="display:none">
+          <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-3 4-6 7-6 11a6 6 0 0 0 12 0c0-1.5-.5-2.7-1.2-3.8.1 1.6-.6 2.6-1.5 2.8.6-2.5-.7-5-3.3-10z"/></svg>
+        </div>
+        <div class="category-overlay"></div>
+      </div>
+      <p class="category-name">Quemadores</p>
+      <p class="category-count">9 productos</p>
+    </a>
+
+    <a href="#productos" class="category-card reveal-on-scroll" data-category-filter="vitaminas">
+      <div class="category-img-wrap">
+        <img src="assets/img/categorias/vitaminas.jpg" alt="Vitaminas y Salud" class="category-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="category-placeholder" style="display:none">
+          <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <div class="category-overlay"></div>
+      </div>
+      <p class="category-name">Vitaminas &amp; Salud</p>
+      <p class="category-count">14 productos</p>
+    </a>
+
+    <a href="#productos" class="category-card reveal-on-scroll" data-category-filter="accesorios">
+      <div class="category-img-wrap">
+        <img src="assets/img/categorias/accesorios.jpg" alt="Accesorios" class="category-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="category-placeholder" style="display:none">
+          <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        </div>
+        <div class="category-overlay"></div>
+      </div>
+      <p class="category-name">Accesorios</p>
+      <p class="category-count">21 productos</p>
+    </a>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     PRODUCTOS DESTACADOS
+============================================================= -->
+<section id="productos" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-24">
+
+  <div class="flex flex-wrap items-end justify-between gap-8 mb-4">
+    <div class="section-heading reveal-on-scroll">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="eyebrow-line"></span>
+        <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Fórmulas de élite</span>
+      </div>
+      <h2 class="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[0.95]">PRODUCTOS <span class="text-electric-inline">DESTACADOS</span></h2>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filter-tabs reveal-on-scroll" id="filter-tabs">
+    <button class="filter-tab is-active" data-filter="todos">Todos</button>
+    <button class="filter-tab" data-filter="proteina">Proteína</button>
+    <button class="filter-tab" data-filter="pre-entreno">Pre-Entreno</button>
+    <button class="filter-tab" data-filter="creatina">Creatina</button>
+    <button class="filter-tab" data-filter="quemadores">Quemadores</button>
+    <button class="filter-tab" data-filter="vitaminas">Vitaminas</button>
+    <button class="filter-tab" data-filter="accesorios">Accesorios</button>
+  </div>
+
+  <!-- Grid de productos -->
+  <div class="product-grid" id="product-grid">
+
+    <article class="product-card" data-category="proteina" data-name="Whey Protein Isolate" data-price="S/ 189" data-cat-label="Proteína" data-img="assets/img/productos/whey-protein.jpg">
+      <span class="product-badge badge-bestseller">Bestseller</span>
+      <div class="product-img-wrap">
+        <img src="assets/img/productos/whey-protein.jpg" alt="Leviathan Whey Protein" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="product-placeholder-icon" style="display:none">
+          <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 3v3h6V3"/></svg>
+        </div>
+        <button class="quick-view-btn" aria-label="Vista rápida">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <p class="product-cat">Proteína</p>
+        <h3 class="product-name">Whey Protein Isolate</h3>
+        <div class="product-rating">★★★★★ <span>4.9 (312)</span></div>
+        <div class="product-price-row">
+          <div>
+            <span class="product-price">S/ 189</span>
+            <span class="product-price-old">S/ 220</span>
+          </div>
+          <button class="add-cart-btn" data-ripple>
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <article class="product-card" data-category="pre-entreno" data-name="Pre-Workout Fury" data-price="S/ 129" data-cat-label="Pre-Entreno" data-img="assets/img/productos/pre-workout-fury.jpg">
+      <span class="product-badge badge-new">Nuevo</span>
+      <div class="product-img-wrap">
+        <img src="assets/img/productos/pre-workout-fury.jpg" alt="Leviathan Pre-Workout Fury" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="product-placeholder-icon" style="display:none">
+          <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        </div>
+        <button class="quick-view-btn" aria-label="Vista rápida">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <p class="product-cat">Pre-Entreno</p>
+        <h3 class="product-name">Pre-Workout Fury</h3>
+        <div class="product-rating">★★★★★ <span>4.8 (204)</span></div>
+        <div class="product-price-row">
+          <div><span class="product-price">S/ 129</span></div>
+          <button class="add-cart-btn" data-ripple>
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <article class="product-card" data-category="creatina" data-name="Creatine Monohydrate" data-price="S/ 99" data-cat-label="Creatina" data-img="assets/img/productos/creatine-monohydrate.jpg">
+      <div class="product-img-wrap">
+        <img src="assets/img/productos/creatine-monohydrate.jpg" alt="Leviathan Creatine Monohydrate" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="product-placeholder-icon" style="display:none">
+          <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        </div>
+        <button class="quick-view-btn" aria-label="Vista rápida">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <p class="product-cat">Creatina</p>
+        <h3 class="product-name">Creatine Monohydrate</h3>
+        <div class="product-rating">★★★★★ <span>4.9 (441)</span></div>
+        <div class="product-price-row">
+          <div><span class="product-price">S/ 99</span></div>
+          <button class="add-cart-btn" data-ripple>
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <article class="product-card" data-category="quemadores" data-name="Thermo Burn" data-price="S/ 118" data-cat-label="Quemadores" data-img="assets/img/productos/thermo-burn.jpg">
+      <span class="product-badge badge-sale">-15%</span>
+      <div class="product-img-wrap">
+        <img src="assets/img/productos/thermo-burn.jpg" alt="Leviathan Thermo Burn" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="product-placeholder-icon" style="display:none">
+          <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-3 4-6 7-6 11a6 6 0 0 0 12 0c0-1.5-.5-2.7-1.2-3.8.1 1.6-.6 2.6-1.5 2.8.6-2.5-.7-5-3.3-10z"/></svg>
+        </div>
+        <button class="quick-view-btn" aria-label="Vista rápida">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <p class="product-cat">Quemadores</p>
+        <h3 class="product-name">Thermo Burn</h3>
+        <div class="product-rating">★★★★☆ <span>4.6 (156)</span></div>
+        <div class="product-price-row">
+          <div>
+            <span class="product-price">S/ 118</span>
+            <span class="product-price-old">S/ 139</span>
+          </div>
+          <button class="add-cart-btn" data-ripple>
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <article class="product-card" data-category="proteina" data-name="Mass Gainer 5kg" data-price="S/ 210" data-cat-label="Proteína" data-img="assets/img/productos/mass-gainer.jpg">
+      <div class="product-img-wrap">
+        <img src="assets/img/productos/mass-gainer.jpg" alt="Leviathan Mass Gainer" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="product-placeholder-icon" style="display:none">
+          <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 3v3h6V3"/></svg>
+        </div>
+        <button class="quick-view-btn" aria-label="Vista rápida">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <p class="product-cat">Proteína</p>
+        <h3 class="product-name">Mass Gainer 5kg</h3>
+        <div class="product-rating">★★★★★ <span>4.7 (98)</span></div>
+        <div class="product-price-row">
+          <div><span class="product-price">S/ 210</span></div>
+          <button class="add-cart-btn" data-ripple>
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <article class="product-card" data-category="vitaminas" data-name="Night Fuel ZMA" data-price="S/ 79" data-cat-label="Vitaminas" data-img="assets/img/productos/night-fuel-zma.jpg">
+      <div class="product-img-wrap">
+        <img src="assets/img/productos/night-fuel-zma.jpg" alt="Leviathan Night Fuel ZMA" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="product-placeholder-icon" style="display:none">
+          <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/></svg>
+        </div>
+        <button class="quick-view-btn" aria-label="Vista rápida">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <p class="product-cat">Vitaminas</p>
+        <h3 class="product-name">Night Fuel ZMA</h3>
+        <div class="product-rating">★★★★★ <span>4.8 (87)</span></div>
+        <div class="product-price-row">
+          <div><span class="product-price">S/ 79</span></div>
+          <button class="add-cart-btn" data-ripple>
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <article class="product-card" data-category="accesorios" data-name="Shaker Pro 700ml" data-price="S/ 39" data-cat-label="Accesorios" data-img="assets/img/productos/shaker-pro.jpg">
+      <div class="product-img-wrap">
+        <img src="assets/img/productos/shaker-pro.jpg" alt="Leviathan Shaker Pro" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="product-placeholder-icon" style="display:none">
+          <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 4-2 12H9L7 7l1-4z"/></svg>
+        </div>
+        <button class="quick-view-btn" aria-label="Vista rápida">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <p class="product-cat">Accesorios</p>
+        <h3 class="product-name">Shaker Pro 700ml</h3>
+        <div class="product-rating">★★★★☆ <span>4.5 (63)</span></div>
+        <div class="product-price-row">
+          <div><span class="product-price">S/ 39</span></div>
+          <button class="add-cart-btn" data-ripple>
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="flex justify-center mt-12 reveal-on-scroll">
+    <button class="btn-secondary">Ver Todo el Catálogo</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     NOSOTROS
+============================================================= -->
+<section id="nosotros" class="relative z-10 py-28 overflow-hidden nosotros-section">
+  <div class="absolute inset-0 nosotros-glow pointer-events-none"></div>
+
+  <div class="relative max-w-[1600px] mx-auto px-6 md:px-8 grid lg:grid-cols-2 gap-16 items-center">
+
+    <!-- Imagen -->
+    <div class="reveal-on-scroll nosotros-img-wrap">
+      <img src="assets/img/nosotros/equipo-leviathan.jpg" alt="Equipo Leviathan Nutrition" class="nosotros-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="nosotros-placeholder" style="display:none">
+        <svg class="w-14 h-14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5"/><path d="M14 3l7 7-2.5 2.5L11 5.5 14 3z"/><path d="M3 14l7 7-2.5 2.5-7-7L3 14z"/></svg>
+        <p>Reemplaza <code>assets/img/nosotros/equipo-leviathan.jpg</code></p>
+      </div>
+      <div class="nosotros-frame"></div>
+    </div>
+
+    <!-- Contenido -->
+    <div>
+      <div class="flex items-center gap-3 mb-4 reveal-on-scroll">
+        <span class="eyebrow-line"></span>
+        <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Nuestra historia</span>
+      </div>
+      <h2 class="reveal-on-scroll font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[0.95] mb-6">
+        MÁS QUE UNA MARCA,<br><span class="text-electric-inline">UN ESTILO DE VIDA</span>
+      </h2>
+      <p class="reveal-on-scroll text-lv-steel leading-relaxed mb-6 max-w-lg">
+        Leviathan Nutrition nació de una obsesión: crear suplementos a la altura de quienes no aceptan límites.
+        Cada fórmula pasa por control de calidad estricto, respaldada por ciencia real y probada por atletas
+        que entrenan al máximo nivel.
+      </p>
+      <p class="reveal-on-scroll text-lv-steel leading-relaxed mb-10 max-w-lg">
+        No vendemos promesas vacías. Vendemos resultados medibles, ingredientes transparentes y la disciplina
+        de un depredador que nunca se detiene.
+      </p>
+
+      <!-- Pilares -->
+      <div class="reveal-on-scroll grid grid-cols-2 gap-6 mb-12">
+        <div class="pillar-item">
+          <div class="pillar-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.5L4.5 18a1.5 1.5 0 0 0 1.3 2.3h12.4a1.5 1.5 0 0 0 1.3-2.3L14 8.5V3"/></svg></div>
+          <div><p class="pillar-title">Ciencia Real</p><p class="pillar-desc">Fórmulas respaldadas por estudios clínicos</p></div>
+        </div>
+        <div class="pillar-item">
+          <div class="pillar-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg></div>
+          <div><p class="pillar-title">Calidad Certificada</p><p class="pillar-desc">Producción bajo normas internacionales</p></div>
+        </div>
+        <div class="pillar-item">
+          <div class="pillar-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div><p class="pillar-title">Comunidad</p><p class="pillar-desc">Miles de atletas confían en nosotros</p></div>
+        </div>
+        <div class="pillar-item">
+          <div class="pillar-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
+          <div><p class="pillar-title">Resultados</p><p class="pillar-desc">Rendimiento medible desde la semana 1</p></div>
+        </div>
+      </div>
+
+      <!-- Contadores animados -->
+      <div class="reveal-on-scroll grid grid-cols-4 gap-4 stats-row">
+        <div class="stat-item">
+          <p class="stat-number" data-count-to="9">0</p>
+          <p class="stat-label">Años</p>
+        </div>
+        <div class="stat-item">
+          <p class="stat-number" data-count-to="15000" data-suffix="+">0</p>
+          <p class="stat-label">Atletas</p>
+        </div>
+        <div class="stat-item">
+          <p class="stat-number" data-count-to="42">0</p>
+          <p class="stat-label">Productos</p>
+        </div>
+        <div class="stat-item">
+          <p class="stat-number" data-count-to="12">0</p>
+          <p class="stat-label">Países</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACTO
+============================================================= -->
+<section id="contacto" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-28">
+
+  <div class="section-heading reveal-on-scroll mb-14">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="eyebrow-line"></span>
+      <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Hablemos</span>
+    </div>
+    <h2 class="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[0.95] mb-4">PONTE EN <span class="text-electric-inline">CONTACTO</span></h2>
+    <p class="text-lv-steel max-w-lg">¿Dudas sobre un producto o tu pedido? Nuestro equipo te responde en menos de 24 horas.</p>
+  </div>
+
+  <div class="grid lg:grid-cols-[0.85fr_1.15fr] gap-10">
+
+    <!-- Info de contacto -->
+    <div class="reveal-on-scroll flex flex-col gap-5">
+      <div class="contact-info-card">
+        <div class="contact-info-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div><p class="contact-info-title">Ubicación</p><p class="contact-info-text">Trujillo, La Libertad, Perú</p></div>
+      </div>
+      <div class="contact-info-card">
+        <div class="contact-info-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <div><p class="contact-info-title">Teléfono / WhatsApp</p><p class="contact-info-text">+51 987 654 321</p></div>
+      </div>
+      <div class="contact-info-card">
+        <div class="contact-info-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" fill="none"/><path d="M22 6 12 13 2 6"/></svg></div>
+        <div><p class="contact-info-title">Correo</p><p class="contact-info-text">contacto@leviathannutrition.com</p></div>
+      </div>
+
+      <div class="contact-social-row">
+        <a href="#" class="contact-social-btn" aria-label="Instagram"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="#" class="contact-social-btn" aria-label="Facebook"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="#" class="contact-social-btn" aria-label="TikTok"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
+        <a href="#" class="contact-social-btn" aria-label="YouTube"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></a>
+      </div>
+    </div>
+
+    <!-- Formulario -->
+    <form id="contact-form" class="reveal-on-scroll contact-form" novalidate>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div class="form-field">
+          <input type="text" id="field-name" name="name" placeholder=" " required>
+          <label for="field-name">Nombre completo</label>
+        </div>
+        <div class="form-field">
+          <input type="email" id="field-email" name="email" placeholder=" " required>
+          <label for="field-email">Correo electrónico</label>
+        </div>
+      </div>
+      <div class="form-field mt-5">
+        <input type="text" id="field-subject" name="subject" placeholder=" " required>
+        <label for="field-subject">Asunto</label>
+      </div>
+      <div class="form-field mt-5">
+        <textarea id="field-message" name="message" rows="5" placeholder=" " required></textarea>
+        <label for="field-message">Cuéntanos en qué te ayudamos</label>
+      </div>
+      <button type="submit" class="btn-primary mt-6 w-full sm:w-auto justify-center" id="contact-submit-btn" data-ripple>
+        <span id="contact-submit-label">Enviar Mensaje</span>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </form>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================= -->
+<footer class="relative z-10 border-t border-white/[0.06] mt-10">
+  <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-16 grid md:grid-cols-[1.3fr_0.7fr_0.7fr_1fr] gap-12">
+
+    <div>
+      <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="h-16 w-auto mb-4" style="filter: drop-shadow(0 0 10px rgba(30,155,255,0.3));">
+      <p class="text-lv-steel text-sm max-w-xs leading-relaxed">
+        Suplementos premium para atletas que desatan su poder cada día. Ciencia, calidad y rendimiento en cada fórmula.
+      </p>
+    </div>
+
+    <div>
+      <p class="footer-heading">Tienda</p>
+      <a href="#productos" class="footer-link">Productos</a>
+      <a href="#categorias" class="footer-link">Categorías</a>
+      <a href="#" class="footer-link">Ofertas</a>
+      <a href="#" class="footer-link">Novedades</a>
+    </div>
+
+    <div>
+      <p class="footer-heading">Empresa</p>
+      <a href="#nosotros" class="footer-link">Nosotros</a>
+      <a href="#contacto" class="footer-link">Contacto</a>
+      <a href="#" class="footer-link">Blog</a>
+      <a href="#" class="footer-link">Trabaja con nosotros</a>
+    </div>
+
+    <div>
+      <p class="footer-heading">Únete a la manada</p>
+      <p class="text-lv-steel text-sm mb-4">Recibe descuentos exclusivos y lanzamientos antes que nadie.</p>
+      <form class="newsletter-form" id="newsletter-form">
+        <input type="email" placeholder="tu@correo.com" required>
+        <button type="submit" aria-label="Suscribirse">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+  <div class="border-t border-white/[0.06]">
+    <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-6 flex flex-wrap items-center justify-between gap-4">
+      <p class="text-lv-steel text-xs">© 2026 Leviathan Nutrition. Todos los derechos reservados.</p>
+      <p class="text-lv-steel text-xs">Desata tu poder.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     CARRITO LATERAL (drawer)
+============================================================= -->
+<div id="cart-overlay" class="cart-overlay"></div>
+<aside id="cart-drawer" class="cart-drawer" aria-hidden="true">
+  <div class="cart-drawer-header">
+    <h3>Tu Carrito</h3>
+    <button id="cart-close-btn" class="icon-btn" aria-label="Cerrar carrito">
+      <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <div class="cart-drawer-body" id="cart-items-container">
+    <!-- Se llena dinámicamente vía JS -->
+  </div>
+
+  <div class="cart-drawer-footer">
+    <div class="cart-subtotal-row">
+      <span>Subtotal</span>
+      <span id="cart-subtotal">S/ 0</span>
+    </div>
+    <button class="btn-primary w-full justify-center" id="checkout-btn" data-ripple>
+      <span>Finalizar Compra</span>
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</aside>
+
+<!-- Contenedor de notificaciones toast -->
+<div id="toast-container" class="toast-container"></div>
+
+<!-- ============================================================
+     MODAL DE VISTA RÁPIDA
+============================================================= -->
+<div id="quickview-overlay" class="cart-overlay"></div>
+<div id="quickview-modal" class="quickview-modal" aria-hidden="true">
+  <button id="quickview-close-btn" class="icon-btn quickview-close" aria-label="Cerrar">
+    <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+  <div class="quickview-img-wrap">
+    <img id="quickview-img" src="" alt="" class="quickview-img">
+  </div>
+  <div class="quickview-info">
+    <p class="product-cat" id="quickview-cat">Categoría</p>
+    <h3 class="quickview-name" id="quickview-name">Nombre del producto</h3>
+    <div class="product-rating" id="quickview-rating">★★★★★ <span>4.9</span></div>
+    <p class="quickview-price" id="quickview-price">S/ 0</p>
+    <button class="btn-primary justify-center" id="quickview-add-btn" data-ripple>
+      <span>Añadir al Carrito</span>
+    </button>
+  </div>
+</div>
+
+<script src="particles.js"></script>
+<script src="interactions.js"></script>
+</body>
+</html>
