@@ -1,16 +1,29 @@
 /* ==============================================================
-   LEVIATHAN NUTRITION — interactions.js (v2)
-   1) Navbar dinámico al hacer scroll
-   2) Título dividido en letras con animación escalonada de entrada
-   3) Parallax de la imagen de fondo del hero (scroll + mouse combinados)
-   4) Spotlight que sigue el cursor sobre el hero
-   5) Chispas ambientales flotantes
-   6) Efecto ripple real al hacer click en los botones
-   7) Animaciones activadas al hacer scroll (IntersectionObserver)
-   8) Link activo del navbar según la sección visible
+   LEVIATHAN NUTRITION — interactions.js (v5)
+   - Navbar dinámico al hacer scroll
+   - Título principal dividido en letras animadas (DESATA TU PODER)
+   - Título "ELIGE TU CATEGORÍA" con efecto de letras (nuevo)
+   - Parallax de la imagen de fondo del hero (scroll + mouse)
+   - Spotlight que sigue el cursor
+   - Chispas ambientales flotantes
+   - Efecto ripple en botones
+   - Animaciones activadas al hacer scroll (IntersectionObserver)
+   - Link activo del navbar según la sección visible
+   - Toast de notificaciones
+   - Carrito de compras con drawer
+   - Modal de vista rápida
+   - Contadores animados (Nosotros)
+   - Formulario de contacto y newsletter
+   - Búsqueda en tiempo real (modal)
+   - Dropdown de categorías en el header
+   - Detección de página de categoría y adaptación del header
+   - ORDENAMIENTO DE PRODUCTOS (con animación suave)
+   - Mejoras de rendimiento y experiencia de usuario
 ================================================================= */
 
 (function () {
+  'use strict';
+
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------------------------------------------------------
@@ -28,8 +41,7 @@
   onScroll();
 
   /* ---------------------------------------------------------
-     2) TÍTULO: separa cada línea en letras <span> para animarlas
-        una por una (efecto de aparición cinematográfico).
+     2) TÍTULO PRINCIPAL (DESATA TU PODER) - letras animadas
   ---------------------------------------------------------- */
   function splitIntoLetters(el, baseDelay) {
     const text = el.getAttribute('data-text') || el.textContent;
@@ -48,19 +60,94 @@
   if (titleLine2) splitIntoLetters(titleLine2, 0.85);
 
   /* ---------------------------------------------------------
-     3) PARALLAX de la imagen de fondo: combina el desplazamiento
-        de scroll con un desplazamiento sutil del mouse, usando
-        requestAnimationFrame + interpolación (lerp) para que el
-        movimiento sea fluido y no brusco.
+     3) NUEVA ANIMACIÓN: TÍTULO "ELIGE TU CATEGORÍA"
+        - Divide el texto en letras con efecto de "flash"
+        - Se aplica a .category-title-animate que contiene el texto
+  ---------------------------------------------------------- */
+  function animateCategoryTitle() {
+    const titleEl = document.querySelector('.category-title-animate');
+    if (!titleEl || prefersReducedMotion) return;
+
+    // Obtener el texto completo, incluyendo el span con la palabra "CATEGORÍA"
+    // Para simplificar, extraemos el texto plano
+    const textContent = titleEl.textContent.trim(); // "ELIGE TU CATEGORÍA"
+    // Limpiamos el contenido actual
+    titleEl.innerHTML = '';
+
+    // Dividimos en palabras
+    const words = textContent.split(' ');
+    words.forEach((word, wordIndex) => {
+      const wordSpan = document.createElement('span');
+      wordSpan.className = 'category-word';
+      // Dividir la palabra en letras
+      [...word].forEach((char, charIndex) => {
+        const letterSpan = document.createElement('span');
+        letterSpan.className = 'category-letter';
+        letterSpan.textContent = char;
+        // Delay: base + posición global (considerando espacios)
+        const globalIndex = wordIndex * 6 + charIndex; // 6 es un estimado de longitud de palabra
+        letterSpan.style.animationDelay = `${0.2 + globalIndex * 0.06}s`;
+        wordSpan.appendChild(letterSpan);
+      });
+      titleEl.appendChild(wordSpan);
+      // Añadir espacio entre palabras (excepto la última)
+      if (wordIndex < words.length - 1) {
+        const space = document.createTextNode(' ');
+        titleEl.appendChild(space);
+      }
+    });
+
+    // Inyectar estilos específicos para las letras si no existen
+    if (!document.getElementById('category-letter-styles')) {
+      const styleTag = document.createElement('style');
+      styleTag.id = 'category-letter-styles';
+      styleTag.textContent = `
+        .category-letter {
+          display: inline-block;
+          opacity: 0;
+          transform: translateY(20px) scale(0.8) rotateX(20deg);
+          animation: categoryLetterIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          font-family: 'Anton', sans-serif;
+          background: linear-gradient(120deg, #ffffff 30%, var(--lv-cyan) 80%, var(--lv-blue) 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          text-shadow: 0 0 20px rgba(30,155,255,0.3);
+        }
+        @keyframes categoryLetterIn {
+          0% { opacity: 0; transform: translateY(20px) scale(0.8) rotateX(20deg); }
+          60% { opacity: 1; transform: translateY(-4px) scale(1.05) rotateX(0deg); text-shadow: 0 0 30px rgba(30,155,255,0.8); }
+          100% { opacity: 1; transform: translateY(0) scale(1) rotateX(0deg); text-shadow: 0 0 20px rgba(30,155,255,0.3); }
+        }
+        .category-word {
+          display: inline-block;
+          white-space: nowrap;
+        }
+      `;
+      document.head.appendChild(styleTag);
+    }
+  }
+
+  // Ejecutar después de cargar el DOM
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', animateCategoryTitle);
+  } else {
+    animateCategoryTitle();
+  }
+
+  /* ---------------------------------------------------------
+     4) PARALLAX de la imagen de fondo (scroll + mouse)
   ---------------------------------------------------------- */
   const heroSection = document.getElementById('inicio');
   const bgLayer = document.getElementById('hero-bg-layer');
   const spotlight = document.getElementById('hero-spotlight');
 
   if (heroSection && bgLayer && !prefersReducedMotion) {
-    let targetMouseX = 0, targetMouseY = 0;
-    let currentMouseX = 0, currentMouseY = 0;
-    const MAX_MOUSE_OFFSET = 14; // px, sutil
+    let targetMouseX = 0,
+      targetMouseY = 0;
+    let currentMouseX = 0,
+      currentMouseY = 0;
+    const MAX_MOUSE_OFFSET = 14;
 
     heroSection.addEventListener('mousemove', (e) => {
       const rect = heroSection.getBoundingClientRect();
@@ -97,7 +184,7 @@
   }
 
   /* ---------------------------------------------------------
-     4) CHISPAS ambientales sobre el hero
+     5) CHISPAS ambientales sobre el hero
   ---------------------------------------------------------- */
   const sparksContainer = document.getElementById('hero-sparks');
   if (sparksContainer && !prefersReducedMotion) {
@@ -141,7 +228,7 @@
   }
 
   /* ---------------------------------------------------------
-     5) RIPPLE real en botones (click)
+     6) RIPPLE real en botones (click)
   ---------------------------------------------------------- */
   document.querySelectorAll('[data-ripple]').forEach((btn) => {
     btn.style.position = btn.style.position || 'relative';
@@ -159,8 +246,7 @@
   });
 
   /* ---------------------------------------------------------
-     6) SCROLL REVEAL: anima secciones bajo el pliegue (trust bar,
-        marcas) solo cuando entran en el viewport.
+     7) SCROLL REVEAL: anima secciones bajo el pliegue
   ---------------------------------------------------------- */
   const scrollRevealEls = document.querySelectorAll('.reveal-on-scroll');
   if (scrollRevealEls.length && 'IntersectionObserver' in window) {
@@ -172,8 +258,7 @@
             revealObserver.unobserve(entry.target);
           }
         });
-      },
-      { threshold: 0.15 }
+      }, { threshold: 0.15 }
     );
     scrollRevealEls.forEach((el) => revealObserver.observe(el));
   } else {
@@ -181,7 +266,7 @@
   }
 
   /* ---------------------------------------------------------
-     7) NAV LINK activo según la sección visible
+     8) NAV LINK activo según la sección visible
   ---------------------------------------------------------- */
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
@@ -197,16 +282,16 @@
             });
           }
         });
-      },
-      { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
+      }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
     );
     sections.forEach((s) => navObserver.observe(s));
   }
 
   /* ---------------------------------------------------------
-     8) TOASTS: notificaciones flotantes reutilizables
+     9) TOASTS: notificaciones flotantes reutilizables
   ---------------------------------------------------------- */
   const toastContainer = document.getElementById('toast-container');
+
   function showToast(message) {
     if (!toastContainer) return;
     const toast = document.createElement('div');
@@ -220,51 +305,74 @@
   }
 
   /* ---------------------------------------------------------
-     9) FILTROS DE PRODUCTOS
+     10) ORDENAMIENTO DE PRODUCTOS (con animación mejorada)
   ---------------------------------------------------------- */
-  const filterTabs = document.querySelectorAll('.filter-tab');
-  const productCards = document.querySelectorAll('.product-card');
+  function initSorting() {
+    const sortSelect = document.getElementById('sort-select');
+    const productGrid = document.getElementById('product-grid');
+    if (!sortSelect || !productGrid) return;
 
-  function applyFilter(filter) {
-    filterTabs.forEach((tab) => tab.classList.toggle('is-active', tab.dataset.filter === filter));
-    productCards.forEach((card) => {
-      const matches = filter === 'todos' || card.dataset.category === filter;
-      card.classList.toggle('is-filtered-out', !matches);
-      if (matches) {
+    // Cache de tarjetas para mejor rendimiento
+    let productCards = [];
+
+    function refreshProductCache() {
+      productCards = Array.from(document.querySelectorAll('.product-card'))
+        .filter(card => card.style.display !== 'none');
+    }
+
+    function sortProducts(criteria) {
+      refreshProductCache();
+      if (productCards.length === 0) return;
+
+      const parent = productCards[0].parentNode;
+
+      // Ordenar según criterio
+      productCards.sort((a, b) => {
+        if (criteria === 'price-desc') {
+          const priceA = parseFloat(a.dataset.price.replace(/[^\d.]/g, '')) || 0;
+          const priceB = parseFloat(b.dataset.price.replace(/[^\d.]/g, '')) || 0;
+          return priceB - priceA;
+        }
+        // 'default': mantener el orden original por índice en el DOM
+        return 0;
+      });
+
+      // Reinsertar con animación
+      productCards.forEach((card, index) => {
+        // Remover clase para reiniciar animación
         card.classList.remove('is-visible');
-        // fuerza reflow para poder re-disparar la animación de entrada
-        void card.offsetWidth;
-        card.classList.add('is-visible');
-      }
+        if (index === 0) {
+          parent.insertBefore(card, parent.firstChild);
+        } else {
+          parent.insertBefore(card, productCards[index - 1].nextSibling);
+        }
+        // Forzar reflow y volver a animar
+        requestAnimationFrame(() => {
+          card.classList.add('is-visible');
+        });
+      });
+    }
+
+    // Evento de cambio con debounce para evitar múltiples llamadas
+    let sortTimeout;
+    sortSelect.addEventListener('change', (e) => {
+      clearTimeout(sortTimeout);
+      sortTimeout = setTimeout(() => sortProducts(e.target.value), 100);
+    });
+
+    // Inicializar: forzar animación de las tarjetas visibles
+    document.querySelectorAll('.product-card:not([style*="display: none"])').forEach((card, i) => {
+      setTimeout(() => card.classList.add('is-visible'), 100 + i * 60);
     });
   }
 
-  filterTabs.forEach((tab) => {
-    tab.addEventListener('click', () => applyFilter(tab.dataset.filter));
-  });
-
-  // Los tiles de categorías también filtran el catálogo al hacer click
-  document.querySelectorAll('[data-category-filter]').forEach((tile) => {
-    tile.addEventListener('click', (e) => {
-      const filter = tile.dataset.categoryFilter;
-      const matchingTab = document.querySelector(`.filter-tab[data-filter="${filter}"]`);
-      if (matchingTab) {
-        e.preventDefault();
-        applyFilter(filter);
-        document.getElementById('productos').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
-
-  // Animación inicial de entrada de las tarjetas visibles
-  productCards.forEach((card, i) => {
-    setTimeout(() => card.classList.add('is-visible'), 100 + i * 60);
-  });
+  // Ejecutar ordenamiento al cargar
+  initSorting();
 
   /* ---------------------------------------------------------
-     10) CARRITO DE COMPRAS (estado en memoria + drawer + badge)
+     11) CARRITO DE COMPRAS (con mejoras de UX)
   ---------------------------------------------------------- */
-  const cart = []; // { name, price, img, qty }
+  const cart = [];
 
   const cartCountEl = document.getElementById('cart-count');
   const cartItemsContainer = document.getElementById('cart-items-container');
@@ -282,15 +390,27 @@
     cartDrawer.classList.add('is-open');
     cartOverlay.classList.add('is-open');
     cartDrawer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
   }
+
   function closeCart() {
     cartDrawer.classList.remove('is-open');
     cartOverlay.classList.remove('is-open');
     cartDrawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
   }
+
   if (cartTriggerBtn) cartTriggerBtn.addEventListener('click', openCart);
   if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCart);
   if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
+
+  // Cerrar carrito con Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeCart();
+      closeQuickview();
+    }
+  });
 
   function addToCart({ name, price, img }) {
     const existing = cart.find((item) => item.name === name);
@@ -355,6 +475,7 @@
     if (cartSubtotalEl) cartSubtotalEl.textContent = `S/ ${subtotal.toFixed(0)}`;
   }
 
+  // Delegación de eventos para el carrito (mejor rendimiento)
   if (cartItemsContainer) {
     cartItemsContainer.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-action]');
@@ -369,7 +490,7 @@
     });
   }
 
-  // Conecta cada botón "Añadir al carrito" de las tarjetas de producto
+  // Conecta cada botón "Añadir al carrito"
   document.querySelectorAll('.add-cart-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -385,7 +506,7 @@
     });
   });
 
-  // Botón de checkout: simula el envío del pedido (sin backend)
+  // Checkout
   const checkoutBtn = document.getElementById('checkout-btn');
   if (checkoutBtn) {
     checkoutBtn.addEventListener('click', () => {
@@ -416,7 +537,7 @@
 
   renderCart();
 
-  // Inyecta el keyframe del "pop" del badge del carrito
+  // Keyframe para el badge
   const badgeStyleTag = document.createElement('style');
   badgeStyleTag.textContent = `
     @keyframes badge-pop {
@@ -428,7 +549,7 @@
   document.head.appendChild(badgeStyleTag);
 
   /* ---------------------------------------------------------
-     11) MODAL DE VISTA RÁPIDA
+     12) MODAL DE VISTA RÁPIDA (con mejoras)
   ---------------------------------------------------------- */
   const quickviewOverlay = document.getElementById('quickview-overlay');
   const quickviewModal = document.getElementById('quickview-modal');
@@ -456,11 +577,14 @@
     quickviewModal.classList.add('is-open');
     quickviewOverlay.classList.add('is-open');
     quickviewModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
   }
+
   function closeQuickview() {
     quickviewModal.classList.remove('is-open');
     quickviewOverlay.classList.remove('is-open');
     quickviewModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
   }
 
   document.querySelectorAll('.quick-view-btn').forEach((btn) => {
@@ -483,16 +607,8 @@
     });
   }
 
-  // Cierra los overlays con la tecla Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeCart();
-      closeQuickview();
-    }
-  });
-
   /* ---------------------------------------------------------
-     12) CONTADORES ANIMADOS (sección Nosotros)
+     13) CONTADORES ANIMADOS (Nosotros)
   ---------------------------------------------------------- */
   const statNumbers = document.querySelectorAll('.stat-number');
   if (statNumbers.length && 'IntersectionObserver' in window) {
@@ -516,14 +632,13 @@
           requestAnimationFrame(tick);
           statObserver.unobserve(el);
         });
-      },
-      { threshold: 0.4 }
+      }, { threshold: 0.4 }
     );
     statNumbers.forEach((el) => statObserver.observe(el));
   }
 
   /* ---------------------------------------------------------
-     13) FORMULARIO DE CONTACTO (validación + envío simulado)
+     14) FORMULARIO DE CONTACTO
   ---------------------------------------------------------- */
   const contactForm = document.getElementById('contact-form');
   if (contactForm) {
@@ -564,7 +679,7 @@
   }
 
   /* ---------------------------------------------------------
-     14) NEWSLETTER (footer)
+     15) NEWSLETTER (footer)
   ---------------------------------------------------------- */
   const newsletterForm = document.getElementById('newsletter-form');
   if (newsletterForm) {
@@ -575,4 +690,195 @@
       newsletterForm.reset();
     });
   }
+
+  /* ---------------------------------------------------------
+     16) BÚSQUEDA (modal + filtrado en tiempo real)
+  ---------------------------------------------------------- */
+  function initSearch() {
+    const overlay = document.getElementById('search-overlay');
+    const toggleBtn = document.getElementById('search-toggle-btn');
+    const closeBtn = document.getElementById('search-close-btn');
+    const searchInput = document.getElementById('search-input');
+    const resultsContainer = document.getElementById('search-results');
+
+    if (!overlay || !toggleBtn || !closeBtn || !searchInput || !resultsContainer) return;
+
+    function openSearch() {
+      overlay.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => searchInput.focus(), 200);
+    }
+
+    function closeSearch() {
+      overlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+      // Resetear resultados y visibilidad
+      const products = getProductData();
+      products.forEach(p => p.element.style.display = '');
+      searchInput.value = '';
+      resultsContainer.innerHTML = '<p class="search-no-results">Escribe para buscar productos...</p>';
+    }
+
+    toggleBtn.addEventListener('click', openSearch);
+    closeBtn.addEventListener('click', closeSearch);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeSearch();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeSearch();
+    });
+
+    function getProductData() {
+      const cards = document.querySelectorAll('.product-card');
+      const products = [];
+      cards.forEach(card => {
+        const name = card.dataset.name || '';
+        const category = card.dataset.catLabel || '';
+        const price = card.dataset.price || '';
+        const img = card.dataset.img || '';
+        const catFilter = card.dataset.category || '';
+        products.push({ name, category, price, img, catFilter, element: card });
+      });
+      return products;
+    }
+
+    function filterProducts(query) {
+      const products = getProductData();
+      const q = query.toLowerCase().trim();
+      if (!q) {
+        resultsContainer.innerHTML = '<p class="search-no-results">Escribe para buscar productos...</p>';
+        products.forEach(p => p.element.style.display = '');
+        return;
+      }
+
+      const matches = products.filter(p =>
+        p.name.toLowerCase().includes(q) ||
+        p.category.toLowerCase().includes(q) ||
+        p.catFilter.toLowerCase().includes(q)
+      );
+
+      // Mostrar/ocultar en el grid
+      products.forEach(p => {
+        const match = matches.includes(p);
+        p.element.style.display = match ? '' : 'none';
+        if (match) {
+          // Si la tarjeta aún no tiene la clase is-visible, se la añadimos
+          if (!p.element.classList.contains('is-visible')) {
+            p.element.classList.add('is-visible');
+          }
+        }
+      });
+
+      // Mostrar resultados en el modal
+      if (matches.length === 0) {
+        resultsContainer.innerHTML = `<p class="search-no-results">No encontramos productos para "<strong>${query}</strong>"</p>`;
+        return;
+      }
+
+      let html = '';
+      matches.forEach(p => {
+        html += `
+          <div class="search-result-item">
+            <img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'">
+            <div class="info">
+              <div class="name">${p.name}</div>
+              <div class="cat">${p.category}</div>
+            </div>
+            <div class="price">${p.price}</div>
+          </div>
+        `;
+      });
+      resultsContainer.innerHTML = html;
+    }
+
+    let debounceTimer;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => filterProducts(e.target.value), 150);
+    });
+  }
+
+  /* ---------------------------------------------------------
+     17) DROPDOWN DE CATEGORÍAS EN EL HEADER (mejorado)
+  ---------------------------------------------------------- */
+  function initCategoryDropdown() {
+    const btn = document.getElementById('category-dropdown-btn');
+    const menu = document.getElementById('category-dropdown-menu');
+    if (!btn || !menu) return;
+
+    function toggleDropdown(e) {
+      e.stopPropagation();
+      const isOpen = menu.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', isOpen);
+    }
+
+    btn.addEventListener('click', toggleDropdown);
+
+    // Cerrar al hacer clic fuera
+    document.addEventListener('click', (e) => {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove('is-open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Cerrar al seleccionar un item
+    menu.querySelectorAll('.dropdown-item').forEach(item => {
+      item.addEventListener('click', () => {
+        menu.classList.remove('is-open');
+        btn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Cerrar con Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu.classList.contains('is-open')) {
+        menu.classList.remove('is-open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.focus();
+      }
+    });
+  }
+
+  /* ---------------------------------------------------------
+     18) DETECTAR PÁGINA DE CATEGORÍA Y AJUSTAR HEADER
+  ---------------------------------------------------------- */
+  function updateHeaderForCategoryPage() {
+    const categoryMap = {
+      'aumento_masa_muscular': 'Masa muscular',
+      'musculo_limpio': 'Músculo limpio',
+      'maxima_recuperacion': 'Máxima recuperación',
+      'definicion': 'Definición',
+      'belleza_y_bienestar': 'Belleza y bienestar',
+      'fuerza_y_rendimiento': 'Fuerza y rendimiento'
+    };
+
+    const path = window.location.pathname;
+    const filename = path.split('/').pop();
+    let detected = null;
+
+    for (const [key, label] of Object.entries(categoryMap)) {
+      if (filename.includes(key)) {
+        detected = label;
+        break;
+      }
+    }
+
+    if (detected) {
+      document.body.classList.add('is-category-page');
+      const labelContainer = document.querySelector('#category-nav .category-active-label');
+      if (labelContainer) {
+        labelContainer.textContent = detected;
+      }
+    }
+  }
+
+  /* ---------------------------------------------------------
+     19) INICIALIZACIÓN DE TODAS LAS FUNCIONES
+  ---------------------------------------------------------- */
+  // Ejecutar al cargar
+  initSearch();
+  initCategoryDropdown();
+  updateHeaderForCategoryPage();
+
 })();
