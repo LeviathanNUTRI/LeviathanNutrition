@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leviathan Nutrition | Aumentar Masa Muscular</title>
+
+  <!-- FUENTES -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- TailwindCSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'lv-black': '#050607',
+            'lv-dark': '#0A0E14',
+            'lv-panel': '#0D1420',
+            'lv-blue': '#1E9BFF',
+            'lv-blue-deep': '#0B5FCC',
+            'lv-cyan': '#5FD4FF',
+            'lv-green': '#39FF8A',
+            'lv-steel': '#8B96A8',
+          },
+          fontFamily: {
+            'display': ['Anton', 'sans-serif'],
+            'body': ['Manrope', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="bg-lv-black text-white font-body antialiased overflow-x-hidden">
+
+  <!-- ============================================================
+       FONDO DINÁMICO (el mismo del index)
+  ============================================================= -->
+  <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bg-ambient">
+    <div class="absolute inset-0 bg-lv-black"></div>
+    <div class="absolute inset-0 bg-gradient-radial from-[#0B2A4A] via-[#050607] to-[#050607] opacity-90 animate-bg-pulse"></div>
+    <div class="absolute top-1/4 left-1/4 w-[800px] h-[800px] rounded-full bg-lv-blue/15 blur-[150px] animate-float-1"></div>
+    <div class="absolute bottom-1/3 right-1/4 w-[700px] h-[700px] rounded-full bg-lv-cyan/15 blur-[160px] animate-float-2"></div>
+    <div class="absolute top-3/4 left-1/2 w-[600px] h-[600px] rounded-full bg-lv-blue-deep/20 blur-[120px] animate-float-3"></div>
+    <div class="absolute top-1/3 right-1/3 w-[500px] h-[500px] rounded-full bg-lv-blue/10 blur-[100px] animate-float-4"></div>
+    <div class="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full bg-lv-cyan/10 blur-[90px] animate-float-5"></div>
+    <div class="absolute top-10 left-20 w-1 h-1 bg-lv-cyan rounded-full opacity-70 animate-twinkle"></div>
+    <div class="absolute top-40 right-20 w-1.5 h-1.5 bg-lv-blue rounded-full opacity-60 animate-twinkle-delay"></div>
+    <div class="absolute bottom-20 left-1/2 w-2 h-2 bg-lv-cyan rounded-full opacity-50 animate-twinkle-slow"></div>
+    <div class="absolute top-1/2 left-10 w-1 h-1 bg-lv-blue-deep rounded-full opacity-80 animate-twinkle-fast"></div>
+    <div class="absolute bottom-1/3 right-10 w-1.5 h-1.5 bg-lv-cyan rounded-full opacity-60 animate-twinkle"></div>
+  </div>
+
+  <!-- FONDO DE PARTÍCULAS -->
+  <div class="fixed inset-0 z-0 pointer-events-none">
+    <canvas id="particle-canvas" class="absolute inset-0 w-full h-full"></canvas>
+  </div>
+
+  <!-- ============================================================
+       HEADER / NAVBAR (idéntico al index)
+  ============================================================= -->
+  <header id="site-header" class="fixed top-0 left-0 w-full z-50 nav-solid">
+    <div class="max-w-[1600px] mx-auto px-6 md:px-8">
+      <div class="flex items-center justify-between h-24 overflow-visible">
+
+        <!-- LOGO -->
+        <a href="index.html" class="logo-wrap shrink-0 group">
+          <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="logo-mark" />
+        </a>
+
+        <!-- NAV LINKS -->
+        <nav class="hidden lg:flex items-center gap-10">
+          <a href="index.html" class="nav-link">Inicio</a>
+          <a href="#productos" class="nav-link active-link">Productos</a>
+          <!-- DROPDOWN DE CATEGORÍAS con categoría activa -->
+          <div class="relative" id="category-nav">
+            <button id="category-dropdown-btn" class="nav-link flex items-center gap-1" aria-haspopup="true" aria-expanded="false">
+              Categorías
+              <svg class="w-3 h-3 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <!-- El label de categoría activa se muestra gracias a la clase is-category-page y el JS -->
+            <span class="category-active-label">Masa muscular</span>
+            <div id="category-dropdown-menu" class="category-dropdown-menu" role="menu">
+              <a href="aumento_masa_muscular.html" class="dropdown-item" role="menuitem">Aumento de Masa Muscular</a>
+              <a href="musculo_limpio.html" class="dropdown-item" role="menuitem">Músculo Limpio</a>
+              <a href="maxima_recuperacion.html" class="dropdown-item" role="menuitem">Máxima Recuperación</a>
+              <a href="definicion.html" class="dropdown-item" role="menuitem">Definición</a>
+              <a href="belleza_y_bienestar.html" class="dropdown-item" role="menuitem">Belleza y Cuidado</a>
+              <a href="fuerza_y_rendimiento.html" class="dropdown-item" role="menuitem">Fuerza y Rendimiento</a>
+            </div>
+          </div>
+          <a href="index.html#nosotros" class="nav-link">Nosotros</a>
+          <a href="index.html#contacto" class="nav-link">Contacto</a>
+        </nav>
+
+        <!-- ACCIONES -->
+        <div class="flex items-center gap-2">
+          <button id="search-toggle-btn" class="icon-btn" aria-label="Buscar">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+          <button class="icon-btn" aria-label="Mi cuenta">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </button>
+          <button class="icon-btn relative" aria-label="Carrito">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span class="cart-badge" id="cart-count">0</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+    <div class="nav-scanline"></div>
+  </header>
+
+  <!-- ============================================================
+       MODAL DE BÚSQUEDA (idéntico al index)
+  ============================================================= -->
+  <div id="search-overlay" class="search-overlay">
+    <div class="search-modal">
+      <div class="search-modal-header">
+        <h2 class="font-display text-2xl">Buscar productos</h2>
+        <button id="search-close-btn" class="icon-btn" aria-label="Cerrar búsqueda">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="search-input-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="search-input" placeholder="Buscar por nombre o categoría..." autofocus />
+      </div>
+      <div id="search-results" class="search-results">
+        <!-- Los resultados se inyectan aquí -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       HERO / TÍTULO DE CATEGORÍA CON VIDEO DE FONDO
+       (Diseño específico para Aumentar Masa)
+  ============================================================= -->
+  <section id="categoria-hero" class="relative z-10 min-h-[60vh] flex items-center justify-center overflow-hidden">
+    <!-- Video de fondo (sugerencia: assets/video/aumentar_masa_hero.mp4) -->
+    <!-- CAMBIA LA RUTA DEL VIDEO SEGÚN TU CONTENIDO -->
+    <video class="absolute inset-0 w-full h-full object-cover z-0" autoplay muted loop playsinline>
+      <source src="assets/video/aumentar_masa_hero.mp4" type="video/mp4">
+      <!-- Fallback: imagen estática -->
+      <img src="assets/img/categorias/aumento_masa_hero.jpg" alt="Aumentar Masa" class="absolute inset-0 w-full h-full object-cover" />
+    </video>
+
+    <!-- Capa de degradado para legibilidad -->
+    <div class="absolute inset-0 bg-gradient-to-r from-[#050607]/90 via-[#050607]/50 to-transparent z-1"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#050607] via-transparent to-transparent z-1"></div>
+
+    <!-- Contenido centrado -->
+    <div class="relative z-10 text-center max-w-4xl mx-auto px-6 py-20">
+      <!-- Badge de categoría -->
+      <div class="inline-block mb-4 px-4 py-1 border border-lv-blue/30 rounded-full text-lv-cyan text-xs font-bold tracking-[0.2em] uppercase animate-pulse">
+        Categoría Premium
+      </div>
+
+      <!-- Título con animación de letras (efecto de "fuego" o "energía") -->
+      <h1 class="font-display text-[clamp(3rem,8vw,6rem)] leading-[0.9] text-white category-hero-title">
+        <span class="block" id="category-title-line" data-text="AUMENTAR MASA">AUMENTAR MASA</span>
+      </h1>
+
+      <!-- Subtítulo -->
+      <p class="text-lv-steel text-lg md:text-xl max-w-2xl mx-auto mt-6 leading-relaxed">
+        Suplementos diseñados para <span class="text-lv-cyan font-bold">maximizar el crecimiento muscular</span> con fórmulas de alta densidad calórica y proteínas de absorción rápida.
+      </p>
+
+      <!-- Botón de acción -->
+      <div class="mt-8">
+        <a href="#productos" class="btn-primary group inline-flex items-center gap-3">
+          <span>Explorar Productos</span>
+          <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BANNER INTERMEDIO CON VIDEO (toque premium)
+  ============================================================= -->
+  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-16">
+    <div class="relative overflow-hidden rounded-2xl bg-lv-dark/50 backdrop-blur-sm border border-white/5">
+      <!-- Video o imagen de fondo (sugerencia: assets/video/aumentar_masa_banner.mp4) -->
+      <video class="absolute inset-0 w-full h-full object-cover opacity-30" autoplay muted loop playsinline>
+        <source src="assets/video/aumentar_masa_banner.mp4" type="video/mp4">
+      </video>
+
+      <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 p-8 md:p-12">
+        <div class="flex-1">
+          <span class="inline-block text-lv-cyan text-xs font-bold tracking-[0.2em] uppercase mb-2">⚡ Objetivo</span>
+          <h3 class="font-display text-2xl md:text-4xl text-white mb-2">Gana Masa <span class="text-lv-cyan">Sin Límites</span></h3>
+          <p class="text-lv-steel max-w-md">Nuestros productos para aumento de masa combinan proteínas de alta calidad con carbohidratos complejos y creatina para un crecimiento muscular óptimo.</p>
+        </div>
+        <div class="flex-shrink-0">
+          <div class="flex items-center gap-6 text-center">
+            <div>
+              <p class="font-display text-3xl text-lv-cyan">+5kg</p>
+              <p class="text-xs text-lv-steel uppercase tracking-widest">Masa muscular</p>
+            </div>
+            <div class="w-px h-12 bg-white/10"></div>
+            <div>
+              <p class="font-display text-3xl text-lv-cyan">30g</p>
+              <p class="text-xs text-lv-steel uppercase tracking-widest">Proteína por toma</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PRODUCTOS - AUMENTAR MASA (grid con diseño idéntico al index)
+  ============================================================= -->
+  <section id="productos" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-12">
+
+    <div class="section-heading text-center mb-12">
+      <div class="flex items-center justify-center gap-3 mb-4">
+        <span class="eyebrow-line"></span>
+        <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Fórmulas de élite para Masa</span>
+        <span class="eyebrow-line"></span>
+      </div>
+      <h2 class="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[0.95]">
+        PRODUCTOS <span class="text-electric-inline">DESTACADOS</span>
+      </h2>
+      <p class="text-lv-steel max-w-lg mx-auto mt-2">Selección premium para quienes buscan ganar músculo de forma efectiva.</p>
+    </div>
+
+    <!-- Control de ordenamiento -->
+    <div class="flex justify-end items-center mb-6">
+      <label for="sort-select" class="text-lv-steel text-xs font-bold uppercase tracking-widest mr-3">Ordenar:</label>
+      <select id="sort-select" class="sort-select">
+        <option value="default">Más vendido</option>
+        <option value="price-desc">Mayor a menor precio</option>
+      </select>
+    </div>
+
+    <!-- Grid de productos -->
+    <div class="product-grid" id="product-grid">
+
+      <!-- Producto 1: Whey Protein Isolate -->
+      <article class="product-card" data-category="aumento_masa" data-name="Whey Protein Isolate" data-price="S/ 189" data-cat-label="Proteína" data-img="assets/img/productos/whey-protein.jpg">
+        <span class="product-badge badge-bestseller">Bestseller</span>
+        <div class="product-img-wrap">
+          <!-- CAMBIA LA RUTA DE LA IMAGEN SEGÚN TU CONTENIDO -->
+          <img src="assets/img/productos/whey-protein.jpg" alt="Whey Protein Isolate" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 3v3h6V3"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Proteína</p>
+          <h3 class="product-name">Whey Protein Isolate</h3>
+          <div class="product-rating">★★★★★ <span>4.9 (312)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">S/ 189</span>
+              <span class="product-price-old">S/ 220</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 2: Mass Gainer 5kg -->
+      <article class="product-card" data-category="aumento_masa" data-name="Mass Gainer 5kg" data-price="S/ 210" data-cat-label="Ganador de Masa" data-img="assets/img/productos/mass-gainer.jpg">
+        <span class="product-badge badge-new">Nuevo</span>
+        <div class="product-img-wrap">
+          <img src="assets/img/productos/mass-gainer.jpg" alt="Mass Gainer" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 3v3h6V3"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Ganador de Masa</p>
+          <h3 class="product-name">Mass Gainer 5kg</h3>
+          <div class="product-rating">★★★★★ <span>4.8 (98)</span></div>
+          <div class="product-price-row">
+            <div><span class="product-price">S/ 210</span></div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 3: Creatine Monohydrate -->
+      <article class="product-card" data-category="aumento_masa" data-name="Creatine Monohydrate" data-price="S/ 99" data-cat-label="Creatina" data-img="assets/img/productos/creatine-monohydrate.jpg">
+        <div class="product-img-wrap">
+          <img src="assets/img/productos/creatine-monohydrate.jpg" alt="Creatine Monohydrate" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Creatina</p>
+          <h3 class="product-name">Creatine Monohydrate</h3>
+          <div class="product-rating">★★★★★ <span>4.9 (441)</span></div>
+          <div class="product-price-row">
+            <div><span class="product-price">S/ 99</span></div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 4: Pre-Workout Fury -->
+      <article class="product-card" data-category="aumento_masa" data-name="Pre-Workout Fury" data-price="S/ 129" data-cat-label="Pre-Entreno" data-img="assets/img/productos/pre-workout-fury.jpg">
+        <div class="product-img-wrap">
+          <img src="assets/img/productos/pre-workout-fury.jpg" alt="Pre-Workout Fury" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Pre-Entreno</p>
+          <h3 class="product-name">Pre-Workout Fury</h3>
+          <div class="product-rating">★★★★★ <span>4.8 (204)</span></div>
+          <div class="product-price-row">
+            <div><span class="product-price">S/ 129</span></div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 5: Thermo Burn (para mantener masa magra) -->
+      <article class="product-card" data-category="aumento_masa" data-name="Thermo Burn" data-price="S/ 118" data-cat-label="Quemadores" data-img="assets/img/productos/thermo-burn.jpg">
+        <span class="product-badge badge-sale">-15%</span>
+        <div class="product-img-wrap">
+          <img src="assets/img/productos/thermo-burn.jpg" alt="Thermo Burn" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-3 4-6 7-6 11a6 6 0 0 0 12 0c0-1.5-.5-2.7-1.2-3.8.1 1.6-.6 2.6-1.5 2.8.6-2.5-.7-5-3.3-10z"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Quemadores</p>
+          <h3 class="product-name">Thermo Burn</h3>
+          <div class="product-rating">★★★★☆ <span>4.6 (156)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">S/ 118</span>
+              <span class="product-price-old">S/ 139</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 6: ZMA (recuperación) -->
+      <article class="product-card" data-category="aumento_masa" data-name="Night Fuel ZMA" data-price="S/ 79" data-cat-label="Recuperación" data-img="assets/img/productos/night-fuel-zma.jpg">
+        <div class="product-img-wrap">
+          <img src="assets/img/productos/night-fuel-zma.jpg" alt="Night Fuel ZMA" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Recuperación</p>
+          <h3 class="product-name">Night Fuel ZMA</h3>
+          <div class="product-rating">★★★★★ <span>4.8 (87)</span></div>
+          <div class="product-price-row">
+            <div><span class="product-price">S/ 79</span></div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 7: Shaker Pro (accesorio) -->
+      <article class="product-card" data-category="aumento_masa" data-name="Shaker Pro 700ml" data-price="S/ 39" data-cat-label="Accesorios" data-img="assets/img/productos/shaker-pro.jpg">
+        <div class="product-img-wrap">
+          <img src="assets/img/productos/shaker-pro.jpg" alt="Shaker Pro" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 4-2 12H9L7 7l1-4z"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Accesorios</p>
+          <h3 class="product-name">Shaker Pro 700ml</h3>
+          <div class="product-rating">★★★★☆ <span>4.5 (63)</span></div>
+          <div class="product-price-row">
+            <div><span class="product-price">S/ 39</span></div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="flex justify-center mt-12">
+      <button class="btn-secondary">Ver más productos</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER (idéntico al index)
+  ============================================================= -->
+  <footer class="relative z-10 border-t border-white/[0.06] mt-10">
+    <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-16 grid md:grid-cols-[1.3fr_0.7fr_0.7fr_1fr] gap-12">
+
+      <div>
+        <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="h-16 w-auto mb-4" style="filter: drop-shadow(0 0 10px rgba(30,155,255,0.3));">
+        <p class="text-lv-steel text-sm max-w-xs leading-relaxed">
+          Suplementos premium para atletas que desatan su poder cada día. Ciencia, calidad y rendimiento en cada fórmula.
+        </p>
+      </div>
+
+      <div>
+        <p class="footer-heading">Tienda</p>
+        <a href="index.html#productos" class="footer-link">Productos</a>
+        <a href="index.html#categorias" class="footer-link">Categorías</a>
+        <a href="#" class="footer-link">Ofertas</a>
+        <a href="#" class="footer-link">Novedades</a>
+      </div>
+
+      <div>
+        <p class="footer-heading">Empresa</p>
+        <a href="index.html#nosotros" class="footer-link">Nosotros</a>
+        <a href="index.html#contacto" class="footer-link">Contacto</a>
+        <a href="#" class="footer-link">Blog</a>
+        <a href="#" class="footer-link">Trabaja con nosotros</a>
+      </div>
+
+      <div>
+        <p class="footer-heading">Únete a la manada</p>
+        <p class="text-lv-steel text-sm mb-4">Recibe descuentos exclusivos y lanzamientos antes que nadie.</p>
+        <form class="newsletter-form" id="newsletter-form">
+          <input type="email" placeholder="tu@correo.com" required>
+          <button type="submit" aria-label="Suscribirse">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+    <div class="border-t border-white/[0.06]">
+      <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-6 flex flex-wrap items-center justify-between gap-4">
+        <p class="text-lv-steel text-xs">© 2026 Leviathan Nutrition. Todos los derechos reservados.</p>
+        <p class="text-lv-steel text-xs">Desata tu poder.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       CARRITO, MODALES Y SCRIPTS (idéntico al index)
+  ============================================================= -->
+  <div id="cart-overlay" class="cart-overlay"></div>
+  <aside id="cart-drawer" class="cart-drawer" aria-hidden="true">
+    <div class="cart-drawer-header">
+      <h3>Tu Carrito</h3>
+      <button id="cart-close-btn" class="icon-btn" aria-label="Cerrar carrito">
+        <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="cart-drawer-body" id="cart-items-container">
+      <!-- Se llena dinámicamente vía JS -->
+    </div>
+    <div class="cart-drawer-footer">
+      <div class="cart-subtotal-row">
+        <span>Subtotal</span>
+        <span id="cart-subtotal">S/ 0</span>
+      </div>
+      <button class="btn-primary w-full justify-center" id="checkout-btn" data-ripple>
+        <span>Finalizar Compra</span>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <div id="quickview-overlay" class="cart-overlay"></div>
+  <div id="quickview-modal" class="quickview-modal" aria-hidden="true">
+    <button id="quickview-close-btn" class="icon-btn quickview-close" aria-label="Cerrar">
+      <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="quickview-img-wrap">
+      <img id="quickview-img" src="" alt="" class="quickview-img">
+    </div>
+    <div class="quickview-info">
+      <p class="product-cat" id="quickview-cat">Categoría</p>
+      <h3 class="quickview-name" id="quickview-name">Nombre del producto</h3>
+      <div class="product-rating" id="quickview-rating">★★★★★ <span>4.9</span></div>
+      <p class="quickview-price" id="quickview-price">S/ 0</p>
+      <button class="btn-primary justify-center" id="quickview-add-btn" data-ripple>
+        <span>Añadir al Carrito</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="particles.js"></script>
+  <script src="interactions.js"></script>
+
+  <!-- ============================================================
+       ANIMACIÓN ESPECIAL PARA EL TÍTULO DE CATEGORÍA (similar al hero)
+  ============================================================= -->
+  <script>
+    (function() {
+      const titleEl = document.getElementById('category-title-line');
+      if (!titleEl) return;
+      const text = titleEl.getAttribute('data-text') || titleEl.textContent;
+      titleEl.innerHTML = '';
+      [...text].forEach((char, i) => {
+        const span = document.createElement('span');
+        span.className = 'letter category-hero-letter';
+        span.textContent = char === ' ' ? '\u00A0' : char;
+        // Efecto de "fuego" con degradado rojo/naranja/amarillo
+        span.style.background = 'linear-gradient(180deg, #FF6B35, #FF4500, #FFD700)';
+        span.style.webkitBackgroundClip = 'text';
+        span.style.backgroundClip = 'text';
+        span.style.color = 'transparent';
+        span.style.filter = 'drop-shadow(0 0 20px rgba(255,69,0,0.5))';
+        span.style.animationDelay = `${0.3 + i * 0.06}s`;
+        span.style.display = 'inline-block';
+        span.style.opacity = '0';
+        span.style.transform = 'translateY(30px) scale(0.8)';
+        span.style.animation = 'categoryHeroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+        titleEl.appendChild(span);
+      });
+
+      // Inyectar keyframes si no existen
+      if (!document.getElementById('category-hero-styles')) {
+        const style = document.createElement('style');
+        style.id = 'category-hero-styles';
+        style.textContent = `
+          @keyframes categoryHeroIn {
+            0% { opacity: 0; transform: translateY(30px) scale(0.8); }
+            60% { opacity: 1; transform: translateY(-6px) scale(1.05); filter: drop-shadow(0 0 40px rgba(255,69,0,0.8)); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: drop-shadow(0 0 20px rgba(255,69,0,0.5)); }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    })();
+  </script>
+
+</body>
+</html>
