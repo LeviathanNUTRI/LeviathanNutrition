@@ -1668,74 +1668,431 @@ a:hover .logo-mark {
 }
 
 /* ==============================================================
-   MODAL DE VISTA RÁPIDA
+   TARJETA DE PRODUCTO (Quick View) — PREMIUM
+   Componente 100% data-driven: el HTML es un único esqueleto
+   reutilizable, todo el contenido (título, precio, variantes,
+   imágenes, regalos) se inyecta vía JS desde un objeto de datos.
 ================================================================= */
-.quickview-modal {
+.pcard {
   position: fixed;
   top: 50%;
   left: 50%;
   z-index: 96;
   transform: translate(-50%, -48%) scale(0.94);
-  width: min(760px, 92vw);
-  max-height: 86vh;
-  overflow: auto;
-  background: #0A0D13;
-  border: 1px solid rgba(30, 155, 255, 0.25);
-  border-radius: 22px;
-  display: flex;
+  width: min(940px, 94vw);
+  max-height: 92vh;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.4s var(--ease-premium), transform 0.4s var(--ease-premium), visibility 0.4s;
-  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.7);
 }
-.quickview-modal.is-open {
+.pcard.is-open {
   opacity: 1;
   visibility: visible;
   transform: translate(-50%, -50%) scale(1);
 }
-.quickview-close {
+.pcard-inner {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #0A0D13;
+  border: 1px solid rgba(30, 155, 255, 0.25);
+  border-radius: 22px;
+  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.75);
+}
+.pcard-inner::-webkit-scrollbar { width: 8px; }
+.pcard-inner::-webkit-scrollbar-thumb { background: rgba(30,155,255,0.35); border-radius: 999px; }
+
+/* --- Botones flotantes superiores --- */
+.pcard-icon-btn {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  padding: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: #B7C1D1;
+  background: rgba(8, 10, 14, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s var(--ease-premium);
+  cursor: pointer;
+}
+.pcard-icon-btn:hover {
+  color: #fff;
+  background: rgba(30, 155, 255, 0.18);
+  border-color: rgba(30, 155, 255, 0.5);
+  box-shadow: 0 0 16px rgba(30, 155, 255, 0.4);
+  transform: translateY(-2px);
+}
+.pcard-camera-btn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 8;
+  color: var(--lv-cyan);
+  border-color: rgba(95, 212, 255, 0.35);
+  animation: pcard-camera-glow 2.8s ease-in-out infinite;
+}
+@keyframes pcard-camera-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(95, 212, 255, 0.25); }
+  50% { box-shadow: 0 0 20px rgba(95, 212, 255, 0.6); }
+}
+.pcard-camera-btn:hover {
+  color: #04121f;
+  background: linear-gradient(135deg, var(--lv-cyan), var(--lv-blue));
+  transform: translateY(-2px) scale(1.06);
+}
+.pcard-camera-btn.is-capturing {
+  animation: none;
+  color: #04121f;
+  background: linear-gradient(135deg, var(--lv-cyan), var(--lv-blue));
+}
+.pcard-inner.is-flashing::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 50;
+  animation: pcard-flash 0.4s ease-out;
+}
+@keyframes pcard-flash {
+  0% { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+
+.pcard-top-right {
   position: absolute;
   top: 16px;
   right: 16px;
-  z-index: 5;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
-.quickview-img-wrap {
-  flex: 0 0 44%;
+.pcard-menu-wrap { position: relative; }
+
+.pcard-context-menu,
+.pcard-share-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 190px;
+  background: rgba(8, 10, 14, 0.98);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.75);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.3s ease, transform 0.3s var(--ease-premium), visibility 0.3s ease;
+  z-index: 30;
+}
+.pcard-context-menu.is-open,
+.pcard-share-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.pcard-context-item,
+.pcard-share-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: #b7c1d1;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  background: transparent;
+  text-align: left;
+}
+.pcard-context-item svg,
+.pcard-share-item svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+}
+.pcard-context-item:hover,
+.pcard-share-item:hover {
+  background: rgba(30, 155, 255, 0.1);
+  color: #fff;
+}
+
+/* --- Imagen --- */
+.pcard-img-wrap {
+  flex: 0 0 42%;
   background: radial-gradient(120% 100% at 50% 100%, rgba(30, 155, 255, 0.14), transparent 65%), #0A0E16;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 30px;
+  padding: 36px 30px;
+  position: relative;
 }
-.quickview-img {
+.pcard-img {
   width: 100%;
-  max-height: 340px;
+  max-height: 380px;
   object-fit: contain;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5));
 }
-.quickview-info {
+.pcard-img.is-fading {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+/* --- Información --- */
+.pcard-info {
   flex: 1;
-  padding: 40px 36px;
+  min-width: 0;
+  padding: 44px 36px 36px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
-.quickview-name {
-  font-size: 1.5rem;
+.pcard-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(1.3rem, 2.1vw, 1.75rem);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  color: #fff;
+  text-shadow: 0 0 24px rgba(30, 155, 255, 0.25);
+  padding-right: 90px;
+}
+.pcard-rating-row .product-rating { font-size: 0.9rem; }
+.pcard-desc {
+  color: var(--lv-steel);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin: 2px 0 4px;
+}
+
+.pcard-options {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 6px 0 4px;
+}
+.pcard-opt-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.pcard-opt {
+  position: relative;
+  flex: 1 1 160px;
+  min-width: 150px;
+}
+.pcard-opt-label,
+.pcard-qty-wrap .pcard-opt-label {
+  display: block;
+  font-size: 0.68rem;
   font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lv-steel);
+  margin-bottom: 6px;
+}
+.pcard-opt-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 11px 12px 11px 14px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.82rem;
+  transition: all 0.3s var(--ease-premium);
+  cursor: pointer;
+  text-align: left;
+}
+.pcard-opt-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pcard-opt-toggle:hover,
+.pcard-opt.is-open .pcard-opt-toggle {
+  border-color: var(--lv-blue);
+  box-shadow: 0 0 14px rgba(30, 155, 255, 0.3);
+}
+.pcard-opt-plus {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--lv-cyan), var(--lv-blue));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  line-height: 1;
+  font-weight: 900;
+  color: #04121f;
+  transition: transform 0.3s var(--ease-premium);
+}
+.pcard-opt.is-open .pcard-opt-plus {
+  transform: rotate(45deg);
+}
+.pcard-opt-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  max-height: 210px;
+  overflow-y: auto;
+  background: rgba(8, 10, 14, 0.98);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 6px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.3s ease, transform 0.3s var(--ease-premium), visibility 0.3s ease;
+  z-index: 25;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.75);
+}
+.pcard-opt-dropdown.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.pcard-opt-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 9px 14px;
+  border-radius: 8px;
+  color: #b7c1d1;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.pcard-opt-item:hover {
+  background: rgba(30, 155, 255, 0.1);
   color: #fff;
 }
-.quickview-price {
-  font-family: 'Anton', sans-serif;
-  font-size: 1.8rem;
+.pcard-opt-item.is-selected {
   color: var(--lv-cyan);
-  margin: 10px 0 18px;
+  background: rgba(30, 155, 255, 0.08);
 }
-@media (max-width: 700px) {
-  .quickview-modal {
+
+.pcard-qty-wrap {
+  flex: 1 1 110px;
+  min-width: 110px;
+}
+.pcard-qty-input {
+  width: 90px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 11px 12px;
+  color: #fff;
+  font-weight: 800;
+  text-align: center;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+.pcard-qty-input:focus {
+  outline: none;
+  border-color: var(--lv-blue);
+  box-shadow: 0 0 14px rgba(30, 155, 255, 0.3);
+}
+
+.pcard-price-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+.pcard-price-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.pcard-price {
+  font-family: 'Anton', sans-serif;
+  font-size: 2rem;
+  color: var(--lv-cyan);
+  text-shadow: 0 0 20px rgba(95, 212, 255, 0.4);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.pcard-price.is-updating {
+  opacity: 0;
+  transform: translateY(6px);
+}
+.pcard-price-old {
+  text-decoration: line-through;
+  color: var(--lv-steel);
+  font-size: 0.95rem;
+}
+
+.pcard-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.pcard-btn-cart,
+.pcard-btn-whatsapp {
+  flex: 1 1 190px;
+}
+.pcard-btn-whatsapp {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 24px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #04160b;
+  background: linear-gradient(135deg, #7CFFB2, var(--lv-green) 65%, #17b45e);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px -6px rgba(57, 255, 138, 0.5);
+  transition: transform 0.35s var(--ease-premium), box-shadow 0.35s var(--ease-premium);
+}
+.pcard-btn-whatsapp svg { width: 19px; height: 19px; }
+.pcard-btn-whatsapp:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px -6px rgba(57, 255, 138, 0.8);
+}
+
+@media (max-width: 760px) {
+  .pcard-inner {
     flex-direction: column;
   }
-  .quickview-img-wrap {
+  .pcard-img-wrap {
     flex: none;
+    padding: 60px 26px 20px;
+  }
+  .pcard-info {
+    padding: 8px 24px 28px;
+  }
+  .pcard-title {
+    padding-right: 0;
+    margin-top: 4px;
+  }
+  .pcard-price-row {
+    justify-content: flex-start;
   }
 }
 
