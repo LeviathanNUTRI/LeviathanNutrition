@@ -510,25 +510,96 @@
   <div id="toast-container" class="toast-container"></div>
 
   <div id="quickview-overlay" class="cart-overlay"></div>
-  <div id="quickview-modal" class="quickview-modal" aria-hidden="true">
-    <button id="quickview-close-btn" class="icon-btn quickview-close" aria-label="Cerrar">
-      <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-    </button>
-    <div class="quickview-img-wrap">
-      <img id="quickview-img" src="" alt="" class="quickview-img">
-    </div>
-    <div class="quickview-info">
-      <p class="product-cat" id="quickview-cat">Categoría</p>
-      <h3 class="quickview-name" id="quickview-name">Nombre del producto</h3>
-      <div class="product-rating" id="quickview-rating">★★★★★ <span>4.9</span></div>
-      <p class="quickview-price" id="quickview-price">S/ 0</p>
-      <button class="btn-primary justify-center" id="quickview-add-btn" data-ripple>
-        <span>Añadir al Carrito</span>
+  <div id="quickview-modal" class="pcard" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="quickview-name">
+    <div class="pcard-inner" id="pcard-capture">
+
+      <!-- Botón cámara (superior izquierda) -->
+      <button class="pcard-icon-btn pcard-camera-btn" id="pcard-camera-btn" type="button" aria-label="Capturar tarjeta">
+        <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
       </button>
+
+      <!-- Botones superiores derechos: cerrar + menú -->
+      <div class="pcard-top-right">
+        <button id="quickview-close-btn" class="pcard-icon-btn" aria-label="Cerrar" type="button">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="pcard-menu-wrap">
+          <button class="pcard-icon-btn" id="pcard-menu-btn" type="button" aria-label="Más opciones" aria-haspopup="true" aria-expanded="false">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg>
+          </button>
+          <div class="pcard-context-menu" id="pcard-context-menu" role="menu">
+            <button class="pcard-context-item" data-action="share" role="menuitem" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.7 15.7 6.3M8.3 13.3l7.4 4.4"/></svg>
+              <span>Compartir</span>
+            </button>
+            <button class="pcard-context-item" data-action="review" role="menuitem" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 15 9l7 1-5 5 1.2 7-6.2-3.3L5.8 22 7 15 2 10l7-1 3-6.5z"/></svg>
+              <span>Dar reseña</span>
+            </button>
+          </div>
+          <!-- Menú de compartir (fallback sin Web Share API) -->
+          <div class="pcard-share-menu" id="pcard-share-menu" role="menu">
+            <button class="pcard-share-item" data-share="whatsapp" role="menuitem" type="button">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.9.53 3.68 1.44 5.2L2 22l4.94-1.4A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.18-2.9.82.78-2.83-.2-.32A7.9 7.9 0 0 1 4 12c0-4.42 3.58-8 8-8s8 3.58 8 8-3.58 8-8 8zm4.34-5.94c-.24-.12-1.4-.7-1.62-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.18-.7-.62-1.18-1.4-1.32-1.64-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.4-.57 1.6-1.13.2-.55.2-1.02.14-1.13-.06-.1-.22-.16-.46-.28z"/></svg>
+              <span>WhatsApp</span>
+            </button>
+            <button class="pcard-share-item" data-share="facebook" role="menuitem" type="button">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              <span>Facebook</span>
+            </button>
+            <button class="pcard-share-item" data-share="x" role="menuitem" type="button">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.9 3H21l-7.2 8.2L22.3 21h-6.7l-5.2-6.4L4.4 21H1.3l7.7-8.8L1 3h6.9l4.7 5.9L17.9 3zm-1.2 16h1.8L7.4 5H5.5L16.7 19z"/></svg>
+              <span>X (Twitter)</span>
+            </button>
+            <button class="pcard-share-item" data-share="copy" role="menuitem" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span>Copiar enlace</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Imagen del producto -->
+      <div class="pcard-img-wrap">
+        <img id="quickview-img" src="" alt="" class="pcard-img">
+      </div>
+
+      <!-- Información -->
+      <div class="pcard-info">
+        <h3 class="pcard-title" id="quickview-name">Nombre del producto</h3>
+        <div class="pcard-rating-row">
+          <span class="product-rating" id="quickview-rating">★★★★★ <span>4.9 (0)</span></span>
+        </div>
+        <p class="pcard-desc" id="quickview-desc">Descripción del producto.</p>
+
+        <div class="pcard-options" id="pcard-options">
+          <!-- Filas de atributos generadas dinámicamente por JS -->
+        </div>
+
+        <div class="pcard-price-row">
+          <div class="pcard-price-wrap">
+            <span class="pcard-price" id="quickview-price">S/ 0</span>
+            <span class="pcard-price-old" id="quickview-price-old"></span>
+          </div>
+        </div>
+
+        <div class="pcard-actions">
+          <button class="btn-primary pcard-btn-cart justify-center" id="quickview-add-btn" data-ripple type="button">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span>Añadir al Carrito</span>
+          </button>
+          <button class="pcard-btn-whatsapp" id="quickview-whatsapp-btn" type="button">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.9.53 3.68 1.44 5.2L2 22l4.94-1.4A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.18-2.9.82.78-2.83-.2-.32A7.9 7.9 0 0 1 4 12c0-4.42 3.58-8 8-8s8 3.58 8 8-3.58 8-8 8zm4.34-5.94c-.24-.12-1.4-.7-1.62-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.18-.7-.62-1.18-1.4-1.32-1.64-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.4-.57 1.6-1.13.2-.55.2-1.02.14-1.13-.06-.1-.22-.16-.46-.28z"/></svg>
+            <span>Comprar Ahora</span>
+          </button>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="particles.js"></script>
   <script src="interactions.js"></script>
 
