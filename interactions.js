@@ -549,30 +549,310 @@
   document.head.appendChild(badgeStyleTag);
 
   /* ---------------------------------------------------------
-     12) MODAL DE VISTA RÁPIDA (con mejoras)
+     12) TARJETA DE PRODUCTO (Quick View) — PREMIUM
+     Componente 100% data-driven. Toda la información (título,
+     descripción, variantes, imágenes, regalos, WhatsApp) sale
+     de PRODUCT_DB o, si el producto no está registrado ahí, se
+     construye automáticamente a partir de los data-* de su
+     .product-card, para que la misma tarjeta funcione con
+     cientos de productos sin tocar el HTML.
   ---------------------------------------------------------- */
+
+  const WHATSAPP_NUMBER = '51987654321';
+
+  // Base de datos de productos con variantes ricas.
+  // Para añadir un producto nuevo con variantes propias, basta con
+  // agregar una entrada aquí usando el mismo id del data-id de su tarjeta.
+  const PRODUCT_DB = {
+    'whey-pro-creatine': {
+      name: 'WHEY PRO + CREATINE 150 G + REGALOS',
+      rating: 4.9,
+      reviews: 312,
+      description: 'Despierta a la bestia que llevas dentro. Lleva tu rendimiento al extremo y domina el gimnasio con nuestro pack de fuerza y construcción muscular.',
+      basePrice: 89.90,
+      oldPrice: 110,
+      defaultImage: 'assets/img/productos/COMBO WEY PRO_CREATINE.png',
+      attributes: [
+        {
+          key: 'sabor',
+          label: 'Sabores',
+          options: [
+            { id: 'chocolate', label: 'Chocolate', image: 'assets/img/productos/COMBO WEY PRO_CREATINE.png' },
+            { id: 'vainilla', label: 'Vainilla', image: 'assets/img/productos/COMBO WEY PRO_CREATINE.png' },
+            { id: 'fresa', label: 'Fresa', image: 'assets/img/productos/COMBO WEY PRO_CREATINE.png' },
+            { id: 'cookies', label: 'Cookies & Cream', image: 'assets/img/productos/COMBO WEY PRO_CREATINE.png' },
+          ],
+        },
+        {
+          key: 'peso',
+          label: 'Whey Pro P.Neto',
+          options: [
+            { id: '150g', label: '150 g', priceDelta: 0 },
+            { id: '450g', label: '450 g', priceDelta: 45 },
+            { id: '900g', label: '900 g', priceDelta: 90 },
+          ],
+        },
+        {
+          key: 'regalo',
+          label: 'Regalo',
+          options: [
+            { id: 'shaker', label: 'Shaker Pro 700ml' },
+            { id: 'creatina-muestra', label: 'Muestra Creatine 30 g' },
+            { id: 'sin-regalo', label: 'Sin regalo' },
+          ],
+        },
+      ],
+    },
+  };
+
+  // Genera un id estable a partir del nombre, para productos sin data-id.
+  function slugify(str) {
+    return String(str || 'producto')
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+  }
+
+  // Construye un producto genérico "seguro" a partir de una tarjeta,
+  // para que la tarjeta de producto funcione con CUALQUIER producto
+  // del catálogo, tenga o no una ficha rica en PRODUCT_DB.
+  function buildGenericProduct(card) {
+    const name = card.dataset.name || 'Producto';
+    const img = card.dataset.img || '';
+    const catLabel = card.dataset.catLabel || '';
+    const ratingEl = card.querySelector('.product-rating');
+    let rating = 4.8, reviews = 0;
+    if (ratingEl) {
+      const text = ratingEl.textContent || '';
+      const m = text.match(/(\d+(?:\.\d+)?)\D*(?:\((\d+)\))?/);
+      if (m) {
+        rating = parseFloat(m[1]) || rating;
+        reviews = parseInt(m[2], 10) || 0;
+      }
+    }
+    return {
+      name,
+      rating,
+      reviews,
+      description: `Fórmula premium de ${catLabel || 'Leviathan Nutrition'} diseñada para potenciar tu rendimiento y ayudarte a alcanzar tus objetivos.`,
+      basePrice: parsePrice(card.dataset.price),
+      oldPrice: null,
+      defaultImage: img,
+      attributes: [
+        { key: 'sabor', label: 'Sabores', options: [{ id: 'original', label: 'Original', image: img }] },
+        { key: 'peso', label: 'Presentación', options: [{ id: 'unico', label: 'Único', priceDelta: 0 }] },
+        { key: 'regalo', label: 'Regalo', options: [{ id: 'sin-regalo', label: 'Sin regalo' }] },
+      ],
+    };
+  }
+
+  function getProductForCard(card) {
+    const id = card.dataset.id || slugify(card.dataset.name);
+    const richData = PRODUCT_DB[id];
+    const base = richData ? Object.assign({ id }, richData) : Object.assign({ id }, buildGenericProduct(card));
+    return base;
+  }
+
+  // -------- Estado y elementos del modal --------
   const quickviewOverlay = document.getElementById('quickview-overlay');
   const quickviewModal = document.getElementById('quickview-modal');
   const quickviewCloseBtn = document.getElementById('quickview-close-btn');
-  let quickviewCurrentProduct = null;
+  const pcardInner = document.getElementById('pcard-capture');
+  const pcardImgEl = document.getElementById('quickview-img');
+  const pcardNameEl = document.getElementById('quickview-name');
+  const pcardRatingEl = document.getElementById('quickview-rating');
+  const pcardDescEl = document.getElementById('quickview-desc');
+  const pcardOptionsEl = document.getElementById('pcard-options');
+  const pcardPriceEl = document.getElementById('quickview-price');
+  const pcardPriceOldEl = document.getElementById('quickview-price-old');
+  const pcardAddBtn = document.getElementById('quickview-add-btn');
+  const pcardWhatsappBtn = document.getElementById('quickview-whatsapp-btn');
+  const pcardCameraBtn = document.getElementById('pcard-camera-btn');
+  const pcardMenuBtn = document.getElementById('pcard-menu-btn');
+  const pcardContextMenu = document.getElementById('pcard-context-menu');
+  const pcardShareMenu = document.getElementById('pcard-share-menu');
+
+  let currentProduct = null;
+  let currentSelection = {};
+  let currentQty = 1;
+
+  function starsHTML(rating) {
+    const full = Math.round(rating);
+    return '★★★★★'.slice(0, full) + '☆☆☆☆☆'.slice(0, 5 - full);
+  }
+
+  function findAttrOption(attr, optionId) {
+    return attr.options.find((o) => o.id === optionId) || attr.options[0];
+  }
+
+  function computePrice() {
+    let price = currentProduct.basePrice || 0;
+    currentProduct.attributes.forEach((attr) => {
+      const selId = currentSelection[attr.key];
+      const opt = findAttrOption(attr, selId);
+      if (opt && opt.priceDelta) price += opt.priceDelta;
+    });
+    return price;
+  }
+
+  function currentVariantImage() {
+    for (const attr of currentProduct.attributes) {
+      const opt = findAttrOption(attr, currentSelection[attr.key]);
+      if (opt && opt.image) return opt.image;
+    }
+    return currentProduct.defaultImage;
+  }
+
+  function updateImage() {
+    const newSrc = currentVariantImage();
+    if (!pcardImgEl || pcardImgEl.getAttribute('src') === newSrc) return;
+    pcardImgEl.classList.add('is-fading');
+    setTimeout(() => {
+      pcardImgEl.src = newSrc;
+      pcardImgEl.classList.remove('is-fading');
+    }, 220);
+  }
+
+  function updatePrice() {
+    if (!pcardPriceEl) return;
+    pcardPriceEl.classList.add('is-updating');
+    setTimeout(() => {
+      const price = computePrice();
+      pcardPriceEl.textContent = `S/ ${price.toFixed(2)}`;
+      pcardPriceEl.classList.remove('is-updating');
+    }, 180);
+    if (pcardPriceOldEl) {
+      pcardPriceOldEl.textContent = currentProduct.oldPrice ? `S/ ${currentProduct.oldPrice}` : '';
+    }
+  }
+
+  function closeAllOptionDropdowns() {
+    pcardOptionsEl.querySelectorAll('.pcard-opt.is-open').forEach((el) => {
+      el.classList.remove('is-open');
+      el.querySelector('.pcard-opt-toggle')?.setAttribute('aria-expanded', 'false');
+      el.querySelector('.pcard-opt-dropdown')?.classList.remove('is-open');
+    });
+  }
+
+  function renderOptions() {
+    pcardOptionsEl.innerHTML = '';
+    const attrs = currentProduct.attributes;
+
+    // Fila 1: sabor + segunda variante (peso/presentación/etc.)
+    // Fila 2: regalo + cantidad
+    const rows = [attrs.slice(0, 2), attrs.slice(2, 3)];
+
+    rows.forEach((rowAttrs, rowIndex) => {
+      if (!rowAttrs.length && rowIndex === 1) {
+        // aún así necesitamos la fila 2 para la cantidad
+      }
+      const rowEl = document.createElement('div');
+      rowEl.className = 'pcard-opt-row';
+
+      rowAttrs.forEach((attr) => {
+        const selectedId = currentSelection[attr.key] || attr.options[0].id;
+        const selectedOpt = findAttrOption(attr, selectedId);
+
+        const optEl = document.createElement('div');
+        optEl.className = 'pcard-opt';
+        optEl.dataset.attr = attr.key;
+        optEl.innerHTML = `
+          <span class="pcard-opt-label">${attr.label}</span>
+          <button type="button" class="pcard-opt-toggle" aria-haspopup="true" aria-expanded="false">
+            <span class="pcard-opt-value">${selectedOpt.label}</span>
+            <span class="pcard-opt-plus">+</span>
+          </button>
+          <div class="pcard-opt-dropdown" role="menu">
+            ${attr.options.map((o) => `<button type="button" class="pcard-opt-item${o.id === selectedId ? ' is-selected' : ''}" data-value="${o.id}" role="menuitem">${o.label}</button>`).join('')}
+          </div>
+        `;
+        rowEl.appendChild(optEl);
+      });
+
+      if (rowIndex === 1) {
+        const qtyEl = document.createElement('div');
+        qtyEl.className = 'pcard-qty-wrap';
+        qtyEl.innerHTML = `
+          <span class="pcard-opt-label">Cantidad</span>
+          <input type="number" min="1" step="1" value="${currentQty}" class="pcard-qty-input" id="pcard-qty" aria-label="Cantidad">
+        `;
+        rowEl.appendChild(qtyEl);
+      }
+
+      pcardOptionsEl.appendChild(rowEl);
+    });
+  }
+
+  // Delegación de eventos dentro del bloque de opciones (abrir/cerrar
+  // desplegables y seleccionar variantes) — un solo listener reutilizable.
+  pcardOptionsEl.addEventListener('click', (e) => {
+    const toggle = e.target.closest('.pcard-opt-toggle');
+    const item = e.target.closest('.pcard-opt-item');
+
+    if (toggle) {
+      const optEl = toggle.closest('.pcard-opt');
+      const wasOpen = optEl.classList.contains('is-open');
+      closeAllOptionDropdowns();
+      if (!wasOpen) {
+        optEl.classList.add('is-open');
+        toggle.setAttribute('aria-expanded', 'true');
+        optEl.querySelector('.pcard-opt-dropdown').classList.add('is-open');
+      }
+      return;
+    }
+
+    if (item) {
+      const optEl = item.closest('.pcard-opt');
+      const attrKey = optEl.dataset.attr;
+      const value = item.dataset.value;
+      currentSelection[attrKey] = value;
+
+      const attr = currentProduct.attributes.find((a) => a.key === attrKey);
+      const opt = findAttrOption(attr, value);
+      optEl.querySelector('.pcard-opt-value').textContent = opt.label;
+      optEl.querySelectorAll('.pcard-opt-item').forEach((el) => el.classList.toggle('is-selected', el.dataset.value === value));
+
+      closeAllOptionDropdowns();
+      updateImage();
+      updatePrice();
+    }
+  });
+
+  pcardOptionsEl.addEventListener('input', (e) => {
+    if (e.target && e.target.id === 'pcard-qty') {
+      const val = Math.max(1, parseInt(e.target.value, 10) || 1);
+      currentQty = val;
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.pcard-opt')) closeAllOptionDropdowns();
+  });
+
+  function getSelectionSummary() {
+    return currentProduct.attributes.map((attr) => {
+      const opt = findAttrOption(attr, currentSelection[attr.key]);
+      return { label: attr.label, value: opt.label };
+    });
+  }
 
   function openQuickview(card) {
-    const name = card.dataset.name;
-    const price = card.dataset.price;
-    const img = card.dataset.img;
-    const catLabel = card.dataset.catLabel;
-    const ratingHTML = card.querySelector('.product-rating')?.innerHTML || '';
+    currentProduct = getProductForCard(card);
+    currentSelection = {};
+    currentProduct.attributes.forEach((attr) => { currentSelection[attr.key] = attr.options[0].id; });
+    currentQty = 1;
 
-    document.getElementById('quickview-name').textContent = name;
-    document.getElementById('quickview-price').textContent = price;
-    document.getElementById('quickview-cat').textContent = catLabel;
-    document.getElementById('quickview-rating').innerHTML = ratingHTML;
+    pcardNameEl.textContent = String(currentProduct.name).toUpperCase();
+    pcardRatingEl.innerHTML = `${starsHTML(currentProduct.rating)} <span>${currentProduct.rating.toFixed ? currentProduct.rating.toFixed(1) : currentProduct.rating} (${currentProduct.reviews})</span>`;
+    pcardDescEl.textContent = currentProduct.description;
+    pcardImgEl.src = currentProduct.defaultImage;
+    pcardImgEl.alt = currentProduct.name;
+    pcardImgEl.classList.remove('is-fading');
 
-    const imgEl = document.getElementById('quickview-img');
-    imgEl.src = img;
-    imgEl.alt = name;
-
-    quickviewCurrentProduct = { name, price, img };
+    renderOptions();
+    updateImage();
+    updatePrice();
 
     quickviewModal.classList.add('is-open');
     quickviewOverlay.classList.add('is-open');
@@ -585,6 +865,9 @@
     quickviewOverlay.classList.remove('is-open');
     quickviewModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    closeAllOptionDropdowns();
+    pcardContextMenu?.classList.remove('is-open');
+    pcardShareMenu?.classList.remove('is-open');
   }
 
   document.querySelectorAll('.quick-view-btn').forEach((btn) => {
@@ -597,15 +880,145 @@
   if (quickviewCloseBtn) quickviewCloseBtn.addEventListener('click', closeQuickview);
   if (quickviewOverlay) quickviewOverlay.addEventListener('click', closeQuickview);
 
-  const quickviewAddBtn = document.getElementById('quickview-add-btn');
-  if (quickviewAddBtn) {
-    quickviewAddBtn.addEventListener('click', () => {
-      if (quickviewCurrentProduct) {
-        addToCart(quickviewCurrentProduct);
-        closeQuickview();
+  // -------- Añadir al carrito --------
+  if (pcardAddBtn) {
+    pcardAddBtn.addEventListener('click', () => {
+      if (!currentProduct) return;
+      const price = computePrice();
+      for (let i = 0; i < currentQty; i++) {
+        addToCart({ name: currentProduct.name, price: `S/ ${price.toFixed(2)}`, img: currentVariantImage() });
+      }
+      closeQuickview();
+    });
+  }
+
+  // -------- Comprar ahora (WhatsApp) --------
+  if (pcardWhatsappBtn) {
+    pcardWhatsappBtn.addEventListener('click', () => {
+      if (!currentProduct) return;
+      const price = computePrice();
+      const summary = getSelectionSummary();
+      let msg = `¡Hola Leviathan Nutrition! Quiero comprar:\n\n`;
+      msg += `Producto: ${currentProduct.name}\n`;
+      summary.forEach((s) => { msg += `${s.label}: ${s.value}\n`; });
+      msg += `Cantidad: ${currentQty}\n`;
+      msg += `Precio unitario: S/ ${price.toFixed(2)}\n`;
+      msg += `Total: S/ ${(price * currentQty).toFixed(2)}`;
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank', 'noopener');
+    });
+  }
+
+  // -------- Botón cámara: captura solo la tarjeta --------
+  if (pcardCameraBtn) {
+    pcardCameraBtn.addEventListener('click', async () => {
+      if (typeof html2canvas === 'undefined' || !pcardInner) {
+        showToast('No se pudo capturar la tarjeta.');
+        return;
+      }
+      try {
+        pcardCameraBtn.classList.add('is-capturing');
+        const canvasEl = await html2canvas(pcardInner, {
+          backgroundColor: '#0A0D13',
+          scale: Math.min(window.devicePixelRatio || 1, 2) * 1.5,
+          useCORS: true,
+        });
+        pcardInner.classList.add('is-flashing');
+        setTimeout(() => pcardInner.classList.remove('is-flashing'), 420);
+
+        canvasEl.toBlob((blob) => {
+          if (!blob) return;
+          const link = document.createElement('a');
+          link.download = `${slugify(currentProduct?.name || 'producto')}.png`;
+          link.href = URL.createObjectURL(blob);
+          link.click();
+          setTimeout(() => URL.revokeObjectURL(link.href), 4000);
+          showToast('Captura guardada');
+        }, 'image/png', 1);
+      } catch (err) {
+        showToast('No se pudo capturar la tarjeta.');
+      } finally {
+        setTimeout(() => pcardCameraBtn.classList.remove('is-capturing'), 500);
       }
     });
   }
+
+  // -------- Menú de tres puntos (Compartir / Dar reseña) --------
+  if (pcardMenuBtn && pcardContextMenu) {
+    pcardMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = pcardContextMenu.classList.toggle('is-open');
+      pcardMenuBtn.setAttribute('aria-expanded', isOpen);
+      pcardShareMenu?.classList.remove('is-open');
+    });
+
+    pcardContextMenu.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      const action = btn.dataset.action;
+      pcardContextMenu.classList.remove('is-open');
+      pcardMenuBtn.setAttribute('aria-expanded', 'false');
+
+      if (action === 'share') {
+        openShare();
+      } else if (action === 'review') {
+        showToast('Muy pronto podrás dejar tu reseña aquí.');
+      }
+    });
+  }
+
+  // -------- Compartir (Web Share API con fallback) --------
+  const SHARE_PROVIDERS = {
+    whatsapp: (url, text) => `https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`,
+    facebook: (url) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+    x: (url, text) => `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
+  };
+
+  async function openShare() {
+    const shareUrl = window.location.href;
+    const shareText = currentProduct ? `Mira este producto en Leviathan Nutrition: ${currentProduct.name}` : 'Leviathan Nutrition';
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: 'Leviathan Nutrition', text: shareText, url: shareUrl });
+      } catch (err) {
+        /* el usuario canceló el share nativo */
+      }
+      return;
+    }
+
+    pcardShareMenu?.classList.add('is-open');
+  }
+
+  if (pcardShareMenu) {
+    pcardShareMenu.addEventListener('click', async (e) => {
+      const btn = e.target.closest('[data-share]');
+      if (!btn) return;
+      const provider = btn.dataset.share;
+      const shareUrl = window.location.href;
+      const shareText = currentProduct ? `Mira este producto en Leviathan Nutrition: ${currentProduct.name}` : 'Leviathan Nutrition';
+
+      if (provider === 'copy') {
+        try {
+          await navigator.clipboard.writeText(shareUrl);
+          showToast('Enlace copiado');
+        } catch (err) {
+          showToast('No se pudo copiar el enlace');
+        }
+      } else if (SHARE_PROVIDERS[provider]) {
+        window.open(SHARE_PROVIDERS[provider](shareUrl, shareText), '_blank', 'noopener');
+      }
+      pcardShareMenu.classList.remove('is-open');
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    if (pcardMenuBtn && !pcardMenuBtn.closest('.pcard-menu-wrap').contains(e.target)) {
+      pcardContextMenu?.classList.remove('is-open');
+      pcardShareMenu?.classList.remove('is-open');
+      pcardMenuBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
 
   /* ---------------------------------------------------------
      13) CONTADORES ANIMADOS (Nosotros)
