@@ -577,10 +577,10 @@
           key: 'sabor',
           label: 'Sabores',
           options: [
-            { id: 'chocolate', label: 'Chocolate', image: 'assets/img/productos/COMBO WEY PRO_CREATINE.png' },
-            { id: 'vainilla', label: 'Vainilla', image: 'assets/img/productos/COMBO WEY PRO_CREATINE.png' },
-            { id: 'fresa', label: 'Fresa', image: 'assets/img/productos/COMBO WEY PRO_CREATINE.png' },
-            { id: 'cookies', label: 'Cookies & Cream', image: 'assets/img/productos/COMBO WEY PRO_CREATINE.png' },
+            { id: 'chocolate', label: 'Chocolate', image: 'assets/img/COMBO WEY PRO_CREATINE.png' },
+            { id: 'vainilla', label: 'Vainilla', image: 'assets/img/COMBO WEY PRO_CREATINE.png' },
+            { id: 'fresa', label: 'Fresa', image: 'assets/img/COMBO WEY PRO_CREATINE.png' },
+            { id: 'cookies', label: 'Cookies & Cream', image: 'assets/img/COMBO WEY PRO_CREATINE.png' },
           ],
         },
         {
