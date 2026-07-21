@@ -1,8 +1,8 @@
 /* ==============================================================
-   LEVIATHAN NUTRITION — interactions.js (v5)
+   LEVIATHAN NUTRITION — interactions.js (v6)
    - Navbar dinámico al hacer scroll
    - Título principal dividido en letras animadas (DESATA TU PODER)
-   - Título "ELIGE TU CATEGORÍA" con efecto de letras (nuevo)
+   - Título "ELIGE TU CATEGORÍA" con efecto de letras
    - Parallax de la imagen de fondo del hero (scroll + mouse)
    - Spotlight que sigue el cursor
    - Chispas ambientales flotantes
@@ -10,15 +10,14 @@
    - Animaciones activadas al hacer scroll (IntersectionObserver)
    - Link activo del navbar según la sección visible
    - Toast de notificaciones
-   - Carrito de compras con drawer
-   - Modal de vista rápida
+   - Carrito de compras con drawer (con cantidades y descuento)
+   - Modal de vista rápida (CON IMAGEN DINÁMICA POR SABOR+PESO+REGALO y DESCUENTO POR CANTIDAD)
    - Contadores animados (Nosotros)
    - Formulario de contacto y newsletter
    - Búsqueda en tiempo real (modal)
    - Dropdown de categorías en el header
    - Detección de página de categoría y adaptación del header
    - ORDENAMIENTO DE PRODUCTOS (con animación suave)
-   - Mejoras de rendimiento y experiencia de usuario
 ================================================================= */
 
 (function () {
@@ -61,43 +60,30 @@
 
   /* ---------------------------------------------------------
      3) NUEVA ANIMACIÓN: TÍTULO "ELIGE TU CATEGORÍA"
-        - Divide el texto en letras con efecto de "flash"
-        - Se aplica a .category-title-animate que contiene el texto
   ---------------------------------------------------------- */
   function animateCategoryTitle() {
     const titleEl = document.querySelector('.category-title-animate');
     if (!titleEl || prefersReducedMotion) return;
-
-    // Obtener el texto completo, incluyendo el span con la palabra "CATEGORÍA"
-    // Para simplificar, extraemos el texto plano
-    const textContent = titleEl.textContent.trim(); // "ELIGE TU CATEGORÍA"
-    // Limpiamos el contenido actual
+    const textContent = titleEl.textContent.trim();
     titleEl.innerHTML = '';
-
-    // Dividimos en palabras
     const words = textContent.split(' ');
     words.forEach((word, wordIndex) => {
       const wordSpan = document.createElement('span');
       wordSpan.className = 'category-word';
-      // Dividir la palabra en letras
       [...word].forEach((char, charIndex) => {
         const letterSpan = document.createElement('span');
         letterSpan.className = 'category-letter';
         letterSpan.textContent = char;
-        // Delay: base + posición global (considerando espacios)
-        const globalIndex = wordIndex * 6 + charIndex; // 6 es un estimado de longitud de palabra
+        const globalIndex = wordIndex * 6 + charIndex;
         letterSpan.style.animationDelay = `${0.2 + globalIndex * 0.06}s`;
         wordSpan.appendChild(letterSpan);
       });
       titleEl.appendChild(wordSpan);
-      // Añadir espacio entre palabras (excepto la última)
       if (wordIndex < words.length - 1) {
         const space = document.createTextNode(' ');
         titleEl.appendChild(space);
       }
     });
-
-    // Inyectar estilos específicos para las letras si no existen
     if (!document.getElementById('category-letter-styles')) {
       const styleTag = document.createElement('style');
       styleTag.id = 'category-letter-styles';
@@ -127,8 +113,6 @@
       document.head.appendChild(styleTag);
     }
   }
-
-  // Ejecutar después de cargar el DOM
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', animateCategoryTitle);
   } else {
@@ -141,43 +125,32 @@
   const heroSection = document.getElementById('inicio');
   const bgLayer = document.getElementById('hero-bg-layer');
   const spotlight = document.getElementById('hero-spotlight');
-
   if (heroSection && bgLayer && !prefersReducedMotion) {
-    let targetMouseX = 0,
-      targetMouseY = 0;
-    let currentMouseX = 0,
-      currentMouseY = 0;
+    let targetMouseX = 0, targetMouseY = 0;
+    let currentMouseX = 0, currentMouseY = 0;
     const MAX_MOUSE_OFFSET = 14;
-
     heroSection.addEventListener('mousemove', (e) => {
       const rect = heroSection.getBoundingClientRect();
       const relX = (e.clientX - rect.left) / rect.width - 0.5;
       const relY = (e.clientY - rect.top) / rect.height - 0.5;
       targetMouseX = relX * MAX_MOUSE_OFFSET * 2;
       targetMouseY = relY * MAX_MOUSE_OFFSET;
-
       if (spotlight) {
         spotlight.style.setProperty('--mx', `${e.clientX - rect.left}px`);
         spotlight.style.setProperty('--my', `${e.clientY - rect.top}px`);
       }
     });
-
     heroSection.addEventListener('mouseleave', () => {
       targetMouseX = 0;
       targetMouseY = 0;
     });
-
     function lerp(a, b, t) { return a + (b - a) * t; }
-
     function renderParallax() {
       currentMouseX = lerp(currentMouseX, targetMouseX, 0.06);
       currentMouseY = lerp(currentMouseY, targetMouseY, 0.06);
-
       const scrollOffset = Math.min(window.scrollY * 0.18, 120);
-
       bgLayer.style.transform =
         `translate3d(${currentMouseX}px, ${currentMouseY + scrollOffset}px, 0) scale(1.08)`;
-
       requestAnimationFrame(renderParallax);
     }
     requestAnimationFrame(renderParallax);
@@ -190,7 +163,6 @@
   if (sparksContainer && !prefersReducedMotion) {
     const SPARK_COUNT = 22;
     const frag = document.createDocumentFragment();
-
     for (let i = 0; i < SPARK_COUNT; i++) {
       const spark = document.createElement('span');
       const size = Math.random() * 3 + 1.5;
@@ -199,7 +171,6 @@
       const delay = Math.random() * 10;
       const isGreen = Math.random() < 0.2;
       const color = isGreen ? '#39FF8A' : '#5FD4FF';
-
       spark.style.position = 'absolute';
       spark.style.bottom = '0%';
       spark.style.left = left + '%';
@@ -210,11 +181,9 @@
       spark.style.boxShadow = `0 0 ${size * 3}px ${color}`;
       spark.style.opacity = '0';
       spark.style.animation = `spark-rise ${duration}s ease-in ${delay}s infinite`;
-
       frag.appendChild(spark);
     }
     sparksContainer.appendChild(frag);
-
     const styleTag = document.createElement('style');
     styleTag.textContent = `
       @keyframes spark-rise {
@@ -246,7 +215,7 @@
   });
 
   /* ---------------------------------------------------------
-     7) SCROLL REVEAL: anima secciones bajo el pliegue
+     7) SCROLL REVEAL
   ---------------------------------------------------------- */
   const scrollRevealEls = document.querySelectorAll('.reveal-on-scroll');
   if (scrollRevealEls.length && 'IntersectionObserver' in window) {
@@ -270,7 +239,6 @@
   ---------------------------------------------------------- */
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
-
   if (sections.length && navLinks.length && 'IntersectionObserver' in window) {
     const navObserver = new IntersectionObserver(
       (entries) => {
@@ -288,10 +256,9 @@
   }
 
   /* ---------------------------------------------------------
-     9) TOASTS: notificaciones flotantes reutilizables
+     9) TOASTS
   ---------------------------------------------------------- */
   const toastContainer = document.getElementById('toast-container');
-
   function showToast(message) {
     if (!toastContainer) return;
     const toast = document.createElement('div');
@@ -305,75 +272,56 @@
   }
 
   /* ---------------------------------------------------------
-     10) ORDENAMIENTO DE PRODUCTOS (con animación mejorada)
+     10) ORDENAMIENTO DE PRODUCTOS
   ---------------------------------------------------------- */
   function initSorting() {
     const sortSelect = document.getElementById('sort-select');
     const productGrid = document.getElementById('product-grid');
     if (!sortSelect || !productGrid) return;
-
-    // Cache de tarjetas para mejor rendimiento
     let productCards = [];
-
     function refreshProductCache() {
       productCards = Array.from(document.querySelectorAll('.product-card'))
         .filter(card => card.style.display !== 'none');
     }
-
     function sortProducts(criteria) {
       refreshProductCache();
       if (productCards.length === 0) return;
-
       const parent = productCards[0].parentNode;
-
-      // Ordenar según criterio
       productCards.sort((a, b) => {
         if (criteria === 'price-desc') {
           const priceA = parseFloat(a.dataset.price.replace(/[^\d.]/g, '')) || 0;
           const priceB = parseFloat(b.dataset.price.replace(/[^\d.]/g, '')) || 0;
           return priceB - priceA;
         }
-        // 'default': mantener el orden original por índice en el DOM
         return 0;
       });
-
-      // Reinsertar con animación
       productCards.forEach((card, index) => {
-        // Remover clase para reiniciar animación
         card.classList.remove('is-visible');
         if (index === 0) {
           parent.insertBefore(card, parent.firstChild);
         } else {
           parent.insertBefore(card, productCards[index - 1].nextSibling);
         }
-        // Forzar reflow y volver a animar
         requestAnimationFrame(() => {
           card.classList.add('is-visible');
         });
       });
     }
-
-    // Evento de cambio con debounce para evitar múltiples llamadas
     let sortTimeout;
     sortSelect.addEventListener('change', (e) => {
       clearTimeout(sortTimeout);
       sortTimeout = setTimeout(() => sortProducts(e.target.value), 100);
     });
-
-    // Inicializar: forzar animación de las tarjetas visibles
     document.querySelectorAll('.product-card:not([style*="display: none"])').forEach((card, i) => {
       setTimeout(() => card.classList.add('is-visible'), 100 + i * 60);
     });
   }
-
-  // Ejecutar ordenamiento al cargar
   initSorting();
 
   /* ---------------------------------------------------------
-     11) CARRITO DE COMPRAS (con mejoras de UX)
+     11) CARRITO DE COMPRAS (con cantidades y descuento)
   ---------------------------------------------------------- */
   const cart = [];
-
   const cartCountEl = document.getElementById('cart-count');
   const cartItemsContainer = document.getElementById('cart-items-container');
   const cartSubtotalEl = document.getElementById('cart-subtotal');
@@ -392,19 +340,15 @@
     cartDrawer.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
   }
-
   function closeCart() {
     cartDrawer.classList.remove('is-open');
     cartOverlay.classList.remove('is-open');
     cartDrawer.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   }
-
   if (cartTriggerBtn) cartTriggerBtn.addEventListener('click', openCart);
   if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCart);
   if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
-
-  // Cerrar carrito con Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeCart();
@@ -412,16 +356,18 @@
     }
   });
 
-  function addToCart({ name, price, img }) {
+  // Función para añadir al carrito con cantidad y precio unitario efectivo
+  function addToCart({ name, price, img, qty = 1 }) {
+    // price ya debe ser el precio unitario efectivo (con descuento aplicado)
     const existing = cart.find((item) => item.name === name);
     if (existing) {
-      existing.qty += 1;
+      existing.qty += qty;
     } else {
-      cart.push({ name, price: parsePrice(price), img, qty: 1 });
+      cart.push({ name, price: parsePrice(price), img, qty });
     }
     renderCart();
     updateCartBadge();
-    showToast(`Añadido al carrito: ${name}`);
+    showToast(`Añadido al carrito: ${name} x${qty}`);
   }
 
   function updateCartBadge() {
@@ -437,7 +383,6 @@
   function renderCart() {
     if (!cartItemsContainer) return;
     cartItemsContainer.innerHTML = '';
-
     if (cart.length === 0) {
       cartItemsContainer.innerHTML = `
         <div class="cart-empty">
@@ -448,17 +393,17 @@
       if (cartSubtotalEl) cartSubtotalEl.textContent = 'S/ 0';
       return;
     }
-
     let subtotal = 0;
     cart.forEach((item, index) => {
-      subtotal += item.price * item.qty;
+      const itemTotal = item.price * item.qty;
+      subtotal += itemTotal;
       const el = document.createElement('div');
       el.className = 'cart-item';
       el.innerHTML = `
         <img src="${item.img}" alt="${item.name}" class="cart-item-img" onerror="this.style.opacity='0.15'">
         <div class="cart-item-info">
           <p class="cart-item-name">${item.name}</p>
-          <p class="cart-item-price">S/ ${item.price.toFixed(0)}</p>
+          <p class="cart-item-price">S/ ${item.price.toFixed(0)} c/u</p>
           <div class="cart-item-qty-row">
             <button class="qty-btn" data-action="decrease" data-index="${index}">−</button>
             <span class="cart-item-qty">${item.qty}</span>
@@ -471,11 +416,10 @@
       `;
       cartItemsContainer.appendChild(el);
     });
-
     if (cartSubtotalEl) cartSubtotalEl.textContent = `S/ ${subtotal.toFixed(0)}`;
   }
 
-  // Delegación de eventos para el carrito (mejor rendimiento)
+  // Delegación para manejar el carrito
   if (cartItemsContainer) {
     cartItemsContainer.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-action]');
@@ -490,7 +434,7 @@
     });
   }
 
-  // Conecta cada botón "Añadir al carrito"
+  // Conectar botones "Añadir al carrito" de las tarjetas
   document.querySelectorAll('.add-cart-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -500,6 +444,7 @@
         name: card.dataset.name,
         price: card.dataset.price,
         img: card.dataset.img,
+        qty: 1,
       });
       btn.classList.add('is-added');
       setTimeout(() => btn.classList.remove('is-added'), 900);
@@ -534,35 +479,17 @@
       }, 1400);
     });
   }
-
   renderCart();
 
-  // Keyframe para el badge
-  const badgeStyleTag = document.createElement('style');
-  badgeStyleTag.textContent = `
-    @keyframes badge-pop {
-      0% { transform: scale(1); }
-      40% { transform: scale(1.6); }
-      100% { transform: scale(1); }
-    }
-  `;
-  document.head.appendChild(badgeStyleTag);
-
   /* ---------------------------------------------------------
-     12) TARJETA DE PRODUCTO (Quick View) — PREMIUM
-     Componente 100% data-driven. Toda la información (título,
-     descripción, variantes, imágenes, regalos, WhatsApp) sale
-     de PRODUCT_DB o, si el producto no está registrado ahí, se
-     construye automáticamente a partir de los data-* de su
-     .product-card, para que la misma tarjeta funcione con
-     cientos de productos sin tocar el HTML.
+     12) TARJETA DE PRODUCTO (QUICKVIEW) — ACTUALIZADA
+         - imageResolver para imagen dinámica según sabor+peso+regalo
+         - Descuento por cantidad (5% en unidades adicionales)
+         - Precio total y unitario mostrados
   ---------------------------------------------------------- */
-
   const WHATSAPP_NUMBER = '51987654321';
 
-  // Base de datos de productos con variantes ricas.
-  // Para añadir un producto nuevo con variantes propias, basta con
-  // agregar una entrada aquí usando el mismo id del data-id de su tarjeta.
+  // Base de datos con imageResolver
   const PRODUCT_DB = {
     'whey-pro-creatine': {
       name: 'WHEY PRO + CREATINE 150 G + REGALOS',
@@ -571,16 +498,16 @@
       description: 'Despierta a la bestia que llevas dentro. Lleva tu rendimiento al extremo y domina el gimnasio con nuestro pack de fuerza y construcción muscular.',
       basePrice: 89.90,
       oldPrice: 110,
-      defaultImage: 'assets/img/COMBO WEY PRO_CREATINE.png',
+      defaultImage: 'assets/img/productos/COMBO WEY PRO_CREATINE.png',
       attributes: [
         {
           key: 'sabor',
           label: 'Sabores',
           options: [
-            { id: 'chocolate', label: 'Chocolate', image: 'assets/img/COMBO WEY PRO_CREATINE.png' },
-            { id: 'vainilla', label: 'Vainilla', image: 'assets/img/COMBO WEY PRO_CREATINE VAINILLA.png' },
-            { id: 'fresa', label: 'Fresa', image: 'assets/img/COMBO WEY PRO_CREATINE.png' },
-            { id: 'cookies', label: 'Cookies & Cream', image: 'assets/img/COMBO WEY PRO_CREATINE.png' },
+            { id: 'chocolate', label: 'Chocolate' },
+            { id: 'vainilla', label: 'Vainilla' },
+            { id: 'fresa', label: 'Fresa' },
+            { id: 'cookies', label: 'Cookies & Cream' },
           ],
         },
         {
@@ -602,10 +529,17 @@
           ],
         },
       ],
+      // NUEVO: Resolver de imagen basado en todas las selecciones
+      imageResolver: function(selections) {
+        const sabor = selections.sabor || 'chocolate';
+        const peso = selections.peso || '150g';
+        // El regalo no afecta la imagen por defecto (se puede añadir si se desea)
+        // Ruta: assets/img/productos/whey-pro-creatine/{sabor}_{peso}.png
+        return `assets/img/productos/whey-pro-creatine/${sabor}_${peso}.png`;
+      }
     },
   };
 
-  // Genera un id estable a partir del nombre, para productos sin data-id.
   function slugify(str) {
     return String(str || 'producto')
       .toLowerCase()
@@ -614,9 +548,6 @@
       .replace(/(^-|-$)/g, '');
   }
 
-  // Construye un producto genérico "seguro" a partir de una tarjeta,
-  // para que la tarjeta de producto funcione con CUALQUIER producto
-  // del catálogo, tenga o no una ficha rica en PRODUCT_DB.
   function buildGenericProduct(card) {
     const name = card.dataset.name || 'Producto';
     const img = card.dataset.img || '';
@@ -635,26 +566,26 @@
       name,
       rating,
       reviews,
-      description: `Fórmula premium de ${catLabel || 'Leviathan Nutrition'} diseñada para potenciar tu rendimiento y ayudarte a alcanzar tus objetivos.`,
+      description: `Fórmula premium de ${catLabel || 'Leviathan Nutrition'} diseñada para potenciar tu rendimiento.`,
       basePrice: parsePrice(card.dataset.price),
       oldPrice: null,
       defaultImage: img,
       attributes: [
-        { key: 'sabor', label: 'Sabores', options: [{ id: 'original', label: 'Original', image: img }] },
+        { key: 'sabor', label: 'Sabores', options: [{ id: 'original', label: 'Original' }] },
         { key: 'peso', label: 'Presentación', options: [{ id: 'unico', label: 'Único', priceDelta: 0 }] },
         { key: 'regalo', label: 'Regalo', options: [{ id: 'sin-regalo', label: 'Sin regalo' }] },
       ],
+      // Sin imageResolver => se usará la imagen del primer atributo con 'image' (no definido)
     };
   }
 
   function getProductForCard(card) {
     const id = card.dataset.id || slugify(card.dataset.name);
     const richData = PRODUCT_DB[id];
-    const base = richData ? Object.assign({ id }, richData) : Object.assign({ id }, buildGenericProduct(card));
-    return base;
+    return richData ? Object.assign({ id }, richData) : Object.assign({ id }, buildGenericProduct(card));
   }
 
-  // -------- Estado y elementos del modal --------
+  // -------- Estado del modal --------
   const quickviewOverlay = document.getElementById('quickview-overlay');
   const quickviewModal = document.getElementById('quickview-modal');
   const quickviewCloseBtn = document.getElementById('quickview-close-btn');
@@ -686,7 +617,8 @@
     return attr.options.find((o) => o.id === optionId) || attr.options[0];
   }
 
-  function computePrice() {
+  // Precio base sin descuento por cantidad (solo opciones)
+  function computeBasePrice() {
     let price = currentProduct.basePrice || 0;
     currentProduct.attributes.forEach((attr) => {
       const selId = currentSelection[attr.key];
@@ -696,7 +628,28 @@
     return price;
   }
 
+  // Precio total con descuento por cantidad (5% en unidades adicionales)
+  function computeTotalPrice() {
+    const unitPrice = computeBasePrice();
+    const qty = Math.max(1, currentQty);
+    if (qty === 1) return unitPrice;
+    // Descuento del 5% sobre cada unidad adicional
+    const discount = unitPrice * 0.05;
+    const total = (unitPrice * qty) - (discount * (qty - 1));
+    return total;
+  }
+
+  // Precio unitario efectivo (para mostrar y pasar al carrito)
+  function computeEffectiveUnitPrice() {
+    const qty = Math.max(1, currentQty);
+    return computeTotalPrice() / qty;
+  }
+
   function currentVariantImage() {
+    if (currentProduct && typeof currentProduct.imageResolver === 'function') {
+      return currentProduct.imageResolver(currentSelection);
+    }
+    // Fallback: buscar en atributos (solo si tienen 'image')
     for (const attr of currentProduct.attributes) {
       const opt = findAttrOption(attr, currentSelection[attr.key]);
       if (opt && opt.image) return opt.image;
@@ -718,12 +671,23 @@
     if (!pcardPriceEl) return;
     pcardPriceEl.classList.add('is-updating');
     setTimeout(() => {
-      const price = computePrice();
-      pcardPriceEl.textContent = `S/ ${price.toFixed(2)}`;
+      const total = computeTotalPrice();
+      const unit = computeEffectiveUnitPrice();
+      // Mostramos el total con un mensaje de "ahorro" si hay descuento
+      let displayText = `S/ ${total.toFixed(2)}`;
+      if (currentQty > 1) {
+        displayText += ` (${currentQty} unid., ${(unit).toFixed(0)} c/u)`;
+      }
+      pcardPriceEl.textContent = displayText;
       pcardPriceEl.classList.remove('is-updating');
     }, 180);
     if (pcardPriceOldEl) {
-      pcardPriceOldEl.textContent = currentProduct.oldPrice ? `S/ ${currentProduct.oldPrice}` : '';
+      const unitPrice = computeBasePrice();
+      if (currentQty > 1) {
+        pcardPriceOldEl.textContent = `S/ ${(unitPrice * currentQty).toFixed(2)} (sin descuento)`;
+      } else {
+        pcardPriceOldEl.textContent = currentProduct.oldPrice ? `S/ ${currentProduct.oldPrice}` : '';
+      }
     }
   }
 
@@ -738,15 +702,9 @@
   function renderOptions() {
     pcardOptionsEl.innerHTML = '';
     const attrs = currentProduct.attributes;
-
-    // Fila 1: sabor + segunda variante (peso/presentación/etc.)
-    // Fila 2: regalo + cantidad
     const rows = [attrs.slice(0, 2), attrs.slice(2, 3)];
 
     rows.forEach((rowAttrs, rowIndex) => {
-      if (!rowAttrs.length && rowIndex === 1) {
-        // aún así necesitamos la fila 2 para la cantidad
-      }
       const rowEl = document.createElement('div');
       rowEl.className = 'pcard-opt-row';
 
@@ -784,8 +742,7 @@
     });
   }
 
-  // Delegación de eventos dentro del bloque de opciones (abrir/cerrar
-  // desplegables y seleccionar variantes) — un solo listener reutilizable.
+  // Delegación de eventos para opciones y cantidad
   pcardOptionsEl.addEventListener('click', (e) => {
     const toggle = e.target.closest('.pcard-opt-toggle');
     const item = e.target.closest('.pcard-opt-item');
@@ -821,8 +778,10 @@
 
   pcardOptionsEl.addEventListener('input', (e) => {
     if (e.target && e.target.id === 'pcard-qty') {
-      const val = Math.max(1, parseInt(e.target.value, 10) || 1);
+      let val = parseInt(e.target.value, 10);
+      if (isNaN(val) || val < 1) val = 1;
       currentQty = val;
+      updatePrice();
     }
   });
 
@@ -880,14 +839,17 @@
   if (quickviewCloseBtn) quickviewCloseBtn.addEventListener('click', closeQuickview);
   if (quickviewOverlay) quickviewOverlay.addEventListener('click', closeQuickview);
 
-  // -------- Añadir al carrito --------
+  // -------- Añadir al carrito desde el modal --------
   if (pcardAddBtn) {
     pcardAddBtn.addEventListener('click', () => {
       if (!currentProduct) return;
-      const price = computePrice();
-      for (let i = 0; i < currentQty; i++) {
-        addToCart({ name: currentProduct.name, price: `S/ ${price.toFixed(2)}`, img: currentVariantImage() });
-      }
+      const effectiveUnit = computeEffectiveUnitPrice();
+      addToCart({
+        name: currentProduct.name,
+        price: `S/ ${effectiveUnit.toFixed(2)}`,
+        img: currentVariantImage(),
+        qty: currentQty,
+      });
       closeQuickview();
     });
   }
@@ -896,20 +858,19 @@
   if (pcardWhatsappBtn) {
     pcardWhatsappBtn.addEventListener('click', () => {
       if (!currentProduct) return;
-      const price = computePrice();
+      const total = computeTotalPrice();
       const summary = getSelectionSummary();
       let msg = `¡Hola Leviathan Nutrition! Quiero comprar:\n\n`;
       msg += `Producto: ${currentProduct.name}\n`;
       summary.forEach((s) => { msg += `${s.label}: ${s.value}\n`; });
       msg += `Cantidad: ${currentQty}\n`;
-      msg += `Precio unitario: S/ ${price.toFixed(2)}\n`;
-      msg += `Total: S/ ${(price * currentQty).toFixed(2)}`;
+      msg += `Total: S/ ${total.toFixed(2)}`;
       const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
       window.open(url, '_blank', 'noopener');
     });
   }
 
-  // -------- Botón cámara: captura solo la tarjeta --------
+  // -------- Botón cámara (captura) --------
   if (pcardCameraBtn) {
     pcardCameraBtn.addEventListener('click', async () => {
       if (typeof html2canvas === 'undefined' || !pcardInner) {
@@ -943,7 +904,7 @@
     });
   }
 
-  // -------- Menú de tres puntos (Compartir / Dar reseña) --------
+  // -------- Menú de tres puntos --------
   if (pcardMenuBtn && pcardContextMenu) {
     pcardMenuBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -951,14 +912,12 @@
       pcardMenuBtn.setAttribute('aria-expanded', isOpen);
       pcardShareMenu?.classList.remove('is-open');
     });
-
     pcardContextMenu.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-action]');
       if (!btn) return;
       const action = btn.dataset.action;
       pcardContextMenu.classList.remove('is-open');
       pcardMenuBtn.setAttribute('aria-expanded', 'false');
-
       if (action === 'share') {
         openShare();
       } else if (action === 'review') {
@@ -967,29 +926,23 @@
     });
   }
 
-  // -------- Compartir (Web Share API con fallback) --------
+  // -------- Compartir --------
   const SHARE_PROVIDERS = {
     whatsapp: (url, text) => `https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`,
     facebook: (url) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
     x: (url, text) => `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
   };
-
   async function openShare() {
     const shareUrl = window.location.href;
     const shareText = currentProduct ? `Mira este producto en Leviathan Nutrition: ${currentProduct.name}` : 'Leviathan Nutrition';
-
     if (navigator.share) {
       try {
         await navigator.share({ title: 'Leviathan Nutrition', text: shareText, url: shareUrl });
-      } catch (err) {
-        /* el usuario canceló el share nativo */
-      }
+      } catch (err) {}
       return;
     }
-
     pcardShareMenu?.classList.add('is-open');
   }
-
   if (pcardShareMenu) {
     pcardShareMenu.addEventListener('click', async (e) => {
       const btn = e.target.closest('[data-share]');
@@ -997,7 +950,6 @@
       const provider = btn.dataset.share;
       const shareUrl = window.location.href;
       const shareText = currentProduct ? `Mira este producto en Leviathan Nutrition: ${currentProduct.name}` : 'Leviathan Nutrition';
-
       if (provider === 'copy') {
         try {
           await navigator.clipboard.writeText(shareUrl);
@@ -1011,7 +963,6 @@
       pcardShareMenu.classList.remove('is-open');
     });
   }
-
   document.addEventListener('click', (e) => {
     if (pcardMenuBtn && !pcardMenuBtn.closest('.pcard-menu-wrap').contains(e.target)) {
       pcardContextMenu?.classList.remove('is-open');
@@ -1034,7 +985,6 @@
           const suffix = el.dataset.suffix || '';
           const duration = 1800;
           const start = performance.now();
-
           function tick(now) {
             const progress = Math.min((now - start) / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3);
@@ -1071,12 +1021,10 @@
         showToast('Completa los campos requeridos');
         return;
       }
-
       const btn = document.getElementById('contact-submit-btn');
       const label = document.getElementById('contact-submit-label');
       btn.classList.add('is-loading');
       label.textContent = 'Enviando...';
-
       setTimeout(() => {
         btn.classList.remove('is-loading');
         btn.classList.add('is-success');
@@ -1092,7 +1040,7 @@
   }
 
   /* ---------------------------------------------------------
-     15) NEWSLETTER (footer)
+     15) NEWSLETTER
   ---------------------------------------------------------- */
   const newsletterForm = document.getElementById('newsletter-form');
   if (newsletterForm) {
@@ -1105,7 +1053,7 @@
   }
 
   /* ---------------------------------------------------------
-     16) BÚSQUEDA (modal + filtrado en tiempo real)
+     16) BÚSQUEDA
   ---------------------------------------------------------- */
   function initSearch() {
     const overlay = document.getElementById('search-overlay');
@@ -1113,25 +1061,20 @@
     const closeBtn = document.getElementById('search-close-btn');
     const searchInput = document.getElementById('search-input');
     const resultsContainer = document.getElementById('search-results');
-
     if (!overlay || !toggleBtn || !closeBtn || !searchInput || !resultsContainer) return;
-
     function openSearch() {
       overlay.classList.add('is-open');
       document.body.style.overflow = 'hidden';
       setTimeout(() => searchInput.focus(), 200);
     }
-
     function closeSearch() {
       overlay.classList.remove('is-open');
       document.body.style.overflow = '';
-      // Resetear resultados y visibilidad
       const products = getProductData();
       products.forEach(p => p.element.style.display = '');
       searchInput.value = '';
       resultsContainer.innerHTML = '<p class="search-no-results">Escribe para buscar productos...</p>';
     }
-
     toggleBtn.addEventListener('click', openSearch);
     closeBtn.addEventListener('click', closeSearch);
     overlay.addEventListener('click', (e) => {
@@ -1140,7 +1083,6 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeSearch();
     });
-
     function getProductData() {
       const cards = document.querySelectorAll('.product-card');
       const products = [];
@@ -1154,7 +1096,6 @@
       });
       return products;
     }
-
     function filterProducts(query) {
       const products = getProductData();
       const q = query.toLowerCase().trim();
@@ -1163,31 +1104,22 @@
         products.forEach(p => p.element.style.display = '');
         return;
       }
-
       const matches = products.filter(p =>
         p.name.toLowerCase().includes(q) ||
         p.category.toLowerCase().includes(q) ||
         p.catFilter.toLowerCase().includes(q)
       );
-
-      // Mostrar/ocultar en el grid
       products.forEach(p => {
         const match = matches.includes(p);
         p.element.style.display = match ? '' : 'none';
-        if (match) {
-          // Si la tarjeta aún no tiene la clase is-visible, se la añadimos
-          if (!p.element.classList.contains('is-visible')) {
-            p.element.classList.add('is-visible');
-          }
+        if (match && !p.element.classList.contains('is-visible')) {
+          p.element.classList.add('is-visible');
         }
       });
-
-      // Mostrar resultados en el modal
       if (matches.length === 0) {
         resultsContainer.innerHTML = `<p class="search-no-results">No encontramos productos para "<strong>${query}</strong>"</p>`;
         return;
       }
-
       let html = '';
       matches.forEach(p => {
         html += `
@@ -1203,7 +1135,6 @@
       });
       resultsContainer.innerHTML = html;
     }
-
     let debounceTimer;
     searchInput.addEventListener('input', (e) => {
       clearTimeout(debounceTimer);
@@ -1212,38 +1143,30 @@
   }
 
   /* ---------------------------------------------------------
-     17) DROPDOWN DE CATEGORÍAS EN EL HEADER (mejorado)
+     17) DROPDOWN DE CATEGORÍAS
   ---------------------------------------------------------- */
   function initCategoryDropdown() {
     const btn = document.getElementById('category-dropdown-btn');
     const menu = document.getElementById('category-dropdown-menu');
     if (!btn || !menu) return;
-
     function toggleDropdown(e) {
       e.stopPropagation();
       const isOpen = menu.classList.toggle('is-open');
       btn.setAttribute('aria-expanded', isOpen);
     }
-
     btn.addEventListener('click', toggleDropdown);
-
-    // Cerrar al hacer clic fuera
     document.addEventListener('click', (e) => {
       if (!btn.contains(e.target) && !menu.contains(e.target)) {
         menu.classList.remove('is-open');
         btn.setAttribute('aria-expanded', 'false');
       }
     });
-
-    // Cerrar al seleccionar un item
     menu.querySelectorAll('.dropdown-item').forEach(item => {
       item.addEventListener('click', () => {
         menu.classList.remove('is-open');
         btn.setAttribute('aria-expanded', 'false');
       });
     });
-
-    // Cerrar con Escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && menu.classList.contains('is-open')) {
         menu.classList.remove('is-open');
@@ -1254,7 +1177,7 @@
   }
 
   /* ---------------------------------------------------------
-     18) DETECTAR PÁGINA DE CATEGORÍA Y AJUSTAR HEADER
+     18) DETECTAR PÁGINA DE CATEGORÍA
   ---------------------------------------------------------- */
   function updateHeaderForCategoryPage() {
     const categoryMap = {
@@ -1265,18 +1188,15 @@
       'belleza_y_bienestar': 'Belleza y bienestar',
       'fuerza_y_rendimiento': 'Fuerza y rendimiento'
     };
-
     const path = window.location.pathname;
     const filename = path.split('/').pop();
     let detected = null;
-
     for (const [key, label] of Object.entries(categoryMap)) {
       if (filename.includes(key)) {
         detected = label;
         break;
       }
     }
-
     if (detected) {
       document.body.classList.add('is-category-page');
       const labelContainer = document.querySelector('#category-nav .category-active-label');
@@ -1287,11 +1207,24 @@
   }
 
   /* ---------------------------------------------------------
-     19) INICIALIZACIÓN DE TODAS LAS FUNCIONES
+     19) INICIALIZACIÓN
   ---------------------------------------------------------- */
-  // Ejecutar al cargar
   initSearch();
   initCategoryDropdown();
   updateHeaderForCategoryPage();
+
+  // Añadir estilos para el badge del carrito (si no existen)
+  if (!document.getElementById('cart-badge-styles')) {
+    const styleBadge = document.createElement('style');
+    styleBadge.id = 'cart-badge-styles';
+    styleBadge.textContent = `
+      @keyframes badge-pop {
+        0% { transform: scale(1); }
+        40% { transform: scale(1.6); }
+        100% { transform: scale(1); }
+      }
+    `;
+    document.head.appendChild(styleBadge);
+  }
 
 })();
