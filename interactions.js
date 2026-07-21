@@ -504,7 +504,7 @@
           key: 'sabor',
           label: 'Sabores',
           options: [
-            { id: 'chocolate', label: 'Chocolate' },
+            { id: 'chocolate', label: 'Chocolate', imagen: 'assets/img/COMBO WEY PRO_CREATINE.png' },
             { id: 'vainilla', label: 'Vainilla' },
             { id: 'fresa', label: 'Fresa' },
             { id: 'cookies', label: 'Cookies & Cream' },
