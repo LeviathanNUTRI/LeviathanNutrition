@@ -1,32 +1,18 @@
 /* ==============================================================
    LEVIATHAN NUTRITION — interactions.js (v6)
-   - Navbar dinámico al hacer scroll
-   - Título principal dividido en letras animadas (DESATA TU PODER)
-   - Título "ELIGE TU CATEGORÍA" con efecto de letras
-   - Parallax de la imagen de fondo del hero (scroll + mouse)
-   - Spotlight que sigue el cursor
-   - Chispas ambientales flotantes
-   - Efecto ripple en botones
-   - Animaciones activadas al hacer scroll (IntersectionObserver)
-   - Link activo del navbar según la sección visible
-   - Toast de notificaciones
-   - Carrito de compras con drawer (con cantidades y descuento)
-   - Modal de vista rápida (CON IMAGEN DINÁMICA POR SABOR+PESO+REGALO y DESCUENTO POR CANTIDAD)
-   - Contadores animados (Nosotros)
-   - Formulario de contacto y newsletter
-   - Búsqueda en tiempo real (modal)
-   - Dropdown de categorías en el header
-   - Detección de página de categoría y adaptación del header
-   - ORDENAMIENTO DE PRODUCTOS (con animación suave)
+   - Imagen dinámica según combinación de atributos (sabor + peso + regalo)
+   - Descuento progresivo del 5% en unidades adicionales
+   - Precio total y unitario efectivo en el modal
+   - Carrito con cantidades y precios con descuento
+   - Toda la funcionalidad existente (navbar, scroll, búsqueda, etc.)
 ================================================================= */
-
 (function () {
   'use strict';
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------------------------------------------------------
-     1) NAVBAR: cambia transparencia al hacer scroll
+     1) NAVBAR
   ---------------------------------------------------------- */
   const header = document.getElementById('site-header');
   const onScroll = () => {
@@ -40,7 +26,7 @@
   onScroll();
 
   /* ---------------------------------------------------------
-     2) TÍTULO PRINCIPAL (DESATA TU PODER) - letras animadas
+     2) TÍTULO PRINCIPAL (DESATA TU PODER)
   ---------------------------------------------------------- */
   function splitIntoLetters(el, baseDelay) {
     const text = el.getAttribute('data-text') || el.textContent;
@@ -59,7 +45,7 @@
   if (titleLine2) splitIntoLetters(titleLine2, 0.85);
 
   /* ---------------------------------------------------------
-     3) NUEVA ANIMACIÓN: TÍTULO "ELIGE TU CATEGORÍA"
+     3) ANIMACIÓN TÍTULO CATEGORÍAS
   ---------------------------------------------------------- */
   function animateCategoryTitle() {
     const titleEl = document.querySelector('.category-title-animate');
@@ -120,7 +106,7 @@
   }
 
   /* ---------------------------------------------------------
-     4) PARALLAX de la imagen de fondo (scroll + mouse)
+     4) PARALLAX DEL HERO
   ---------------------------------------------------------- */
   const heroSection = document.getElementById('inicio');
   const bgLayer = document.getElementById('hero-bg-layer');
@@ -157,7 +143,7 @@
   }
 
   /* ---------------------------------------------------------
-     5) CHISPAS ambientales sobre el hero
+     5) CHISPAS AMBIENTALES
   ---------------------------------------------------------- */
   const sparksContainer = document.getElementById('hero-sparks');
   if (sparksContainer && !prefersReducedMotion) {
@@ -197,7 +183,7 @@
   }
 
   /* ---------------------------------------------------------
-     6) RIPPLE real en botones (click)
+     6) RIPPLE EN BOTONES
   ---------------------------------------------------------- */
   document.querySelectorAll('[data-ripple]').forEach((btn) => {
     btn.style.position = btn.style.position || 'relative';
@@ -235,7 +221,7 @@
   }
 
   /* ---------------------------------------------------------
-     8) NAV LINK activo según la sección visible
+     8) NAV LINK ACTIVO
   ---------------------------------------------------------- */
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
@@ -356,9 +342,7 @@
     }
   });
 
-  // Función para añadir al carrito con cantidad y precio unitario efectivo
   function addToCart({ name, price, img, qty = 1 }) {
-    // price ya debe ser el precio unitario efectivo (con descuento aplicado)
     const existing = cart.find((item) => item.name === name);
     if (existing) {
       existing.qty += qty;
@@ -419,7 +403,6 @@
     if (cartSubtotalEl) cartSubtotalEl.textContent = `S/ ${subtotal.toFixed(0)}`;
   }
 
-  // Delegación para manejar el carrito
   if (cartItemsContainer) {
     cartItemsContainer.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-action]');
@@ -434,7 +417,6 @@
     });
   }
 
-  // Conectar botones "Añadir al carrito" de las tarjetas
   document.querySelectorAll('.add-cart-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -451,7 +433,6 @@
     });
   });
 
-  // Checkout
   const checkoutBtn = document.getElementById('checkout-btn');
   if (checkoutBtn) {
     checkoutBtn.addEventListener('click', () => {
@@ -482,14 +463,11 @@
   renderCart();
 
   /* ---------------------------------------------------------
-     12) TARJETA DE PRODUCTO (QUICKVIEW) — ACTUALIZADA
-         - imageResolver para imagen dinámica según sabor+peso+regalo
-         - Descuento por cantidad (5% en unidades adicionales)
-         - Precio total y unitario mostrados
+     12) MODAL DE VISTA RÁPIDA (QUICKVIEW)
   ---------------------------------------------------------- */
   const WHATSAPP_NUMBER = '51987654321';
 
-  // Base de datos con imageResolver
+  // BASE DE DATOS DE PRODUCTOS (con imageResolver)
   const PRODUCT_DB = {
     'whey-pro-creatine': {
       name: 'WHEY PRO + CREATINE 150 G + REGALOS',
@@ -498,13 +476,13 @@
       description: 'Despierta a la bestia que llevas dentro. Lleva tu rendimiento al extremo y domina el gimnasio con nuestro pack de fuerza y construcción muscular.',
       basePrice: 89.90,
       oldPrice: 110,
-      defaultImage: 'assets/img/COMBO WEY PRO_CREATINE.png',
+      defaultImage: 'img/COMBO WEY PRO_CREATINE.png',
       attributes: [
         {
           key: 'sabor',
           label: 'Sabores',
           options: [
-            { id: 'chocolate', label: 'Chocolate', imagen: 'assets/img/COMBO WEY PRO_CREATINE.png' },
+            { id: 'chocolate', label: 'Chocolate' },
             { id: 'vainilla', label: 'Vainilla' },
             { id: 'fresa', label: 'Fresa' },
             { id: 'cookies', label: 'Cookies & Cream' },
@@ -529,13 +507,12 @@
           ],
         },
       ],
-      // NUEVO: Resolver de imagen basado en todas las selecciones
+      // FUNCIÓN QUE CONSTRUYE LA RUTA DE LA IMAGEN SEGÚN TODAS LAS SELECCIONES
       imageResolver: function(selections) {
         const sabor = selections.sabor || 'chocolate';
         const peso = selections.peso || '150g';
-        // El regalo no afecta la imagen por defecto (se puede añadir si se desea)
-        // Ruta: assets/img/COMBO WEY PRO_CREATINE VAINILLA.png
-        return `assets/img/whey-pro-creatine/${sabor}_${peso}.png`;
+        // Todas las imágenes están en la carpeta 'img/' sin subcarpetas
+        return `img/COMBO WEY PRO_CREATINE_${sabor}_${peso}.png`;
       }
     },
   };
@@ -575,7 +552,6 @@
         { key: 'peso', label: 'Presentación', options: [{ id: 'unico', label: 'Único', priceDelta: 0 }] },
         { key: 'regalo', label: 'Regalo', options: [{ id: 'sin-regalo', label: 'Sin regalo' }] },
       ],
-      // Sin imageResolver => se usará la imagen del primer atributo con 'image' (no definido)
     };
   }
 
@@ -585,7 +561,7 @@
     return richData ? Object.assign({ id }, richData) : Object.assign({ id }, buildGenericProduct(card));
   }
 
-  // -------- Estado del modal --------
+  // -------- Elementos del modal --------
   const quickviewOverlay = document.getElementById('quickview-overlay');
   const quickviewModal = document.getElementById('quickview-modal');
   const quickviewCloseBtn = document.getElementById('quickview-close-btn');
@@ -617,7 +593,6 @@
     return attr.options.find((o) => o.id === optionId) || attr.options[0];
   }
 
-  // Precio base sin descuento por cantidad (solo opciones)
   function computeBasePrice() {
     let price = currentProduct.basePrice || 0;
     currentProduct.attributes.forEach((attr) => {
@@ -628,18 +603,14 @@
     return price;
   }
 
-  // Precio total con descuento por cantidad (5% en unidades adicionales)
   function computeTotalPrice() {
     const unitPrice = computeBasePrice();
     const qty = Math.max(1, currentQty);
     if (qty === 1) return unitPrice;
-    // Descuento del 5% sobre cada unidad adicional
     const discount = unitPrice * 0.05;
-    const total = (unitPrice * qty) - (discount * (qty - 1));
-    return total;
+    return (unitPrice * qty) - (discount * (qty - 1));
   }
 
-  // Precio unitario efectivo (para mostrar y pasar al carrito)
   function computeEffectiveUnitPrice() {
     const qty = Math.max(1, currentQty);
     return computeTotalPrice() / qty;
@@ -649,7 +620,7 @@
     if (currentProduct && typeof currentProduct.imageResolver === 'function') {
       return currentProduct.imageResolver(currentSelection);
     }
-    // Fallback: buscar en atributos (solo si tienen 'image')
+    // Fallback: si no tiene resolver, buscar en atributos con 'image'
     for (const attr of currentProduct.attributes) {
       const opt = findAttrOption(attr, currentSelection[attr.key]);
       if (opt && opt.image) return opt.image;
@@ -673,10 +644,9 @@
     setTimeout(() => {
       const total = computeTotalPrice();
       const unit = computeEffectiveUnitPrice();
-      // Mostramos el total con un mensaje de "ahorro" si hay descuento
       let displayText = `S/ ${total.toFixed(2)}`;
       if (currentQty > 1) {
-        displayText += ` (${currentQty} unid., ${(unit).toFixed(0)} c/u)`;
+        displayText += ` (${currentQty} unid., ${unit.toFixed(0)} c/u)`;
       }
       pcardPriceEl.textContent = displayText;
       pcardPriceEl.classList.remove('is-updating');
@@ -742,7 +712,7 @@
     });
   }
 
-  // Delegación de eventos para opciones y cantidad
+  // Delegación de eventos
   pcardOptionsEl.addEventListener('click', (e) => {
     const toggle = e.target.closest('.pcard-opt-toggle');
     const item = e.target.closest('.pcard-opt-item');
@@ -839,7 +809,7 @@
   if (quickviewCloseBtn) quickviewCloseBtn.addEventListener('click', closeQuickview);
   if (quickviewOverlay) quickviewOverlay.addEventListener('click', closeQuickview);
 
-  // -------- Añadir al carrito desde el modal --------
+  // Añadir al carrito desde el modal
   if (pcardAddBtn) {
     pcardAddBtn.addEventListener('click', () => {
       if (!currentProduct) return;
@@ -854,7 +824,7 @@
     });
   }
 
-  // -------- Comprar ahora (WhatsApp) --------
+  // WhatsApp (Comprar ahora)
   if (pcardWhatsappBtn) {
     pcardWhatsappBtn.addEventListener('click', () => {
       if (!currentProduct) return;
@@ -870,7 +840,7 @@
     });
   }
 
-  // -------- Botón cámara (captura) --------
+  // Botón cámara (captura)
   if (pcardCameraBtn) {
     pcardCameraBtn.addEventListener('click', async () => {
       if (typeof html2canvas === 'undefined' || !pcardInner) {
@@ -904,7 +874,7 @@
     });
   }
 
-  // -------- Menú de tres puntos --------
+  // Menú de tres puntos
   if (pcardMenuBtn && pcardContextMenu) {
     pcardMenuBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -926,7 +896,7 @@
     });
   }
 
-  // -------- Compartir --------
+  // Compartir
   const SHARE_PROVIDERS = {
     whatsapp: (url, text) => `https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`,
     facebook: (url) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
