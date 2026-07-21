@@ -534,7 +534,7 @@
         const sabor = selections.sabor || 'chocolate';
         const peso = selections.peso || '150g';
         // El regalo no afecta la imagen por defecto (se puede añadir si se desea)
-        // Ruta: assets/img/whey-pro-creatine/{sabor}_{peso}.png
+        // Ruta: assets/img/COMBO WHEY PRO_CREATINE VAINILLA.png
         return `assets/img/whey-pro-creatine/${sabor}_${peso}.png`;
       }
     },
