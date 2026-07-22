@@ -484,7 +484,6 @@
           options: [
             { id: 'chocolate', label: 'Chocolate' },
             { id: 'vainilla', label: 'Vainilla' },
-            { id: 'fresa', label: 'Fresa' },
             { id: 'cookies', label: 'Cookies & Cream' },
           ],
         },
@@ -493,8 +492,8 @@
           label: 'Whey Pro P.Neto',
           options: [
             { id: '1.1kg', label: '1.1 kg', priceDelta: 0 },
-            { id: '450g', label: '450 g', priceDelta: 45 },
-            { id: '900g', label: '900 g', priceDelta: 90 },
+            { id: '2.5kg', label: '2.5 kg', priceDelta: 2 },
+            { id: '3kg', label: '3 kg', priceDelta: 3 },
           ],
         },
         {
