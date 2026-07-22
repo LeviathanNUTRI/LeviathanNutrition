@@ -470,13 +470,13 @@
   // BASE DE DATOS DE PRODUCTOS (con imageResolver)
   const PRODUCT_DB = {
     'whey-pro-creatine': {
-      name: 'WHEY PRO + CREATINE 150 G + REGALOS',
+      name: 'WHEY PRO + CREATINE 1.1 KG + REGALOS',
       rating: 4.9,
       reviews: 312,
       description: 'Despierta a la bestia que llevas dentro. Lleva tu rendimiento al extremo y domina el gimnasio con nuestro pack de fuerza y construcción muscular.',
       basePrice: 89.90,
       oldPrice: 110,
-      defaultImage: 'img/COMBO WEY PRO_CREATINE_chocolate_1.1kg.png',
+      defaultImage: 'assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg.png',
       attributes: [
         {
           key: 'sabor',
@@ -492,7 +492,7 @@
           key: 'peso',
           label: 'Whey Pro P.Neto',
           options: [
-            { id: '1.1g', label: '1.1 kg', priceDelta: 0 },
+            { id: '1.1kg', label: '1.1 kg', priceDelta: 0 },
             { id: '450g', label: '450 g', priceDelta: 45 },
             { id: '900g', label: '900 g', priceDelta: 90 },
           ],
@@ -511,8 +511,8 @@
       imageResolver: function(selections) {
         const sabor = selections.sabor || 'chocolate';
         const peso = selections.peso || '1.1kg';
-        // Todas las imágenes están en la carpeta 'img/' sin subcarpetas
-        return `img/COMBO WEY PRO_CREATINE_${sabor}_${peso}.png`;
+        // Todas las imágenes están en la carpeta 'assets/img/'
+        return `assets/img/COMBO WEY PRO_CREATINE_${sabor}_${peso}.png`;
       }
     },
   };
