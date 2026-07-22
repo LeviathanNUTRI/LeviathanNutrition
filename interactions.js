@@ -492,8 +492,8 @@
           label: 'Whey Pro P.Neto',
           options: [
             { id: '1.1kg', label: '1.1 kg', priceDelta: 0 },
-            { id: '2.5kg', label: '2.5 kg', priceDelta: 2 },
-            { id: '3kg', label: '3 kg', priceDelta: 3 },
+            { id: '2.5kg', label: '2.5 kg', priceDelta: 45 },
+            { id: '3kg', label: '3 kg', priceDelta: 90 },
           ],
         },
         {
@@ -508,7 +508,13 @@
       ],
       // FUNCIÓN QUE CONSTRUYE LA RUTA DE LA IMAGEN SEGÚN TODAS LAS SELECCIONES
       imageResolver: function(selections) {
-        const sabor = selections.sabor || 'chocolate';
+        // Mapa de sabores a nombres de archivo exactos (sin espacios ni caracteres especiales adicionales)
+        const saborMap = {
+          'chocolate': 'chocolate',
+          'vainilla': 'vainilla',
+          'cookies': 'Cookies & Cream'
+        };
+        const sabor = saborMap[selections.sabor] || selections.sabor;
         const peso = selections.peso || '1.1kg';
         // Todas las imágenes están en la carpeta 'assets/img/'
         return `assets/img/COMBO WEY PRO_CREATINE_${sabor}_${peso}.png`;
