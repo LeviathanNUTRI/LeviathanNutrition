@@ -492,7 +492,7 @@
           key: 'peso',
           label: 'Whey Pro P.Neto',
           options: [
-            { id: '1g', label: '1.1 kg', priceDelta: 0 },
+            { id: '1.1g', label: '1.1 kg', priceDelta: 0 },
             { id: '450g', label: '450 g', priceDelta: 45 },
             { id: '900g', label: '900 g', priceDelta: 90 },
           ],
