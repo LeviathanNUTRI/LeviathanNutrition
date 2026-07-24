@@ -502,8 +502,8 @@
           key: 'regalo',
           label: 'Regalo',
           options: [
-            { id: 'shaker', label: 'Shaker Pro 700ml' },
-            { id: 'creatina-muestra', label: 'Muestra Creatine 30 g' },
+            { id: 'bebidas energeticas', label: '2 bebidas energeticas' },
+            { id: 'diabolus', label: '2 diabolus' },
             { id: 'sin-regalo', label: 'Sin regalo' },
           ],
         },
