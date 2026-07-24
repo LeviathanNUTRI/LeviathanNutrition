@@ -41,23 +41,16 @@
 <body class="bg-lv-black text-white font-body antialiased overflow-x-hidden">
 
   <!-- ============================================================
-       FONDO DINÁMICO Y PROFESIONAL (totalmente renovado)
+       FONDO DINÁMICO Y PROFESIONAL
   ============================================================= -->
   <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bg-ambient">
-    <!-- Base negra -->
     <div class="absolute inset-0 bg-lv-black"></div>
-
-    <!-- Capa de gradiente principal con movimiento -->
     <div class="absolute inset-0 bg-gradient-radial from-[#0B2A4A] via-[#050607] to-[#050607] opacity-90 animate-bg-pulse"></div>
-
-    <!-- Múltiples manchas de luz con diferentes movimientos -->
     <div class="absolute top-1/4 left-1/4 w-[800px] h-[800px] rounded-full bg-lv-blue/15 blur-[150px] animate-float-1"></div>
     <div class="absolute bottom-1/3 right-1/4 w-[700px] h-[700px] rounded-full bg-lv-cyan/15 blur-[160px] animate-float-2"></div>
     <div class="absolute top-3/4 left-1/2 w-[600px] h-[600px] rounded-full bg-lv-blue-deep/20 blur-[120px] animate-float-3"></div>
     <div class="absolute top-1/3 right-1/3 w-[500px] h-[500px] rounded-full bg-lv-blue/10 blur-[100px] animate-float-4"></div>
     <div class="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full bg-lv-cyan/10 blur-[90px] animate-float-5"></div>
-
-    <!-- Destellos sutiles (puntos de luz) -->
     <div class="absolute top-10 left-20 w-1 h-1 bg-lv-cyan rounded-full opacity-70 animate-twinkle"></div>
     <div class="absolute top-40 right-20 w-1.5 h-1.5 bg-lv-blue rounded-full opacity-60 animate-twinkle-delay"></div>
     <div class="absolute bottom-20 left-1/2 w-2 h-2 bg-lv-cyan rounded-full opacity-50 animate-twinkle-slow"></div>
@@ -65,7 +58,7 @@
     <div class="absolute bottom-1/3 right-10 w-1.5 h-1.5 bg-lv-cyan rounded-full opacity-60 animate-twinkle"></div>
   </div>
 
-  <!-- FONDO DE PARTÍCULAS (existente) -->
+  <!-- FONDO DE PARTÍCULAS -->
   <div class="fixed inset-0 z-0 pointer-events-none">
     <canvas id="particle-canvas" class="absolute inset-0 w-full h-full"></canvas>
   </div>
@@ -76,17 +69,12 @@
   <header id="site-header" class="fixed top-0 left-0 w-full z-50 nav-solid">
     <div class="max-w-[1600px] mx-auto px-6 md:px-8">
       <div class="flex items-center justify-between h-24 overflow-visible">
-
-        <!-- LOGO -->
         <a href="#inicio" class="logo-wrap shrink-0 group">
           <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="logo-mark" />
         </a>
-
-        <!-- NAV LINKS -->
         <nav class="hidden lg:flex items-center gap-10">
           <a href="#inicio" class="nav-link active-link">Inicio</a>
           <a href="#productos" class="nav-link">Productos</a>
-          <!-- DROPDOWN DE CATEGORÍAS -->
           <div class="relative" id="category-nav">
             <button id="category-dropdown-btn" class="nav-link flex items-center gap-1" aria-haspopup="true" aria-expanded="false">
               Categorías
@@ -104,8 +92,6 @@
           <a href="#nosotros" class="nav-link">Nosotros</a>
           <a href="#contacto" class="nav-link">Contacto</a>
         </nav>
-
-        <!-- ACCIONES -->
         <div class="flex items-center gap-2">
           <button id="search-toggle-btn" class="icon-btn" aria-label="Buscar">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -118,7 +104,6 @@
             <span class="cart-badge" id="cart-count">0</span>
           </button>
         </div>
-
       </div>
     </div>
     <div class="nav-scanline"></div>
@@ -139,9 +124,7 @@
         <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" id="search-input" placeholder="Buscar por nombre o categoría..." autofocus />
       </div>
-      <div id="search-results" class="search-results">
-        <!-- Los resultados se inyectan aquí -->
-      </div>
+      <div id="search-results" class="search-results"></div>
     </div>
   </div>
 
@@ -257,7 +240,7 @@
   </section>
 
   <!-- ============================================================
-       CATEGORÍAS (MEJORADO: centradas, cuadradas, hover premium)
+       CATEGORÍAS
   ============================================================= -->
   <section id="categorias" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-24">
     <div class="section-heading reveal-on-scroll text-center mb-12">
@@ -271,12 +254,8 @@
       </h2>
       <p class="text-lv-steel max-w-lg mx-auto mt-3">Cada objetivo tiene su fórmula. Elige la categoría que se alinea con tu entrenamiento.</p>
     </div>
-
-    <!-- Contenedor centrado con ancho limitado -->
     <div class="max-w-5xl mx-auto">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
-
-        <!-- Aumentar Masa -->
         <a href="aumentar_masa.html" class="category-card category-card--large reveal-on-scroll" data-category-page="aumento_masa_muscular">
           <div class="category-img-wrap category-img-wrap--large">
             <img src="assets/img/Aumentar_Masa.jpeg" alt="Aumentar Masa" class="category-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
@@ -290,8 +269,6 @@
             </div>
           </div>
         </a>
-
-        <!-- Músculo Limpio -->
         <a href="musculo_limpio.html" class="category-card category-card--large reveal-on-scroll" data-category-page="musculo_limpio">
           <div class="category-img-wrap category-img-wrap--large">
             <img src="assets/img/Musculo_Limpio.jpeg" alt="Músculo Limpio" class="category-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
@@ -305,8 +282,6 @@
             </div>
           </div>
         </a>
-
-        <!-- Máxima Recuperación -->
         <a href="maxima_recuperacion.html" class="category-card category-card--large reveal-on-scroll" data-category-page="maxima_recuperacion">
           <div class="category-img-wrap category-img-wrap--large">
             <img src="assets/img/Maxima_Recuperacion.jpeg" alt="Máxima Recuperación" class="category-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
@@ -320,8 +295,6 @@
             </div>
           </div>
         </a>
-
-        <!-- Definición -->
         <a href="definicion.html" class="category-card category-card--large reveal-on-scroll" data-category-page="definicion">
           <div class="category-img-wrap category-img-wrap--large">
             <img src="assets/img/Definicion.jpeg" alt="Definición" class="category-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
@@ -335,8 +308,6 @@
             </div>
           </div>
         </a>
-
-        <!-- Belleza y Bienestar -->
         <a href="belleza_y_bienestar.html" class="category-card category-card--large reveal-on-scroll" data-category-page="belleza_y_bienestar">
           <div class="category-img-wrap category-img-wrap--large">
             <img src="assets/img/Belleza_Bienestar.jpeg" alt="Belleza y Bienestar" class="category-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
@@ -350,8 +321,6 @@
             </div>
           </div>
         </a>
-
-        <!-- Fuerza y Rendimiento -->
         <a href="fuerza_y_rendimiento.html" class="category-card category-card--large reveal-on-scroll" data-category-page="fuerza_y_rendimiento">
           <div class="category-img-wrap category-img-wrap--large">
             <img src="assets/img/Fuerza_y_Rendimiento.jpeg" alt="Fuerza y Rendimiento" class="category-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
@@ -365,7 +334,6 @@
             </div>
           </div>
         </a>
-
       </div>
     </div>
   </section>
@@ -378,7 +346,6 @@
     <div class="video-header reveal-on-scroll">
       <video class="header-video" autoplay muted loop playsinline>
         <source src="assets/img/Productos_Destacados.mp4" type="video/mp4">
-        <!-- Tu navegador no soporta videos -->
       </video>
       <div class="section-heading text-center mx-auto relative z-10">
         <div class="flex items-center justify-center gap-3 mb-4">
@@ -392,7 +359,6 @@
       </div>
     </div>
 
-    <!-- Control de ordenamiento -->
     <div class="flex justify-end items-center mt-6 mb-2 reveal-on-scroll">
       <label for="sort-select" class="text-lv-steel text-xs font-bold uppercase tracking-widest mr-3">Ordenar:</label>
       <select id="sort-select" class="sort-select">
@@ -401,7 +367,6 @@
       </select>
     </div>
 
-    <!-- Grid de productos -->
     <div class="product-grid" id="product-grid">
 
       <article class="product-card" data-id="whey-pro-creatine" data-category="proteina" data-name="Whey Protein Isolate" data-price="S/ 189" data-cat-label="Proteína" data-img="assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg_sin-regalo.png">
@@ -431,6 +396,7 @@
         </div>
       </article>
 
+      <!-- Los demás productos (pre-workout, creatina, etc.) se mantienen igual -->
       <article class="product-card" data-category="pre-entreno" data-name="Pre-Workout Fury" data-price="S/ 129" data-cat-label="Pre-Entreno" data-img="assets/img/pre-workout-fury.jpg">
         <span class="product-badge badge-new">Nuevo</span>
         <div class="product-img-wrap">
@@ -586,10 +552,7 @@
   ============================================================= -->
   <section id="nosotros" class="relative z-10 py-28 overflow-hidden nosotros-section">
     <div class="absolute inset-0 nosotros-glow pointer-events-none"></div>
-
     <div class="relative max-w-[1600px] mx-auto px-6 md:px-8 grid lg:grid-cols-2 gap-16 items-center">
-
-      <!-- Imagen -->
       <div class="reveal-on-scroll nosotros-img-wrap">
         <img src="assets/img/equipo-leviathan.jpg" alt="Equipo Leviathan Nutrition" class="nosotros-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <div class="nosotros-placeholder" style="display:none">
@@ -598,8 +561,6 @@
         </div>
         <div class="nosotros-frame"></div>
       </div>
-
-      <!-- Contenido -->
       <div>
         <div class="flex items-center gap-3 mb-4 reveal-on-scroll">
           <span class="eyebrow-line"></span>
@@ -617,8 +578,6 @@
           No vendemos promesas vacías. Vendemos resultados medibles, ingredientes transparentes y la disciplina
           de un depredador que nunca se detiene.
         </p>
-
-        <!-- Pilares -->
         <div class="reveal-on-scroll grid grid-cols-2 gap-6 mb-12">
           <div class="pillar-item">
             <div class="pillar-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.5L4.5 18a1.5 1.5 0 0 0 1.3 2.3h12.4a1.5 1.5 0 0 0 1.3-2.3L14 8.5V3"/></svg></div>
@@ -637,8 +596,6 @@
             <div><p class="pillar-title">Resultados</p><p class="pillar-desc">Rendimiento medible desde la semana 1</p></div>
           </div>
         </div>
-
-        <!-- Contadores animados -->
         <div class="reveal-on-scroll grid grid-cols-4 gap-4 stats-row">
           <div class="stat-item">
             <p class="stat-number" data-count-to="9">0</p>
@@ -658,7 +615,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -666,7 +622,6 @@
        CONTACTO
   ============================================================= -->
   <section id="contacto" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-28">
-
     <div class="section-heading reveal-on-scroll mb-14">
       <div class="flex items-center gap-3 mb-4">
         <span class="eyebrow-line"></span>
@@ -675,10 +630,7 @@
       <h2 class="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[0.95] mb-4">PONTE EN <span class="text-electric-inline">CONTACTO</span></h2>
       <p class="text-lv-steel max-w-lg">¿Dudas sobre un producto o tu pedido? Nuestro equipo te responde en menos de 24 horas.</p>
     </div>
-
     <div class="grid lg:grid-cols-[0.85fr_1.15fr] gap-10">
-
-      <!-- Info de contacto -->
       <div class="reveal-on-scroll flex flex-col gap-5">
         <div class="contact-info-card">
           <div class="contact-info-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
@@ -692,7 +644,6 @@
           <div class="contact-info-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" fill="none"/><path d="M22 6 12 13 2 6"/></svg></div>
           <div><p class="contact-info-title">Correo</p><p class="contact-info-text">contacto@leviathannutrition.com</p></div>
         </div>
-
         <div class="contact-social-row">
           <a href="#" class="contact-social-btn" aria-label="Instagram"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
           <a href="#" class="contact-social-btn" aria-label="Facebook"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
@@ -700,8 +651,6 @@
           <a href="#" class="contact-social-btn" aria-label="YouTube"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></a>
         </div>
       </div>
-
-      <!-- Formulario -->
       <form id="contact-form" class="reveal-on-scroll contact-form" novalidate>
         <div class="grid sm:grid-cols-2 gap-5">
           <div class="form-field">
@@ -726,7 +675,6 @@
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
       </form>
-
     </div>
   </section>
 
@@ -735,14 +683,10 @@
   ============================================================= -->
   <footer class="relative z-10 border-t border-white/[0.06] mt-10">
     <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-16 grid md:grid-cols-[1.3fr_0.7fr_0.7fr_1fr] gap-12">
-
       <div>
         <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="h-16 w-auto mb-4" style="filter: drop-shadow(0 0 10px rgba(30,155,255,0.3));">
-        <p class="text-lv-steel text-sm max-w-xs leading-relaxed">
-          Suplementos premium para atletas que desatan su poder cada día. Ciencia, calidad y rendimiento en cada fórmula.
-        </p>
+        <p class="text-lv-steel text-sm max-w-xs leading-relaxed">Suplementos premium para atletas que desatan su poder cada día. Ciencia, calidad y rendimiento en cada fórmula.</p>
       </div>
-
       <div>
         <p class="footer-heading">Tienda</p>
         <a href="#productos" class="footer-link">Productos</a>
@@ -750,7 +694,6 @@
         <a href="#" class="footer-link">Ofertas</a>
         <a href="#" class="footer-link">Novedades</a>
       </div>
-
       <div>
         <p class="footer-heading">Empresa</p>
         <a href="#nosotros" class="footer-link">Nosotros</a>
@@ -758,7 +701,6 @@
         <a href="#" class="footer-link">Blog</a>
         <a href="#" class="footer-link">Trabaja con nosotros</a>
       </div>
-
       <div>
         <p class="footer-heading">Únete a la manada</p>
         <p class="text-lv-steel text-sm mb-4">Recibe descuentos exclusivos y lanzamientos antes que nadie.</p>
@@ -769,9 +711,7 @@
           </button>
         </form>
       </div>
-
     </div>
-
     <div class="border-t border-white/[0.06]">
       <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-6 flex flex-wrap items-center justify-between gap-4">
         <p class="text-lv-steel text-xs">© 2026 Leviathan Nutrition. Todos los derechos reservados.</p>
@@ -791,11 +731,7 @@
         <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
-
-    <div class="cart-drawer-body" id="cart-items-container">
-      <!-- Se llena dinámicamente vía JS -->
-    </div>
-
+    <div class="cart-drawer-body" id="cart-items-container"></div>
     <div class="cart-drawer-footer">
       <div class="cart-subtotal-row">
         <span>Subtotal</span>
@@ -812,18 +748,14 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- ============================================================
-       MODAL DE VISTA RÁPIDA (ACTUALIZADO)
+       MODAL DE VISTA RÁPIDA
   ============================================================= -->
   <div id="quickview-overlay" class="cart-overlay"></div>
   <div id="quickview-modal" class="pcard" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="quickview-name">
     <div class="pcard-inner" id="pcard-capture">
-
-      <!-- Botón cámara (superior izquierda) -->
       <button class="pcard-icon-btn pcard-camera-btn" id="pcard-camera-btn" type="button" aria-label="Capturar tarjeta">
         <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
       </button>
-
-      <!-- Botones superiores derechos: cerrar + menú -->
       <div class="pcard-top-right">
         <button id="quickview-close-btn" class="pcard-icon-btn" aria-label="Cerrar" type="button">
           <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -842,7 +774,6 @@
               <span>Dar reseña</span>
             </button>
           </div>
-          <!-- Menú de compartir (fallback sin Web Share API) -->
           <div class="pcard-share-menu" id="pcard-share-menu" role="menu">
             <button class="pcard-share-item" data-share="whatsapp" role="menuitem" type="button">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.9.53 3.68 1.44 5.2L2 22l4.94-1.4A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.18-2.9.82.78-2.83-.2-.32A7.9 7.9 0 0 1 4 12c0-4.42 3.58-8 8-8s8 3.58 8 8-3.58 8-8 8zm4.34-5.94c-.24-.12-1.4-.7-1.62-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.18-.7-.62-1.18-1.4-1.32-1.64-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.4-.57 1.6-1.13.2-.55.2-1.02.14-1.13-.06-.1-.22-.16-.46-.28z"/></svg>
@@ -863,31 +794,22 @@
           </div>
         </div>
       </div>
-
-      <!-- Imagen del producto -->
       <div class="pcard-img-wrap">
         <img id="quickview-img" src="" alt="" class="pcard-img">
       </div>
-
-      <!-- Información -->
       <div class="pcard-info">
         <h3 class="pcard-title" id="quickview-name">Nombre del producto</h3>
         <div class="pcard-rating-row">
           <span class="product-rating" id="quickview-rating">★★★★★ <span>4.9 (0)</span></span>
         </div>
         <p class="pcard-desc" id="quickview-desc">Descripción del producto.</p>
-
-        <div class="pcard-options" id="pcard-options">
-          <!-- Filas de atributos generadas dinámicamente por JS -->
-        </div>
-
+        <div class="pcard-options" id="pcard-options"></div>
         <div class="pcard-price-row">
           <div class="pcard-price-wrap">
             <span class="pcard-price" id="quickview-price">S/ 0</span>
             <span class="pcard-price-old" id="quickview-price-old"></span>
           </div>
         </div>
-
         <div class="pcard-actions">
           <button class="btn-primary pcard-btn-cart justify-center" id="quickview-add-btn" data-ripple type="button">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -899,7 +821,6 @@
           </button>
         </div>
       </div>
-
     </div>
   </div>
 
