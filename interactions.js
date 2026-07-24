@@ -1,18 +1,10 @@
 /* ==============================================================
-   LEVIATHAN NUTRITION — interactions.js (v8)
-   - Resuelve imágenes con fallback inteligente para:
-     * Sabor: chocolate, vainilla (con fallback a "vaivinilla"), cookies & cream
-     * Peso: 1.1kg, 2.5kg, 3kg
-     * Regalo: bebidas energeticas, diabolus, sin-regalo
-   - Fallback automático si la imagen no existe:
-     1. Intenta con el regalo exacto
-     2. Intenta con "_sin-regalo"
-     3. Intenta sin sufijo de regalo (para 2.5kg)
-     4. Fallback especial para vainilla con llave "{" 
-     5. Imagen por defecto
+   LEVIATHAN NUTRITION — interactions.js (v9)
+   - Resuelve imágenes con múltiples fallbacks (incluye logs)
+   - Maneja espacios en nombres de archivo
+   - Fallback especial para "vainilla" y "Cookies & Cream"
    - Descuento progresivo del 5% en unidades adicionales
    - Carrito con cantidades y precios con descuento
-   - Toda la funcionalidad existente (navbar, scroll, búsqueda, etc.)
 ================================================================= */
 (function () {
   'use strict';
@@ -471,7 +463,7 @@
   renderCart();
 
   /* ---------------------------------------------------------
-     12) MODAL DE VISTA RÁPIDA (QUICKVIEW) — CON FALLBACK INTELIGENTE
+     12) MODAL DE VISTA RÁPIDA (QUICKVIEW) — CON FALLBACK INTELIGENTE Y LOGS
   ---------------------------------------------------------- */
   const WHATSAPP_NUMBER = '51987654321';
 
@@ -514,22 +506,21 @@
           ],
         },
       ],
-      // imageResolver: devuelve un ARRAY de rutas (orden de prioridad)
+      // imageResolver: devuelve un ARRAY de rutas con múltiples fallbacks
       imageResolver: function(selections) {
         // Mapeo de sabores (incluye fallback para "vaivinilla")
         const saborMap = {
           'chocolate': ['chocolate'],
-          'vainilla': ['vainilla', 'vaivinilla'], // fallback por error tipográfico
-          'cookies': ['Cookies & Cream']
+          'vainilla': ['vainilla', 'vaivinilla'],
+          'cookies': ['Cookies & Cream', 'Cookies_&_Cream'] // fallback con guión bajo
         };
         const saborList = saborMap[selections.sabor] || [selections.sabor];
         const peso = selections.peso || '1.1kg';
         const regalo = selections.regalo || 'sin-regalo';
         const baseName = 'COMBO WEY PRO_CREATINE';
         const rutas = [];
-        const seen = new Set(); // para evitar duplicados
+        const seen = new Set();
 
-        // Función auxiliar para agregar rutas sin duplicar
         const addPath = (sabor, pesoVal, regaloVal) => {
           let path = `assets/img/${baseName}_${sabor}_${pesoVal}`;
           if (regaloVal) {
@@ -547,13 +538,13 @@
           saborList.forEach(s => addPath(s, peso, regalo));
         }
 
-        // 2. Intentar con "_sin-regalo" (muchas imágenes tienen este sufijo)
+        // 2. Intentar con "_sin-regalo"
         saborList.forEach(s => addPath(s, peso, 'sin-regalo'));
 
-        // 3. Intentar sin sufijo de regalo (para imágenes como "chocolate_2.5kg.png")
+        // 3. Intentar sin sufijo de regalo (para 2.5kg y 3kg sin regalo)
         saborList.forEach(s => addPath(s, peso, ''));
 
-        // 4. FALLA ESPECIAL: vainilla 1.1kg sin-regalo con llave "{" (por el error tipográfico)
+        // 4. FALLA ESPECIAL: vainilla 1.1kg sin-regalo con llave "{"
         if (selections.sabor === 'vainilla' && peso === '1.1kg') {
           const pathConLlave = `assets/img/${baseName}_vainilla_1.1kg_sin-regalo{.png`;
           if (!seen.has(pathConLlave)) {
@@ -573,6 +564,10 @@
             rutas.push(p);
           }
         });
+
+        // 6. LOG PARA DEPURACIÓN (muestra todas las rutas en la consola)
+        console.log('🔍 Intentando cargar imagen con las siguientes rutas (orden de prioridad):');
+        rutas.forEach((r, i) => console.log(`   ${i+1}. ${r}`));
 
         return rutas;
       }
@@ -702,16 +697,20 @@
       if (index >= rutas.length) {
         pcardImgEl.src = '';
         pcardImgEl.alt = 'Imagen no disponible';
+        console.error('❌ Todas las rutas fallaron.');
         return;
       }
       const src = rutas[index];
+      console.log(`🔄 Intentando ruta ${index+1}/${rutas.length}: ${src}`);
       pcardImgEl.classList.add('is-fading');
       pcardImgEl.src = src;
       pcardImgEl.onload = function() {
+        console.log(`✅ Imagen cargada: ${src}`);
         pcardImgEl.classList.remove('is-fading');
         pcardImgEl.onerror = null;
       };
       pcardImgEl.onerror = function() {
+        console.warn(`❌ Falló ruta: ${src}`);
         index++;
         tryNext();
       };
