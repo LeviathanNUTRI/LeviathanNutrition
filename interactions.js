@@ -1,8 +1,8 @@
 /* ==============================================================
-   LEVIATHAN NUTRITION — interactions.js (v9)
-   - Resuelve imágenes con múltiples fallbacks (incluye logs)
-   - Maneja espacios en nombres de archivo
-   - Fallback especial para "vainilla" y "Cookies & Cream"
+   LEVIATHAN NUTRITION — interactions.js (v10)
+   - Prioridad CORREGIDA: primero "vainilla", luego "vaivinilla"
+   - Fallback para espacios en "bebidas energeticas" → "bebidas_energeticas"
+   - Logs mejorados para ver todas las rutas
    - Descuento progresivo del 5% en unidades adicionales
    - Carrito con cantidades y precios con descuento
 ================================================================= */
@@ -463,7 +463,7 @@
   renderCart();
 
   /* ---------------------------------------------------------
-     12) MODAL DE VISTA RÁPIDA (QUICKVIEW) — CON FALLBACK INTELIGENTE Y LOGS
+     12) MODAL DE VISTA RÁPIDA (QUICKVIEW) — CON FALLBACK INTELIGENTE
   ---------------------------------------------------------- */
   const WHATSAPP_NUMBER = '51987654321';
 
@@ -508,11 +508,11 @@
       ],
       // imageResolver: devuelve un ARRAY de rutas con múltiples fallbacks
       imageResolver: function(selections) {
-        // Mapeo de sabores (incluye fallback para "vaivinilla")
+        // Mapeo de sabores: PRIORIDAD CORREGIDA - primero "vainilla", luego "vaivinilla"
         const saborMap = {
           'chocolate': ['chocolate'],
-          'vainilla': ['vainilla', 'vaivinilla'],
-          'cookies': ['Cookies & Cream', 'Cookies_&_Cream'] // fallback con guión bajo
+          'vainilla': ['vainilla', 'vaivinilla'], // <<-- AHORA vainilla PRIMERO
+          'cookies': ['Cookies & Cream', 'Cookies_&_Cream']
         };
         const saborList = saborMap[selections.sabor] || [selections.sabor];
         const peso = selections.peso || '1.1kg';
@@ -521,6 +521,7 @@
         const rutas = [];
         const seen = new Set();
 
+        // Función auxiliar para agregar rutas (evita duplicados)
         const addPath = (sabor, pesoVal, regaloVal) => {
           let path = `assets/img/${baseName}_${sabor}_${pesoVal}`;
           if (regaloVal) {
@@ -553,7 +554,18 @@
           }
         }
 
-        // 5. Imagen por defecto (fallback final)
+        // 5. FALLBACK para "bebidas energeticas" con guión bajo (por si el servidor no maneja espacios)
+        if (regalo === 'bebidas energeticas') {
+          saborList.forEach(s => {
+            const pathConGuion = `assets/img/${baseName}_${s}_${peso}_bebidas_energeticas.png`;
+            if (!seen.has(pathConGuion)) {
+              seen.add(pathConGuion);
+              rutas.push(pathConGuion);
+            }
+          });
+        }
+
+        // 6. Imagen por defecto (fallback final)
         const defaultPaths = [
           'assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg_sin-regalo.png',
           'assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg.png'
@@ -565,7 +577,7 @@
           }
         });
 
-        // 6. LOG PARA DEPURACIÓN (muestra todas las rutas en la consola)
+        // 7. LOG PARA DEPURACIÓN (muestra todas las rutas en la consola)
         console.log('🔍 Intentando cargar imagen con las siguientes rutas (orden de prioridad):');
         rutas.forEach((r, i) => console.log(`   ${i+1}. ${r}`));
 
