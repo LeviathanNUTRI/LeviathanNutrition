@@ -465,7 +465,7 @@
   /* ---------------------------------------------------------
      12) MODAL DE VISTA RÁPIDA (QUICKVIEW) — CON FALLBACK INTELIGENTE
   ---------------------------------------------------------- */
-  const WHATSAPP_NUMBER = '51987654321';
+  const WHATSAPP_NUMBER = '51905649768';
 
   // BASE DE DATOS DE PRODUCTOS
   const PRODUCT_DB = {
