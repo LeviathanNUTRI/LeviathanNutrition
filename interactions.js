@@ -478,7 +478,7 @@
       description: 'Despierta a la bestia que llevas dentro. Lleva tu rendimiento al extremo y domina el gimnasio con nuestro pack de fuerza y construcción muscular.',
       basePrice: 89.90,
       oldPrice: 110,
-      defaultImage: 'assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg.png',
+      defaultImage: 'assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg_sin-regalo.png',
       attributes: [
         {
           key: 'sabor',
