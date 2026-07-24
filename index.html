@@ -41,7 +41,7 @@
 <body class="bg-lv-black text-white font-body antialiased overflow-x-hidden">
 
   <!-- ============================================================
-       FONDO DINÁMICO Y PROFESIONAL
+       FONDO DINÁMICO Y PROFESIONAL (totalmente renovado)
   ============================================================= -->
   <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bg-ambient">
     <!-- Base negra -->
@@ -65,7 +65,7 @@
     <div class="absolute bottom-1/3 right-10 w-1.5 h-1.5 bg-lv-cyan rounded-full opacity-60 animate-twinkle"></div>
   </div>
 
-  <!-- FONDO DE PARTÍCULAS -->
+  <!-- FONDO DE PARTÍCULAS (existente) -->
   <div class="fixed inset-0 z-0 pointer-events-none">
     <canvas id="particle-canvas" class="absolute inset-0 w-full h-full"></canvas>
   </div>
@@ -404,7 +404,6 @@
     <!-- Grid de productos -->
     <div class="product-grid" id="product-grid">
 
-      <!-- Producto: COMBO WEY PRO + CREATINE (con data-id para identificar en PRODUCT_DB) -->
       <article class="product-card" data-id="whey-pro-creatine" data-category="proteina" data-name="Whey Protein Isolate" data-price="S/ 189" data-cat-label="Proteína" data-img="assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg.png">
         <span class="product-badge badge-bestseller">MÁS VENDIDO</span>
         <div class="product-img-wrap">
@@ -432,7 +431,6 @@
         </div>
       </article>
 
-      <!-- Otros productos de ejemplo (sin data-id, usarán el genérico) -->
       <article class="product-card" data-category="pre-entreno" data-name="Pre-Workout Fury" data-price="S/ 129" data-cat-label="Pre-Entreno" data-img="assets/img/pre-workout-fury.jpg">
         <span class="product-badge badge-new">Nuevo</span>
         <div class="product-img-wrap">
@@ -905,9 +903,6 @@
     </div>
   </div>
 
-  <!-- ============================================================
-       SCRIPTS
-  ============================================================= -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="particles.js"></script>
   <script src="interactions.js"></script>
