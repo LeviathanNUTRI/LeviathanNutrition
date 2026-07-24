@@ -1,10 +1,16 @@
 /* ==============================================================
-   LEVIATHAN NUTRITION — interactions.js (v7)
-   - Imagen dinámica según combinación de sabor + peso + regalo
-   - Fallback automático: si la imagen con regalo no existe, usa la sin regalo
-   - Fallback para "vainilla" → "vaivinilla" (por error tipográfico)
+   LEVIATHAN NUTRITION — interactions.js (v8)
+   - Resuelve imágenes con fallback inteligente para:
+     * Sabor: chocolate, vainilla (con fallback a "vaivinilla"), cookies & cream
+     * Peso: 1.1kg, 2.5kg, 3kg
+     * Regalo: bebidas energeticas, diabolus, sin-regalo
+   - Fallback automático si la imagen no existe:
+     1. Intenta con el regalo exacto
+     2. Intenta con "_sin-regalo"
+     3. Intenta sin sufijo de regalo (para 2.5kg)
+     4. Fallback especial para vainilla con llave "{" 
+     5. Imagen por defecto
    - Descuento progresivo del 5% en unidades adicionales
-   - Precio total y unitario efectivo en el modal
    - Carrito con cantidades y precios con descuento
    - Toda la funcionalidad existente (navbar, scroll, búsqueda, etc.)
 ================================================================= */
@@ -465,11 +471,11 @@
   renderCart();
 
   /* ---------------------------------------------------------
-     12) MODAL DE VISTA RÁPIDA (QUICKVIEW) — ACTUALIZADO CON REGALOS Y FALLBACKS
+     12) MODAL DE VISTA RÁPIDA (QUICKVIEW) — CON FALLBACK INTELIGENTE
   ---------------------------------------------------------- */
   const WHATSAPP_NUMBER = '51987654321';
 
-  // BASE DE DATOS DE PRODUCTOS (con imageResolver mejorado)
+  // BASE DE DATOS DE PRODUCTOS
   const PRODUCT_DB = {
     'whey-pro-creatine': {
       name: 'WHEY PRO + CREATINE 1.1 KG + REGALOS',
@@ -502,41 +508,71 @@
           key: 'regalo',
           label: 'Regalo',
           options: [
-            { id: 'bebidas energeticas', label: '2 bebidas energeticas' },
-            { id: 'diabolus', label: '2 diabolus' },
+            { id: 'bebidas energeticas', label: '2 bebidas energéticas' },
+            { id: 'diabolus', label: '2 Diabolus' },
             { id: 'sin-regalo', label: 'Sin regalo' },
           ],
         },
       ],
-      // imageResolver ahora devuelve un ARRAY de rutas (orden de prioridad)
+      // imageResolver: devuelve un ARRAY de rutas (orden de prioridad)
       imageResolver: function(selections) {
-        // Mapa de sabores: normalizar "vainilla" → también probar "vaivinilla"
-        const saborVariants = {
+        // Mapeo de sabores (incluye fallback para "vaivinilla")
+        const saborMap = {
           'chocolate': ['chocolate'],
           'vainilla': ['vainilla', 'vaivinilla'], // fallback por error tipográfico
           'cookies': ['Cookies & Cream']
         };
-        const saborList = saborVariants[selections.sabor] || [selections.sabor];
+        const saborList = saborMap[selections.sabor] || [selections.sabor];
         const peso = selections.peso || '1.1kg';
         const regalo = selections.regalo || 'sin-regalo';
         const baseName = 'COMBO WEY PRO_CREATINE';
-
         const rutas = [];
+        const seen = new Set(); // para evitar duplicados
 
-        // 1. Primero, rutas CON regalo (si el regalo no es "sin-regalo")
+        // Función auxiliar para agregar rutas sin duplicar
+        const addPath = (sabor, pesoVal, regaloVal) => {
+          let path = `assets/img/${baseName}_${sabor}_${pesoVal}`;
+          if (regaloVal) {
+            path += `_${regaloVal}`;
+          }
+          path += '.png';
+          if (!seen.has(path)) {
+            seen.add(path);
+            rutas.push(path);
+          }
+        };
+
+        // 1. Si el regalo NO es "sin-regalo", intentar con el regalo exacto
         if (regalo !== 'sin-regalo') {
-          for (const sabor of saborList) {
-            rutas.push(`assets/img/${baseName}_${sabor}_${peso}_${regalo}.png`);
+          saborList.forEach(s => addPath(s, peso, regalo));
+        }
+
+        // 2. Intentar con "_sin-regalo" (muchas imágenes tienen este sufijo)
+        saborList.forEach(s => addPath(s, peso, 'sin-regalo'));
+
+        // 3. Intentar sin sufijo de regalo (para imágenes como "chocolate_2.5kg.png")
+        saborList.forEach(s => addPath(s, peso, ''));
+
+        // 4. FALLA ESPECIAL: vainilla 1.1kg sin-regalo con llave "{" (por el error tipográfico)
+        if (selections.sabor === 'vainilla' && peso === '1.1kg') {
+          const pathConLlave = `assets/img/${baseName}_vainilla_1.1kg_sin-regalo{.png`;
+          if (!seen.has(pathConLlave)) {
+            seen.add(pathConLlave);
+            rutas.push(pathConLlave);
           }
         }
 
-        // 2. Luego, rutas SIN regalo (fallback)
-        for (const sabor of saborList) {
-          rutas.push(`assets/img/${baseName}_${sabor}_${peso}.png`);
-        }
-
-        // 3. Finalmente, la imagen por defecto (por si todo falla)
-        rutas.push(`assets/img/${baseName}_chocolate_1.1kg.png`);
+        // 5. Imagen por defecto (fallback final)
+        const defaultPaths = [
+          'assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg_sin-regalo.png',
+          'assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg.png'
+        ];
+        defaultPaths.forEach(p => {
+          if (!seen.has(p)) {
+            seen.add(p);
+            rutas.push(p);
+          }
+        });
 
         return rutas;
       }
@@ -578,7 +614,6 @@
         { key: 'peso', label: 'Presentación', options: [{ id: 'unico', label: 'Único', priceDelta: 0 }] },
         { key: 'regalo', label: 'Regalo', options: [{ id: 'sin-regalo', label: 'Sin regalo' }] },
       ],
-      // Para productos genéricos, imageResolver devuelve un array con la imagen por defecto
       imageResolver: function(selections) {
         return [this.defaultImage];
       }
@@ -646,12 +681,10 @@
     return computeTotalPrice() / qty;
   }
 
-  // Obtiene la lista de rutas de imagen (array)
   function currentVariantImagePaths() {
     if (currentProduct && typeof currentProduct.imageResolver === 'function') {
       return currentProduct.imageResolver(currentSelection);
     }
-    // Fallback: buscar en atributos con 'image'
     for (const attr of currentProduct.attributes) {
       const opt = findAttrOption(attr, currentSelection[attr.key]);
       if (opt && opt.image) return [opt.image];
@@ -659,7 +692,6 @@
     return [currentProduct.defaultImage];
   }
 
-  // Intenta cargar una imagen probando varias rutas (fallback automático)
   function updateImage() {
     const rutas = currentVariantImagePaths();
     if (!pcardImgEl || rutas.length === 0) return;
@@ -668,7 +700,6 @@
 
     function tryNext() {
       if (index >= rutas.length) {
-        // Si todas fallan, mostrar un placeholder
         pcardImgEl.src = '';
         pcardImgEl.alt = 'Imagen no disponible';
         return;
@@ -676,13 +707,11 @@
       const src = rutas[index];
       pcardImgEl.classList.add('is-fading');
       pcardImgEl.src = src;
-      // Cuando la imagen se cargue correctamente, limpiamos el error y salimos
       pcardImgEl.onload = function() {
         pcardImgEl.classList.remove('is-fading');
-        pcardImgEl.onerror = null; // limpiamos para que no se llame de nuevo
+        pcardImgEl.onerror = null;
       };
       pcardImgEl.onerror = function() {
-        // Si falla esta ruta, pasamos a la siguiente
         index++;
         tryNext();
       };
@@ -828,12 +857,11 @@
     pcardNameEl.textContent = String(currentProduct.name).toUpperCase();
     pcardRatingEl.innerHTML = `${starsHTML(currentProduct.rating)} <span>${currentProduct.rating.toFixed ? currentProduct.rating.toFixed(1) : currentProduct.rating} (${currentProduct.reviews})</span>`;
     pcardDescEl.textContent = currentProduct.description;
-    // La imagen se actualizará con updateImage() que maneja fallbacks
     pcardImgEl.alt = currentProduct.name;
     pcardImgEl.classList.remove('is-fading');
 
     renderOptions();
-    updateImage();   // ahora con fallback
+    updateImage();
     updatePrice();
 
     quickviewModal.classList.add('is-open');
@@ -867,7 +895,6 @@
     pcardAddBtn.addEventListener('click', () => {
       if (!currentProduct) return;
       const effectiveUnit = computeEffectiveUnitPrice();
-      // Obtenemos la primera ruta de imagen (la que se está mostrando realmente)
       const rutas = currentVariantImagePaths();
       const imgSrc = rutas.length > 0 ? rutas[0] : currentProduct.defaultImage;
       addToCart({
@@ -1239,7 +1266,6 @@
   initCategoryDropdown();
   updateHeaderForCategoryPage();
 
-  // Añadir estilos para el badge del carrito (si no existen)
   if (!document.getElementById('cart-badge-styles')) {
     const styleBadge = document.createElement('style');
     styleBadge.id = 'cart-badge-styles';
