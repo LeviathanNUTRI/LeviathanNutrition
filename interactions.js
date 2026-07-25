@@ -1,10 +1,10 @@
 /* ==============================================================
-   LEVIATHAN NUTRITION — interactions.js (v10)
-   - Prioridad CORREGIDA: primero "vainilla", luego "vaivinilla"
-   - Fallback para espacios en "bebidas energeticas" → "bebidas_energeticas"
-   - Logs mejorados para ver todas las rutas
-   - Descuento progresivo del 5% en unidades adicionales
-   - Carrito con cantidades y precios con descuento
+   LEVIATHAN NUTRITION — interactions.js (v11)
+   - Producto NOXRAGE con selector de peso en tarjeta y modal
+   - Oferta especial: 10% de descuento en la segunda unidad de cada par
+   - Badge de descuento dinámico sobre el campo de cantidad
+   - Botón de oferta con mensaje emergente interactivo
+   - Sincronización total entre tarjeta y modal
 ================================================================= */
 (function () {
   'use strict';
@@ -463,7 +463,7 @@
   renderCart();
 
   /* ---------------------------------------------------------
-     12) MODAL DE VISTA RÁPIDA (QUICKVIEW) — CON FALLBACK INTELIGENTE
+     12) MODAL DE VISTA RÁPIDA (QUICKVIEW) — CON OFERTA Y FALLBACKS
   ---------------------------------------------------------- */
   const WHATSAPP_NUMBER = '51905649768';
 
@@ -506,12 +506,11 @@
           ],
         },
       ],
-      // imageResolver: devuelve un ARRAY de rutas con múltiples fallbacks
+      hasOffer: false,
       imageResolver: function(selections) {
-        // Mapeo de sabores: PRIORIDAD CORREGIDA - primero "vainilla", luego "vaivinilla"
         const saborMap = {
           'chocolate': ['chocolate'],
-          'vainilla': ['vainilla', 'vaivinilla'], // <<-- AHORA vainilla PRIMERO
+          'vainilla': ['vainilla', 'vaivinilla'],
           'cookies': ['Cookies & Cream', 'Cookies_&_Cream']
         };
         const saborList = saborMap[selections.sabor] || [selections.sabor];
@@ -521,7 +520,6 @@
         const rutas = [];
         const seen = new Set();
 
-        // Función auxiliar para agregar rutas (evita duplicados)
         const addPath = (sabor, pesoVal, regaloVal) => {
           let path = `assets/img/${baseName}_${sabor}_${pesoVal}`;
           if (regaloVal) {
@@ -534,18 +532,11 @@
           }
         };
 
-        // 1. Si el regalo NO es "sin-regalo", intentar con el regalo exacto
         if (regalo !== 'sin-regalo') {
           saborList.forEach(s => addPath(s, peso, regalo));
         }
-
-        // 2. Intentar con "_sin-regalo"
         saborList.forEach(s => addPath(s, peso, 'sin-regalo'));
-
-        // 3. Intentar sin sufijo de regalo (para 2.5kg y 3kg sin regalo)
         saborList.forEach(s => addPath(s, peso, ''));
-
-        // 4. FALLA ESPECIAL: vainilla 1.1kg sin-regalo con llave "{"
         if (selections.sabor === 'vainilla' && peso === '1.1kg') {
           const pathConLlave = `assets/img/${baseName}_vainilla_1.1kg_sin-regalo{.png`;
           if (!seen.has(pathConLlave)) {
@@ -553,8 +544,6 @@
             rutas.push(pathConLlave);
           }
         }
-
-        // 5. FALLBACK para "bebidas energeticas" con guión bajo (por si el servidor no maneja espacios)
         if (regalo === 'bebidas energeticas') {
           saborList.forEach(s => {
             const pathConGuion = `assets/img/${baseName}_${s}_${peso}_bebidas_energeticas.png`;
@@ -564,10 +553,7 @@
             }
           });
         }
-
-        // 6. Imagen por defecto (fallback final)
         const defaultPaths = [
-          'assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg_sin-regalo.png',
           'assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg_sin-regalo.png'
         ];
         defaultPaths.forEach(p => {
@@ -576,14 +562,34 @@
             rutas.push(p);
           }
         });
-
-        // 7. LOG PARA DEPURACIÓN (muestra todas las rutas en la consola)
-        console.log('🔍 Intentando cargar imagen con las siguientes rutas (orden de prioridad):');
-        rutas.forEach((r, i) => console.log(`   ${i+1}. ${r}`));
-
         return rutas;
       }
     },
+    // ===================== NUEVO: NOXRAGE =====================
+    'noxrage': {
+      name: 'PRE-ENTRENO NOXRAGE',
+      rating: 4.8,
+      reviews: 54,
+      description: 'Maximiza tu enfoque y energía con nuestra fórmula avanzada. Diseñado para potenciar tu rendimiento físico, aumentar tu resistencia y retrasar la fatiga en cada entrenamiento. ¡Supera tus límites con Leviathan Nutrition!',
+      basePrice: 169.90,
+      oldPrice: 180,
+      defaultImage: 'assets/img/Noxrage_700g.png',
+      hasOffer: true, // Activamos la oferta por pares para este producto
+      attributes: [
+        {
+          key: 'peso',
+          label: 'Noxrage P.Neto',
+          options: [
+            { id: '700g', label: '700g', priceDelta: 0 },
+            { id: '350g', label: '350g', priceDelta: -40 }, // 169.90 - 40 = 129.90
+          ]
+        }
+      ],
+      imageResolver: function(selections) {
+        const peso = selections.peso || '700g';
+        return `assets/img/Noxrage_${peso}.png`;
+      }
+    }
   };
 
   function slugify(str) {
@@ -616,6 +622,7 @@
       basePrice: parsePrice(card.dataset.price),
       oldPrice: null,
       defaultImage: img,
+      hasOffer: false,
       attributes: [
         { key: 'sabor', label: 'Sabores', options: [{ id: 'original', label: 'Original' }] },
         { key: 'peso', label: 'Presentación', options: [{ id: 'unico', label: 'Único', priceDelta: 0 }] },
@@ -651,10 +658,15 @@
   const pcardMenuBtn = document.getElementById('pcard-menu-btn');
   const pcardContextMenu = document.getElementById('pcard-context-menu');
   const pcardShareMenu = document.getElementById('pcard-share-menu');
+  const pcardOfferBtn = document.getElementById('pcard-offer-btn');
+  const pcardOfferMessage = document.getElementById('pcard-offer-message');
+  const pcardDiscountBadge = document.getElementById('pcard-discount-badge');
 
   let currentProduct = null;
   let currentSelection = {};
   let currentQty = 1;
+  let offerTimer = null;
+  let currentCard = null; // referencia a la tarjeta que abrió el modal
 
   function starsHTML(rating) {
     const full = Math.round(rating);
@@ -665,6 +677,7 @@
     return attr.options.find((o) => o.id === optionId) || attr.options[0];
   }
 
+  // Calcula precio base (sin descuento por cantidad)
   function computeBasePrice() {
     let price = currentProduct.basePrice || 0;
     currentProduct.attributes.forEach((attr) => {
@@ -675,10 +688,21 @@
     return price;
   }
 
+  // Calcula precio total con descuento por pares (solo si hasOffer = true)
   function computeTotalPrice() {
     const unitPrice = computeBasePrice();
     const qty = Math.max(1, currentQty);
     if (qty === 1) return unitPrice;
+
+    // Si el producto tiene oferta, aplicamos descuento por pares (10% en la segunda unidad de cada par)
+    if (currentProduct.hasOffer) {
+      const pairs = Math.floor(qty / 2);
+      const discountPerPair = unitPrice * 0.10;
+      const totalDiscount = pairs * discountPerPair;
+      return (unitPrice * qty) - totalDiscount;
+    }
+
+    // Si no tiene oferta, mantenemos el descuento del 5% (de la versión anterior)
     const discount = unitPrice * 0.05;
     return (unitPrice * qty) - (discount * (qty - 1));
   }
@@ -688,6 +712,7 @@
     return computeTotalPrice() / qty;
   }
 
+  // Obtiene las rutas de imagen según el resolver
   function currentVariantImagePaths() {
     if (currentProduct && typeof currentProduct.imageResolver === 'function') {
       return currentProduct.imageResolver(currentSelection);
@@ -699,38 +724,64 @@
     return [currentProduct.defaultImage];
   }
 
+  // Actualiza la imagen con fallback
   function updateImage() {
     const rutas = currentVariantImagePaths();
     if (!pcardImgEl || rutas.length === 0) return;
-
     let index = 0;
-
     function tryNext() {
       if (index >= rutas.length) {
         pcardImgEl.src = '';
         pcardImgEl.alt = 'Imagen no disponible';
-        console.error('❌ Todas las rutas fallaron.');
         return;
       }
       const src = rutas[index];
-      console.log(`🔄 Intentando ruta ${index+1}/${rutas.length}: ${src}`);
       pcardImgEl.classList.add('is-fading');
       pcardImgEl.src = src;
       pcardImgEl.onload = function() {
-        console.log(`✅ Imagen cargada: ${src}`);
         pcardImgEl.classList.remove('is-fading');
         pcardImgEl.onerror = null;
       };
       pcardImgEl.onerror = function() {
-        console.warn(`❌ Falló ruta: ${src}`);
         index++;
         tryNext();
       };
     }
-
     tryNext();
   }
 
+  // Actualiza el badge de descuento y el estilo del input de cantidad
+  function updateDiscountUI() {
+    if (!pcardDiscountBadge) return;
+    const qty = Math.max(1, currentQty);
+    const qtyInput = document.getElementById('pcard-qty');
+
+    if (currentProduct && currentProduct.hasOffer && qty >= 2) {
+      const pairs = Math.floor(qty / 2);
+      let badgeText = '-10%';
+      if (pairs > 1) {
+        badgeText += ` X${pairs}`;
+      }
+      pcardDiscountBadge.textContent = badgeText;
+      pcardDiscountBadge.style.display = 'block';
+      // Animación del badge
+      pcardDiscountBadge.classList.remove('pulse-anim');
+      void pcardDiscountBadge.offsetWidth;
+      pcardDiscountBadge.classList.add('pulse-anim');
+
+      // Estilo premium para el input de cantidad
+      if (qtyInput) {
+        qtyInput.classList.add('has-discount');
+      }
+    } else {
+      pcardDiscountBadge.style.display = 'none';
+      if (qtyInput) {
+        qtyInput.classList.remove('has-discount');
+      }
+    }
+  }
+
+  // Actualiza el precio con animación
   function updatePrice() {
     if (!pcardPriceEl) return;
     pcardPriceEl.classList.add('is-updating');
@@ -744,16 +795,76 @@
       pcardPriceEl.textContent = displayText;
       pcardPriceEl.classList.remove('is-updating');
     }, 180);
+
     if (pcardPriceOldEl) {
       const unitPrice = computeBasePrice();
-      if (currentQty > 1) {
+      if (currentProduct.hasOffer && currentQty > 1) {
+        const pairs = Math.floor(currentQty / 2);
+        const discountPerPair = unitPrice * 0.10;
+        const totalDiscount = pairs * discountPerPair;
+        const sinDescuento = (unitPrice * currentQty);
+        pcardPriceOldEl.textContent = `S/ ${sinDescuento.toFixed(2)} (${pairs > 0 ? '-'+ (discountPerPair).toFixed(0) +' c/u par' : ''})`;
+      } else if (currentQty > 1) {
         pcardPriceOldEl.textContent = `S/ ${(unitPrice * currentQty).toFixed(2)} (sin descuento)`;
       } else {
         pcardPriceOldEl.textContent = currentProduct.oldPrice ? `S/ ${currentProduct.oldPrice}` : '';
       }
     }
+
+    // Actualizar UI de descuento
+    updateDiscountUI();
   }
 
+  // ===== FUNCIONES PARA SINCRONIZAR LA TARJETA NOXRAGE =====
+  function updateNoxrageCard(weight, card) {
+    if (!card) return;
+    const nameEl = card.querySelector('#noxrage-name');
+    const priceEl = card.querySelector('#noxrage-price');
+    const oldPriceEl = card.querySelector('#noxrage-old-price');
+    const weightBtns = card.querySelectorAll('.weight-btn');
+
+    // Actualizar botones activos
+    weightBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.weight === weight);
+    });
+
+    // Actualizar nombre
+    if (nameEl) {
+      const baseName = 'PRE-ENTRENO NOXRAGE';
+      nameEl.textContent = `${baseName} ${weight.toUpperCase()}`;
+    }
+
+    // Actualizar precios
+    const unitPrice = weight === '700g' ? 169.90 : 129.90;
+    const oldPrice = weight === '700g' ? 180 : 150;
+    if (priceEl) priceEl.textContent = `S/ ${unitPrice.toFixed(2)}`;
+    if (oldPriceEl) oldPriceEl.textContent = `S/ ${oldPrice}`;
+
+    // Guardar en dataset para que el modal lo lea
+    card.dataset.selectedWeight = weight;
+  }
+
+  // ===== FUNCIONES DEL MENSAJE DE OFERTA =====
+  function showOfferMessage(duration = 3000) {
+    if (!pcardOfferMessage) return;
+    // Limpiar timer anterior
+    if (offerTimer) {
+      clearTimeout(offerTimer);
+      offerTimer = null;
+    }
+    // Mostrar mensaje
+    pcardOfferMessage.style.display = 'block';
+    pcardOfferMessage.classList.add('show');
+    // Ocultar después de 'duration' ms
+    offerTimer = setTimeout(() => {
+      pcardOfferMessage.classList.remove('show');
+      setTimeout(() => {
+        pcardOfferMessage.style.display = 'none';
+      }, 400); // tiempo de la animación de salida
+    }, duration);
+  }
+
+  // ===== FUNCIONES DEL MODAL =====
   function closeAllOptionDropdowns() {
     pcardOptionsEl.querySelectorAll('.pcard-opt.is-open').forEach((el) => {
       el.classList.remove('is-open');
@@ -803,9 +914,24 @@
 
       pcardOptionsEl.appendChild(rowEl);
     });
+
+    // Aplicar selecciones guardadas (para sincronización)
+    for (const key in currentSelection) {
+      const dropdown = pcardOptionsEl.querySelector(`.pcard-opt[data-attr="${key}"] .pcard-opt-dropdown`);
+      if (dropdown) {
+        const items = dropdown.querySelectorAll('.pcard-opt-item');
+        items.forEach(item => {
+          item.classList.toggle('is-selected', item.dataset.value === currentSelection[key]);
+        });
+        const toggle = dropdown.closest('.pcard-opt').querySelector('.pcard-opt-value');
+        const attr = currentProduct.attributes.find(a => a.key === key);
+        const opt = findAttrOption(attr, currentSelection[key]);
+        if (toggle && opt) toggle.textContent = opt.label;
+      }
+    }
   }
 
-  // Delegación de eventos
+  // Delegación de eventos para opciones y cantidad
   pcardOptionsEl.addEventListener('click', (e) => {
     const toggle = e.target.closest('.pcard-opt-toggle');
     const item = e.target.closest('.pcard-opt-item');
@@ -834,6 +960,15 @@
       optEl.querySelectorAll('.pcard-opt-item').forEach((el) => el.classList.toggle('is-selected', el.dataset.value === value));
 
       closeAllOptionDropdowns();
+
+      // Si es NOXRAGE y cambia el peso, sincronizar con la tarjeta
+      if (currentProduct.id === 'noxrage' && attrKey === 'peso' && currentCard) {
+        updateNoxrageCard(value, currentCard);
+        // Actualizar el nombre en el modal también
+        const baseName = 'PRE-ENTRENO NOXRAGE';
+        pcardNameEl.textContent = `${baseName} ${value.toUpperCase()}`;
+      }
+
       updateImage();
       updatePrice();
     }
@@ -859,19 +994,69 @@
     });
   }
 
+  // ===== OPEN / CLOSE QUICKVIEW =====
   function openQuickview(card) {
+    currentCard = card;
     currentProduct = getProductForCard(card);
     currentSelection = {};
-    currentProduct.attributes.forEach((attr) => { currentSelection[attr.key] = attr.options[0].id; });
+
+    // Sincronizar peso para NOXRAGE
+    if (currentProduct.id === 'noxrage') {
+      const selectedWeight = card.dataset.selectedWeight || '700g';
+      currentSelection['peso'] = selectedWeight;
+    } else {
+      currentProduct.attributes.forEach((attr) => {
+        currentSelection[attr.key] = attr.options[0].id;
+      });
+    }
+
     currentQty = 1;
 
-    pcardNameEl.textContent = String(currentProduct.name).toUpperCase();
+    // Actualizar nombre (para NOXRAGE que tiene dinámico)
+    let displayName = String(currentProduct.name);
+    if (currentProduct.id === 'noxrage') {
+      const weight = currentSelection['peso'] || '700g';
+      displayName = `PRE-ENTRENO NOXRAGE ${weight.toUpperCase()}`;
+    }
+    pcardNameEl.textContent = displayName.toUpperCase();
+
     pcardRatingEl.innerHTML = `${starsHTML(currentProduct.rating)} <span>${currentProduct.rating.toFixed ? currentProduct.rating.toFixed(1) : currentProduct.rating} (${currentProduct.reviews})</span>`;
     pcardDescEl.textContent = currentProduct.description;
     pcardImgEl.alt = currentProduct.name;
     pcardImgEl.classList.remove('is-fading');
 
+    // Mostrar/ocultar botón de oferta
+    if (currentProduct.hasOffer) {
+      pcardOfferBtn.style.display = 'flex';
+      // Auto-mostrar mensaje al abrir
+      setTimeout(() => {
+        showOfferMessage(3000);
+      }, 400);
+    } else {
+      pcardOfferBtn.style.display = 'none';
+      pcardOfferMessage.style.display = 'none';
+      if (offerTimer) {
+        clearTimeout(offerTimer);
+        offerTimer = null;
+      }
+    }
+
     renderOptions();
+    // Forzar que el dropdown de peso refleje la selección sincronizada
+    if (currentProduct.id === 'noxrage') {
+      const pesoDropdown = pcardOptionsEl.querySelector('.pcard-opt[data-attr="peso"] .pcard-opt-dropdown');
+      if (pesoDropdown) {
+        const items = pesoDropdown.querySelectorAll('.pcard-opt-item');
+        items.forEach(item => {
+          item.classList.toggle('is-selected', item.dataset.value === currentSelection['peso']);
+        });
+        const toggle = pesoDropdown.closest('.pcard-opt').querySelector('.pcard-opt-value');
+        const attr = currentProduct.attributes.find(a => a.key === 'peso');
+        const opt = findAttrOption(attr, currentSelection['peso']);
+        if (toggle && opt) toggle.textContent = opt.label;
+      }
+    }
+
     updateImage();
     updatePrice();
 
@@ -889,11 +1074,79 @@
     closeAllOptionDropdowns();
     pcardContextMenu?.classList.remove('is-open');
     pcardShareMenu?.classList.remove('is-open');
+    // Limpiar mensaje de oferta
+    if (offerTimer) {
+      clearTimeout(offerTimer);
+      offerTimer = null;
+    }
+    pcardOfferMessage.style.display = 'none';
+    pcardOfferMessage.classList.remove('show');
   }
 
+  // ===== CLICK EN TARJETAS PARA ABRIR MODAL (excepto botones) =====
+  document.getElementById('product-grid').addEventListener('click', (e) => {
+    const card = e.target.closest('.product-card');
+    if (!card) return;
+
+    // Si el clic fue en un botón de peso, botón de añadir al carrito, o el botón de vista rápida, no abrimos el modal
+    if (e.target.closest('.weight-btn') || e.target.closest('.add-cart-btn') || e.target.closest('.quick-view-btn')) {
+      return;
+    }
+
+    // Si el clic fue en la imagen o en el área general, abrimos el modal
+    openQuickview(card);
+  });
+
+  // ===== EVENTOS PARA BOTONES DE PESO EN LA TARJETA =====
+  document.getElementById('product-grid').addEventListener('click', (e) => {
+    const weightBtn = e.target.closest('.weight-btn');
+    if (!weightBtn) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    const card = weightBtn.closest('.product-card');
+    if (!card) return;
+    const weight = weightBtn.dataset.weight;
+
+    // Actualizar la tarjeta
+    updateNoxrageCard(weight, card);
+
+    // Si el modal está abierto y es el producto NOXRAGE, sincronizar también
+    if (quickviewModal.classList.contains('is-open') && currentProduct && currentProduct.id === 'noxrage') {
+      currentSelection['peso'] = weight;
+      // Actualizar el nombre en el modal
+      const baseName = 'PRE-ENTRENO NOXRAGE';
+      pcardNameEl.textContent = `${baseName} ${weight.toUpperCase()}`;
+      // Actualizar el dropdown visualmente
+      const pesoDropdown = pcardOptionsEl.querySelector('.pcard-opt[data-attr="peso"] .pcard-opt-dropdown');
+      if (pesoDropdown) {
+        const items = pesoDropdown.querySelectorAll('.pcard-opt-item');
+        items.forEach(item => {
+          item.classList.toggle('is-selected', item.dataset.value === weight);
+        });
+        const toggle = pesoDropdown.closest('.pcard-opt').querySelector('.pcard-opt-value');
+        const attr = currentProduct.attributes.find(a => a.key === 'peso');
+        const opt = findAttrOption(attr, weight);
+        if (toggle && opt) toggle.textContent = opt.label;
+      }
+      updateImage();
+      updatePrice();
+    }
+  });
+
+  // ===== EVENTOS DEL BOTÓN DE OFERTA =====
+  if (pcardOfferBtn) {
+    pcardOfferBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showOfferMessage(3000);
+    });
+  }
+
+  // ===== EVENTOS DE CIERRE DEL MODAL =====
   document.querySelectorAll('.quick-view-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       const card = btn.closest('.product-card');
       if (card) openQuickview(card);
     });
@@ -901,7 +1154,14 @@
   if (quickviewCloseBtn) quickviewCloseBtn.addEventListener('click', closeQuickview);
   if (quickviewOverlay) quickviewOverlay.addEventListener('click', closeQuickview);
 
-  // Añadir al carrito desde el modal
+  // Cerrar con Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeQuickview();
+    }
+  });
+
+  // ===== AÑADIR AL CARRITO DESDE EL MODAL =====
   if (pcardAddBtn) {
     pcardAddBtn.addEventListener('click', () => {
       if (!currentProduct) return;
@@ -918,7 +1178,7 @@
     });
   }
 
-  // WhatsApp (Comprar ahora)
+  // ===== WHATSAPP (COMPRAR AHORA) =====
   if (pcardWhatsappBtn) {
     pcardWhatsappBtn.addEventListener('click', () => {
       if (!currentProduct) return;
@@ -934,7 +1194,7 @@
     });
   }
 
-  // Botón cámara (captura)
+  // ===== BOTÓN CÁMARA (CAPTURA) =====
   if (pcardCameraBtn) {
     pcardCameraBtn.addEventListener('click', async () => {
       if (typeof html2canvas === 'undefined' || !pcardInner) {
@@ -968,7 +1228,7 @@
     });
   }
 
-  // Menú de tres puntos
+  // ===== MENÚ DE TRES PUNTOS =====
   if (pcardMenuBtn && pcardContextMenu) {
     pcardMenuBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -990,7 +1250,7 @@
     });
   }
 
-  // Compartir
+  // ===== COMPARTIR =====
   const SHARE_PROVIDERS = {
     whatsapp: (url, text) => `https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`,
     facebook: (url) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
@@ -1277,6 +1537,7 @@
   initCategoryDropdown();
   updateHeaderForCategoryPage();
 
+  // Estilos para el badge del carrito (si no existen)
   if (!document.getElementById('cart-badge-styles')) {
     const styleBadge = document.createElement('style');
     styleBadge.id = 'cart-badge-styles';
@@ -1288,6 +1549,163 @@
       }
     `;
     document.head.appendChild(styleBadge);
+  }
+
+  // Inyectar estilos para el badge de descuento y el botón de oferta
+  if (!document.getElementById('pcard-offer-styles')) {
+    const styleOffer = document.createElement('style');
+    styleOffer.id = 'pcard-offer-styles';
+    styleOffer.textContent = `
+      .pcard-offer-btn {
+        background: linear-gradient(135deg, #FFD700, #FFA500) !important;
+        color: #1a1300 !important;
+        border-color: #FFD700 !important;
+        animation: offer-glow 1.5s ease-in-out infinite;
+      }
+      .pcard-offer-btn:hover {
+        animation: none !important;
+        transform: scale(1.1) !important;
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.8) !important;
+      }
+      @keyframes offer-glow {
+        0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+        50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
+      }
+      .pcard-offer-message {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        background: rgba(8, 10, 14, 0.98);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 215, 0, 0.5);
+        border-radius: 14px;
+        padding: 14px 20px;
+        max-width: 280px;
+        color: #FFD700;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-align: center;
+        box-shadow: 0 20px 40px -10px rgba(0,0,0,0.8);
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+        transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 40;
+        pointer-events: none;
+      }
+      .pcard-offer-message.show {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+      }
+      .pcard-offer-message::after {
+        content: '';
+        position: absolute;
+        bottom: 100%;
+        right: 18px;
+        border: 8px solid transparent;
+        border-bottom-color: rgba(255, 215, 0, 0.3);
+      }
+      .pcard-discount-badge {
+        position: absolute;
+        top: -12px;
+        left: 10px;
+        background: linear-gradient(135deg, #FF3B4E, #FF6B6B);
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 900;
+        padding: 2px 10px;
+        border-radius: 999px;
+        box-shadow: 0 4px 12px rgba(255, 59, 78, 0.6);
+        z-index: 10;
+        white-space: nowrap;
+        animation: badge-bounce 1.2s ease-in-out infinite;
+        transform-origin: center;
+      }
+      @keyframes badge-bounce {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+      }
+      .pcard-discount-badge.pulse-anim {
+        animation: badge-bounce 0.8s ease-in-out 2;
+      }
+      .pcard-qty-input.has-discount {
+        border-color: #FFD700 !important;
+        color: #FFD700 !important;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.3) !important;
+        animation: qty-glow 1.5s ease-in-out infinite;
+      }
+      @keyframes qty-glow {
+        0%, 100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
+        50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
+      }
+      .pcard-qty-wrap {
+        position: relative;
+      }
+      .badge-oferta {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 5;
+        background: linear-gradient(135deg, #FFD700, #F59E0B);
+        color: #1a1300;
+        font-size: 0.6rem;
+        font-weight: 900;
+        padding: 4px 12px;
+        border-radius: 999px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.3);
+        transform: perspective(200px) rotateY(-6deg) rotateX(2deg);
+        border: 1px solid rgba(255, 215, 0, 0.4);
+        animation: oferta-pulse 2s ease-in-out infinite;
+      }
+      @keyframes oferta-pulse {
+        0%, 100% { box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5); }
+        50% { box-shadow: 0 4px 25px rgba(255, 215, 0, 0.9), 0 0 40px rgba(255, 215, 0, 0.3); }
+      }
+      .product-header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 2px;
+      }
+      .product-weight-buttons {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .weight-btn {
+        padding: 3px 12px;
+        font-size: 0.6rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        background: transparent;
+        color: var(--lv-steel);
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .weight-btn:hover {
+        border-color: rgba(30, 155, 255, 0.4);
+        color: #fff;
+      }
+      .weight-btn.active {
+        background: linear-gradient(135deg, var(--lv-cyan), var(--lv-blue));
+        border-color: transparent;
+        color: #04121f;
+        box-shadow: 0 4px 15px rgba(30, 155, 255, 0.5);
+        transform: translateY(-1px);
+      }
+      .weight-btn.active:hover {
+        box-shadow: 0 6px 25px rgba(30, 155, 255, 0.7);
+        transform: translateY(-2px);
+      }
+    `;
+    document.head.appendChild(styleOffer);
   }
 
 })();
