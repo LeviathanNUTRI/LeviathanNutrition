@@ -1,10 +1,14 @@
 /* ==============================================================
-   LEVIATHAN NUTRITION — ESTILOS COMPLETOS (v5)
+   LEVIATHAN NUTRITION — ESTILOS COMPLETOS (v6)
    - Hero con parallax y spotlight
    - Navbar dinámico
-   - Fondo con iluminaciones dinámicas y destellos (nuevo)
+   - Fondo con iluminaciones dinámicas y destellos
    - Categorías rediseñadas (tarjetas cuadradas, centradas, hover premium)
-   - Productos, carrito, contacto, footer, etc.
+   - Productos con nuevos estilos para NOXRAGE:
+     * Badge "¡OFERTA!" en dorado 3D
+     * Botones de peso (700g / 350g)
+     * Modal con oferta por pares y mensaje emergente
+   - Carrito, contacto, footer, etc.
    - Animaciones y efectos de interacción
    - Responsive
 ================================================================= */
@@ -986,6 +990,7 @@ a:hover .logo-mark {
   transition: transform 0.45s var(--ease-premium), border-color 0.45s ease, box-shadow 0.45s ease;
   opacity: 0;
   transform: translateY(24px);
+  cursor: pointer;
 }
 .product-card.is-filtered-out {
   display: none;
@@ -1027,6 +1032,30 @@ a:hover .logo-mark {
 .badge-sale {
   background: linear-gradient(120deg, #FF7A6E, #FF3B4E);
   color: #1a0304;
+}
+/* ===== NUEVO BADGE "¡OFERTA!" ===== */
+.badge-oferta {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  left: auto;
+  z-index: 5;
+  background: linear-gradient(135deg, #FFD700, #F59E0B);
+  color: #1a1300;
+  font-size: 0.6rem;
+  font-weight: 900;
+  padding: 4px 12px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.3);
+  transform: perspective(200px) rotateY(-6deg) rotateX(2deg);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  animation: oferta-pulse 2s ease-in-out infinite;
+}
+@keyframes oferta-pulse {
+  0%, 100% { box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5); }
+  50% { box-shadow: 0 4px 25px rgba(255, 215, 0, 0.9), 0 0 40px rgba(255, 215, 0, 0.3); }
 }
 
 .product-img-wrap {
@@ -1091,6 +1120,49 @@ a:hover .logo-mark {
   gap: 4px;
   flex: 1;
 }
+/* ===== NUEVO: Fila de categoría + botones de peso ===== */
+.product-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+.product-weight-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.weight-btn {
+  padding: 3px 12px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: var(--lv-steel);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.weight-btn:hover {
+  border-color: rgba(30, 155, 255, 0.4);
+  color: #fff;
+}
+.weight-btn.active {
+  background: linear-gradient(135deg, var(--lv-cyan), var(--lv-blue));
+  border-color: transparent;
+  color: #04121f;
+  box-shadow: 0 4px 15px rgba(30, 155, 255, 0.5);
+  transform: translateY(-1px);
+}
+.weight-btn.active:hover {
+  box-shadow: 0 6px 25px rgba(30, 155, 255, 0.7);
+  transform: translateY(-2px);
+}
+
 .product-cat {
   font-size: 0.68rem;
   font-weight: 800;
@@ -1143,6 +1215,7 @@ a:hover .logo-mark {
   transition: transform 0.3s var(--ease-premium), box-shadow 0.3s ease;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 .add-cart-btn:hover {
   transform: scale(1.1) rotate(-6deg);
@@ -1669,9 +1742,6 @@ a:hover .logo-mark {
 
 /* ==============================================================
    TARJETA DE PRODUCTO (Quick View) — PREMIUM
-   Componente 100% data-driven: el HTML es un único esqueleto
-   reutilizable, todo el contenido (título, precio, variantes,
-   imágenes, regalos) se inyecta vía JS desde un objeto de datos.
 ================================================================= */
 .pcard {
   position: fixed;
@@ -1729,6 +1799,60 @@ a:hover .logo-mark {
   box-shadow: 0 0 16px rgba(30, 155, 255, 0.4);
   transform: translateY(-2px);
 }
+
+/* ===== NUEVO: Botón de oferta ===== */
+.pcard-offer-btn {
+  background: linear-gradient(135deg, #FFD700, #FFA500) !important;
+  color: #1a1300 !important;
+  border-color: #FFD700 !important;
+  animation: offer-glow 1.5s ease-in-out infinite;
+}
+.pcard-offer-btn:hover {
+  animation: none !important;
+  transform: scale(1.1) !important;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.8) !important;
+}
+@keyframes offer-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+  50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
+}
+
+/* ===== NUEVO: Mensaje de oferta ===== */
+.pcard-offer-message {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: rgba(8, 10, 14, 0.98);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  border-radius: 14px;
+  padding: 14px 20px;
+  max-width: 280px;
+  color: #FFD700;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.8);
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 40;
+  pointer-events: none;
+}
+.pcard-offer-message.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.pcard-offer-message::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  right: 18px;
+  border: 8px solid transparent;
+  border-bottom-color: rgba(255, 215, 0, 0.3);
+}
+
 .pcard-camera-btn {
   position: absolute;
   top: 16px;
@@ -1996,6 +2120,7 @@ a:hover .logo-mark {
 .pcard-qty-wrap {
   flex: 1 1 110px;
   min-width: 110px;
+  position: relative;
 }
 .pcard-qty-input {
   width: 90px;
@@ -2013,6 +2138,42 @@ a:hover .logo-mark {
   outline: none;
   border-color: var(--lv-blue);
   box-shadow: 0 0 14px rgba(30, 155, 255, 0.3);
+}
+/* ===== NUEVO: Input con descuento activo ===== */
+.pcard-qty-input.has-discount {
+  border-color: #FFD700 !important;
+  color: #FFD700 !important;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3) !important;
+  animation: qty-glow 1.5s ease-in-out infinite;
+}
+@keyframes qty-glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
+  50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
+}
+
+/* ===== NUEVO: Badge de descuento ===== */
+.pcard-discount-badge {
+  position: absolute;
+  top: -12px;
+  left: 10px;
+  background: linear-gradient(135deg, #FF3B4E, #FF6B6B);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 900;
+  padding: 2px 10px;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(255, 59, 78, 0.6);
+  z-index: 10;
+  white-space: nowrap;
+  animation: badge-bounce 1.2s ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes badge-bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+.pcard-discount-badge.pulse-anim {
+  animation: badge-bounce 0.8s ease-in-out 2;
 }
 
 .pcard-price-row {
