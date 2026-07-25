@@ -369,6 +369,7 @@
 
     <div class="product-grid" id="product-grid">
 
+      <!-- ============ PRODUCTO 1: WHEY PRO + CREATINE (MÁS VENDIDO) ============ -->
       <article class="product-card" data-id="whey-pro-creatine" data-category="proteina" data-name="Whey Protein Isolate" data-price="S/ 189" data-cat-label="Proteína" data-img="assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg_bebidas energeticas.png">
         <span class="product-badge badge-bestseller">MÁS VENDIDO</span>
         <div class="product-img-wrap">
@@ -396,11 +397,12 @@
         </div>
       </article>
 
-      <!-- Los demás productos (pre-workout, creatina, etc.) se mantienen igual -->
-      <article class="product-card" data-category="pre-entreno" data-name="PRE-ENTRENO NOXRAGE 7OOG" data-price="S/ 129" data-cat-label="Pre-Entreno" data-img="assets/img/Noxrage_2uni.png">
-        <span class="product-badge badge-new">Nuevo</span>
+      <!-- ============ PRODUCTO 2: PRE-ENTRENO NOXRAGE (NUEVO) ============ -->
+      <article class="product-card" data-id="noxrage" data-category="pre-entreno" data-name="PRE-ENTRENO NOXRAGE 700G" data-price="S/ 169.90" data-cat-label="Pre-Entreno" data-img="assets/img/Noxrage_2uni.png" data-selected-weight="700g">
+        <!-- Badge OFERTA en la esquina superior derecha -->
+        <span class="product-badge badge-oferta">¡OFERTA!</span>
         <div class="product-img-wrap">
-          <img src="assets/img/Noxrage_2uni.png" alt="Leviathan PRE-ENTRENO NOXRAGE 7OOG" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="assets/img/Noxrage_2uni.png" alt="Leviathan PRE-ENTRENO NOXRAGE" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="product-placeholder-icon" style="display:none">
             <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
           </div>
@@ -409,13 +411,21 @@
           </button>
         </div>
         <div class="product-info">
-          <p class="product-cat">Pre-Entreno</p>
-          <h3 class="product-name">PRE-ENTRENO NOXRAGE 7OOG</h3>
+          <!-- Contenedor flexible para categoría + botones de peso -->
+          <div class="product-header-row">
+            <p class="product-cat">Pre-Entreno</p>
+            <div class="product-weight-buttons" data-weight="700g">
+              <button class="weight-btn active" data-weight="700g">700g</button>
+              <button class="weight-btn" data-weight="350g">350g</button>
+            </div>
+          </div>
+          <!-- Nombre dinámico (se actualizará con JS) -->
+          <h3 class="product-name" id="noxrage-name">PRE-ENTRENO NOXRAGE 700G</h3>
           <div class="product-rating">★★★★★ <span>4.8 (54)</span></div>
           <div class="product-price-row">
             <div>
-              <span class="product-price">S/ 169.90</span>
-              <span class="product-price-old">S/ 180</span>
+              <span class="product-price" id="noxrage-price">S/ 169.90</span>
+              <span class="product-price-old" id="noxrage-old-price">S/ 180</span>
             </div>
             <button class="add-cart-btn" data-ripple>
               <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -424,6 +434,7 @@
         </div>
       </article>
 
+      <!-- ============ PRODUCTO 3: Creatine Monohydrate ============ -->
       <article class="product-card" data-category="creatina" data-name="Creatine Monohydrate" data-price="S/ 99" data-cat-label="Creatina" data-img="assets/img/creatine-monohydrate.jpg">
         <div class="product-img-wrap">
           <img src="assets/img/creatine-monohydrate.jpg" alt="Leviathan Creatine Monohydrate" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -447,6 +458,7 @@
         </div>
       </article>
 
+      <!-- ============ PRODUCTO 4: Thermo Burn ============ -->
       <article class="product-card" data-category="quemadores" data-name="Thermo Burn" data-price="S/ 118" data-cat-label="Quemadores" data-img="assets/img/thermo-burn.jpg">
         <span class="product-badge badge-sale">-15%</span>
         <div class="product-img-wrap">
@@ -474,6 +486,7 @@
         </div>
       </article>
 
+      <!-- ============ PRODUCTO 5: Mass Gainer 5kg ============ -->
       <article class="product-card" data-category="proteina" data-name="Mass Gainer 5kg" data-price="S/ 210" data-cat-label="Proteína" data-img="assets/img/mass-gainer.jpg">
         <div class="product-img-wrap">
           <img src="assets/img/mass-gainer.jpg" alt="Leviathan Mass Gainer" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -497,6 +510,7 @@
         </div>
       </article>
 
+      <!-- ============ PRODUCTO 6: Night Fuel ZMA ============ -->
       <article class="product-card" data-category="vitaminas" data-name="Night Fuel ZMA" data-price="S/ 79" data-cat-label="Vitaminas" data-img="assets/img/night-fuel-zma.jpg">
         <div class="product-img-wrap">
           <img src="assets/img/night-fuel-zma.jpg" alt="Leviathan Night Fuel ZMA" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -520,6 +534,7 @@
         </div>
       </article>
 
+      <!-- ============ PRODUCTO 7: Shaker Pro 700ml ============ -->
       <article class="product-card" data-category="accesorios" data-name="Shaker Pro 700ml" data-price="S/ 39" data-cat-label="Accesorios" data-img="assets/img/shaker-pro.jpg">
         <div class="product-img-wrap">
           <img src="assets/img/shaker-pro.jpg" alt="Leviathan Shaker Pro" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -751,15 +766,27 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- ============================================================
-       MODAL DE VISTA RÁPIDA
+       MODAL DE VISTA RÁPIDA (Quick View) — ACTUALIZADO CON OFERTA
   ============================================================= -->
   <div id="quickview-overlay" class="cart-overlay"></div>
   <div id="quickview-modal" class="pcard" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="quickview-name">
     <div class="pcard-inner" id="pcard-capture">
+      <!-- Botón cámara (superior izquierda) -->
       <button class="pcard-icon-btn pcard-camera-btn" id="pcard-camera-btn" type="button" aria-label="Capturar tarjeta">
         <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
       </button>
+
+      <!-- Botones superiores derechos: cerrar + menú + BOTÓN OFERTA -->
       <div class="pcard-top-right">
+        <!-- BOTÓN DE OFERTA (se mostrará solo para productos con oferta) -->
+        <button class="pcard-icon-btn pcard-offer-btn" id="pcard-offer-btn" type="button" aria-label="Ver oferta" style="display:none;">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8m2-2h4m0 0v-4m0 4-4-4"/><path d="M9 11h.01"/><path d="M15 11h.01"/></svg>
+        </button>
+        <!-- Mensaje de oferta emergente (aparece bajo el botón) -->
+        <div id="pcard-offer-message" class="pcard-offer-message" style="display:none;">
+          <span>¡POR CADA COMPRA DE 2 UNIDADES LLÉVATE UN DESCUENTO DEL 10%!</span>
+        </div>
+
         <button id="quickview-close-btn" class="pcard-icon-btn" aria-label="Cerrar" type="button">
           <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
@@ -797,16 +824,24 @@
           </div>
         </div>
       </div>
+
+      <!-- Imagen del producto -->
       <div class="pcard-img-wrap">
         <img id="quickview-img" src="" alt="" class="pcard-img">
       </div>
+
+      <!-- Información -->
       <div class="pcard-info">
         <h3 class="pcard-title" id="quickview-name">Nombre del producto</h3>
         <div class="pcard-rating-row">
           <span class="product-rating" id="quickview-rating">★★★★★ <span>4.9 (0)</span></span>
         </div>
         <p class="pcard-desc" id="quickview-desc">Descripción del producto.</p>
-        <div class="pcard-options" id="pcard-options"></div>
+        <div class="pcard-options" id="pcard-options">
+          <!-- Filas de atributos generadas dinámicamente por JS -->
+        </div>
+        <!-- Badge de descuento por cantidad (se muestra sobre el input de cantidad) -->
+        <div id="pcard-discount-badge" class="pcard-discount-badge" style="display:none;">-10%</div>
         <div class="pcard-price-row">
           <div class="pcard-price-wrap">
             <span class="pcard-price" id="quickview-price">S/ 0</span>
