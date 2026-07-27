@@ -1,10 +1,14 @@
 /* ==============================================================
-   LEVIATHAN NUTRITION — interactions.js (v11)
+   LEVIATHAN NUTRITION — interactions.js (v12)
    - Producto NOXRAGE con selector de peso en tarjeta y modal
    - Oferta especial: 10% de descuento en la segunda unidad de cada par
    - Badge de descuento dinámico sobre el campo de cantidad
    - Botón de oferta con mensaje emergente interactivo
    - Sincronización total entre tarjeta y modal
+   - Fallback de imagen para NOXRAGE (usa Noxrage_2uni.png si falla)
+   - Filtro de peso + cantidad en la misma fila (para un solo atributo)
+   - Precio más compacto y profesional
+   - Reflejos animados en la imagen del producto
 ================================================================= */
 (function () {
   'use strict';
@@ -565,7 +569,7 @@
         return rutas;
       }
     },
-    // ===================== NUEVO: NOXRAGE =====================
+    // ===================== NOXRAGE (ACTUALIZADO CON FALLBACK) =====================
     'noxrage': {
       name: 'PRE-ENTRENO NOXRAGE',
       rating: 4.8,
@@ -573,21 +577,26 @@
       description: 'Maximiza tu enfoque y energía con nuestra fórmula avanzada. Diseñado para potenciar tu rendimiento físico, aumentar tu resistencia y retrasar la fatiga en cada entrenamiento. ¡Supera tus límites con Leviathan Nutrition!',
       basePrice: 169.90,
       oldPrice: 180,
-      defaultImage: 'assets/img/Noxrage_700g.png',
-      hasOffer: true, // Activamos la oferta por pares para este producto
+      defaultImage: 'assets/img/Noxrage_2uni.png', // imagen de portada
+      hasOffer: true,
       attributes: [
         {
           key: 'peso',
           label: 'Noxrage P.Neto',
           options: [
             { id: '700g', label: '700g', priceDelta: 0 },
-            { id: '350g', label: '350g', priceDelta: -40 }, // 169.90 - 40 = 129.90
+            { id: '350g', label: '350g', priceDelta: -40 },
           ]
         }
       ],
+      // imageResolver devuelve ARRAY con fallback: primero la imagen del peso, luego la de portada
       imageResolver: function(selections) {
         const peso = selections.peso || '700g';
-        return `assets/img/Noxrage_${peso}.png`;
+        const pesoImg = `assets/img/Noxrage_${peso}.png`;
+        const fallbackImg = 'assets/img/Noxrage_2uni.png';
+        // Si el peso es 700g, la imagen de portada es la misma, pero la ponemos igual
+        // para que el fallback funcione siempre.
+        return [pesoImg, fallbackImg];
       }
     }
   };
@@ -666,7 +675,7 @@
   let currentSelection = {};
   let currentQty = 1;
   let offerTimer = null;
-  let currentCard = null; // referencia a la tarjeta que abrió el modal
+  let currentCard = null;
 
   function starsHTML(rating) {
     const full = Math.round(rating);
@@ -677,7 +686,6 @@
     return attr.options.find((o) => o.id === optionId) || attr.options[0];
   }
 
-  // Calcula precio base (sin descuento por cantidad)
   function computeBasePrice() {
     let price = currentProduct.basePrice || 0;
     currentProduct.attributes.forEach((attr) => {
@@ -688,21 +696,16 @@
     return price;
   }
 
-  // Calcula precio total con descuento por pares (solo si hasOffer = true)
   function computeTotalPrice() {
     const unitPrice = computeBasePrice();
     const qty = Math.max(1, currentQty);
     if (qty === 1) return unitPrice;
-
-    // Si el producto tiene oferta, aplicamos descuento por pares (10% en la segunda unidad de cada par)
     if (currentProduct.hasOffer) {
       const pairs = Math.floor(qty / 2);
       const discountPerPair = unitPrice * 0.10;
       const totalDiscount = pairs * discountPerPair;
       return (unitPrice * qty) - totalDiscount;
     }
-
-    // Si no tiene oferta, mantenemos el descuento del 5% (de la versión anterior)
     const discount = unitPrice * 0.05;
     return (unitPrice * qty) - (discount * (qty - 1));
   }
@@ -712,7 +715,6 @@
     return computeTotalPrice() / qty;
   }
 
-  // Obtiene las rutas de imagen según el resolver
   function currentVariantImagePaths() {
     if (currentProduct && typeof currentProduct.imageResolver === 'function') {
       return currentProduct.imageResolver(currentSelection);
@@ -724,7 +726,6 @@
     return [currentProduct.defaultImage];
   }
 
-  // Actualiza la imagen con fallback
   function updateImage() {
     const rutas = currentVariantImagePaths();
     if (!pcardImgEl || rutas.length === 0) return;
@@ -750,7 +751,6 @@
     tryNext();
   }
 
-  // Actualiza el badge de descuento y el estilo del input de cantidad
   function updateDiscountUI() {
     if (!pcardDiscountBadge) return;
     const qty = Math.max(1, currentQty);
@@ -764,12 +764,9 @@
       }
       pcardDiscountBadge.textContent = badgeText;
       pcardDiscountBadge.style.display = 'block';
-      // Animación del badge
       pcardDiscountBadge.classList.remove('pulse-anim');
       void pcardDiscountBadge.offsetWidth;
       pcardDiscountBadge.classList.add('pulse-anim');
-
-      // Estilo premium para el input de cantidad
       if (qtyInput) {
         qtyInput.classList.add('has-discount');
       }
@@ -781,7 +778,6 @@
     }
   }
 
-  // Actualiza el precio con animación
   function updatePrice() {
     if (!pcardPriceEl) return;
     pcardPriceEl.classList.add('is-updating');
@@ -801,7 +797,6 @@
       if (currentProduct.hasOffer && currentQty > 1) {
         const pairs = Math.floor(currentQty / 2);
         const discountPerPair = unitPrice * 0.10;
-        const totalDiscount = pairs * discountPerPair;
         const sinDescuento = (unitPrice * currentQty);
         pcardPriceOldEl.textContent = `S/ ${sinDescuento.toFixed(2)} (${pairs > 0 ? '-'+ (discountPerPair).toFixed(0) +' c/u par' : ''})`;
       } else if (currentQty > 1) {
@@ -810,74 +805,114 @@
         pcardPriceOldEl.textContent = currentProduct.oldPrice ? `S/ ${currentProduct.oldPrice}` : '';
       }
     }
-
-    // Actualizar UI de descuento
     updateDiscountUI();
   }
 
-  // ===== FUNCIONES PARA SINCRONIZAR LA TARJETA NOXRAGE =====
   function updateNoxrageCard(weight, card) {
     if (!card) return;
     const nameEl = card.querySelector('#noxrage-name');
     const priceEl = card.querySelector('#noxrage-price');
     const oldPriceEl = card.querySelector('#noxrage-old-price');
     const weightBtns = card.querySelectorAll('.weight-btn');
-
-    // Actualizar botones activos
     weightBtns.forEach(btn => {
       btn.classList.toggle('active', btn.dataset.weight === weight);
     });
-
-    // Actualizar nombre
     if (nameEl) {
       const baseName = 'PRE-ENTRENO NOXRAGE';
       nameEl.textContent = `${baseName} ${weight.toUpperCase()}`;
     }
-
-    // Actualizar precios
     const unitPrice = weight === '700g' ? 169.90 : 129.90;
     const oldPrice = weight === '700g' ? 180 : 150;
     if (priceEl) priceEl.textContent = `S/ ${unitPrice.toFixed(2)}`;
     if (oldPriceEl) oldPriceEl.textContent = `S/ ${oldPrice}`;
-
-    // Guardar en dataset para que el modal lo lea
     card.dataset.selectedWeight = weight;
   }
 
-  // ===== FUNCIONES DEL MENSAJE DE OFERTA =====
   function showOfferMessage(duration = 3000) {
     if (!pcardOfferMessage) return;
-    // Limpiar timer anterior
     if (offerTimer) {
       clearTimeout(offerTimer);
       offerTimer = null;
     }
-    // Mostrar mensaje
     pcardOfferMessage.style.display = 'block';
     pcardOfferMessage.classList.add('show');
-    // Ocultar después de 'duration' ms
     offerTimer = setTimeout(() => {
       pcardOfferMessage.classList.remove('show');
       setTimeout(() => {
         pcardOfferMessage.style.display = 'none';
-      }, 400); // tiempo de la animación de salida
+      }, 400);
     }, duration);
   }
 
-  // ===== FUNCIONES DEL MODAL =====
-  function closeAllOptionDropdowns() {
-    pcardOptionsEl.querySelectorAll('.pcard-opt.is-open').forEach((el) => {
-      el.classList.remove('is-open');
-      el.querySelector('.pcard-opt-toggle')?.setAttribute('aria-expanded', 'false');
-      el.querySelector('.pcard-opt-dropdown')?.classList.remove('is-open');
-    });
+  function hideOfferMessage() {
+    if (offerTimer) {
+      clearTimeout(offerTimer);
+      offerTimer = null;
+    }
+    pcardOfferMessage.classList.remove('show');
+    setTimeout(() => {
+      pcardOfferMessage.style.display = 'none';
+    }, 400);
   }
 
+  // ===== RENDER DE OPCIONES CON REORGANIZACIÓN (peso + cantidad en misma fila) =====
   function renderOptions() {
     pcardOptionsEl.innerHTML = '';
     const attrs = currentProduct.attributes;
-    const rows = [attrs.slice(0, 2), attrs.slice(2, 3)];
+    const hasSingleAttr = attrs.length === 1;
 
+    // Si tiene un solo atributo, lo mostramos en una fila con la cantidad a la derecha
+    if (hasSingleAttr && currentProduct.id === 'noxrage') {
+      const rowEl = document.createElement('div');
+      rowEl.className = 'pcard-opt-row pcard-opt-row-single';
+
+      // Columna izquierda: selector de peso
+      const attr = attrs[0];
+      const selectedId = currentSelection[attr.key] || attr.options[0].id;
+      const selectedOpt = findAttrOption(attr, selectedId);
+
+      const optEl = document.createElement('div');
+      optEl.className = 'pcard-opt pcard-opt-half';
+      optEl.dataset.attr = attr.key;
+      optEl.innerHTML = `
+        <span class="pcard-opt-label">${attr.label}</span>
+        <button type="button" class="pcard-opt-toggle" aria-haspopup="true" aria-expanded="false">
+          <span class="pcard-opt-value">${selectedOpt.label}</span>
+          <span class="pcard-opt-plus">+</span>
+        </button>
+        <div class="pcard-opt-dropdown" role="menu">
+          ${attr.options.map((o) => `<button type="button" class="pcard-opt-item${o.id === selectedId ? ' is-selected' : ''}" data-value="${o.id}" role="menuitem">${o.label}</button>`).join('')}
+        </div>
+      `;
+      rowEl.appendChild(optEl);
+
+      // Columna derecha: cantidad
+      const qtyEl = document.createElement('div');
+      qtyEl.className = 'pcard-qty-wrap pcard-qty-half';
+      qtyEl.innerHTML = `
+        <span class="pcard-opt-label">Cantidad</span>
+        <input type="number" min="1" step="1" value="${currentQty}" class="pcard-qty-input" id="pcard-qty" aria-label="Cantidad">
+      `;
+      rowEl.appendChild(qtyEl);
+
+      pcardOptionsEl.appendChild(rowEl);
+
+      // Aplicar selección guardada
+      const dropdown = optEl.querySelector('.pcard-opt-dropdown');
+      if (dropdown) {
+        const items = dropdown.querySelectorAll('.pcard-opt-item');
+        items.forEach(item => {
+          item.classList.toggle('is-selected', item.dataset.value === currentSelection[attr.key]);
+        });
+        const toggle = optEl.querySelector('.pcard-opt-value');
+        const opt = findAttrOption(attr, currentSelection[attr.key]);
+        if (toggle && opt) toggle.textContent = opt.label;
+      }
+      return;
+    }
+
+    // Para productos con múltiples atributos, usamos el layout original
+    const rows = [attrs.slice(0, 2), attrs.slice(2, 3)];
     rows.forEach((rowAttrs, rowIndex) => {
       const rowEl = document.createElement('div');
       rowEl.className = 'pcard-opt-row';
@@ -915,7 +950,7 @@
       pcardOptionsEl.appendChild(rowEl);
     });
 
-    // Aplicar selecciones guardadas (para sincronización)
+    // Aplicar selecciones guardadas
     for (const key in currentSelection) {
       const dropdown = pcardOptionsEl.querySelector(`.pcard-opt[data-attr="${key}"] .pcard-opt-dropdown`);
       if (dropdown) {
@@ -931,7 +966,7 @@
     }
   }
 
-  // Delegación de eventos para opciones y cantidad
+  // ===== DELEGACIÓN DE EVENTOS PARA OPCIONES =====
   pcardOptionsEl.addEventListener('click', (e) => {
     const toggle = e.target.closest('.pcard-opt-toggle');
     const item = e.target.closest('.pcard-opt-item');
@@ -961,10 +996,8 @@
 
       closeAllOptionDropdowns();
 
-      // Si es NOXRAGE y cambia el peso, sincronizar con la tarjeta
       if (currentProduct.id === 'noxrage' && attrKey === 'peso' && currentCard) {
         updateNoxrageCard(value, currentCard);
-        // Actualizar el nombre en el modal también
         const baseName = 'PRE-ENTRENO NOXRAGE';
         pcardNameEl.textContent = `${baseName} ${value.toUpperCase()}`;
       }
@@ -985,7 +1018,22 @@
 
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.pcard-opt')) closeAllOptionDropdowns();
+    // Ocultar mensaje de oferta si se hace clic fuera del botón o del mensaje
+    if (pcardOfferBtn && pcardOfferMessage) {
+      const isClickOnOffer = e.target.closest('.pcard-offer-btn') || e.target.closest('.pcard-offer-message');
+      if (!isClickOnOffer && pcardOfferMessage.style.display !== 'none' && pcardOfferMessage.classList.contains('show')) {
+        hideOfferMessage();
+      }
+    }
   });
+
+  function closeAllOptionDropdowns() {
+    pcardOptionsEl.querySelectorAll('.pcard-opt.is-open').forEach((el) => {
+      el.classList.remove('is-open');
+      el.querySelector('.pcard-opt-toggle')?.setAttribute('aria-expanded', 'false');
+      el.querySelector('.pcard-opt-dropdown')?.classList.remove('is-open');
+    });
+  }
 
   function getSelectionSummary() {
     return currentProduct.attributes.map((attr) => {
@@ -1000,7 +1048,6 @@
     currentProduct = getProductForCard(card);
     currentSelection = {};
 
-    // Sincronizar peso para NOXRAGE
     if (currentProduct.id === 'noxrage') {
       const selectedWeight = card.dataset.selectedWeight || '700g';
       currentSelection['peso'] = selectedWeight;
@@ -1012,7 +1059,6 @@
 
     currentQty = 1;
 
-    // Actualizar nombre (para NOXRAGE que tiene dinámico)
     let displayName = String(currentProduct.name);
     if (currentProduct.id === 'noxrage') {
       const weight = currentSelection['peso'] || '700g';
@@ -1025,10 +1071,9 @@
     pcardImgEl.alt = currentProduct.name;
     pcardImgEl.classList.remove('is-fading');
 
-    // Mostrar/ocultar botón de oferta
+    // Mostrar botón de oferta
     if (currentProduct.hasOffer) {
       pcardOfferBtn.style.display = 'flex';
-      // Auto-mostrar mensaje al abrir
       setTimeout(() => {
         showOfferMessage(3000);
       }, 400);
@@ -1042,21 +1087,6 @@
     }
 
     renderOptions();
-    // Forzar que el dropdown de peso refleje la selección sincronizada
-    if (currentProduct.id === 'noxrage') {
-      const pesoDropdown = pcardOptionsEl.querySelector('.pcard-opt[data-attr="peso"] .pcard-opt-dropdown');
-      if (pesoDropdown) {
-        const items = pesoDropdown.querySelectorAll('.pcard-opt-item');
-        items.forEach(item => {
-          item.classList.toggle('is-selected', item.dataset.value === currentSelection['peso']);
-        });
-        const toggle = pesoDropdown.closest('.pcard-opt').querySelector('.pcard-opt-value');
-        const attr = currentProduct.attributes.find(a => a.key === 'peso');
-        const opt = findAttrOption(attr, currentSelection['peso']);
-        if (toggle && opt) toggle.textContent = opt.label;
-      }
-    }
-
     updateImage();
     updatePrice();
 
@@ -1074,7 +1104,6 @@
     closeAllOptionDropdowns();
     pcardContextMenu?.classList.remove('is-open');
     pcardShareMenu?.classList.remove('is-open');
-    // Limpiar mensaje de oferta
     if (offerTimer) {
       clearTimeout(offerTimer);
       offerTimer = null;
@@ -1083,21 +1112,17 @@
     pcardOfferMessage.classList.remove('show');
   }
 
-  // ===== CLICK EN TARJETAS PARA ABRIR MODAL (excepto botones) =====
+  // ===== CLICK EN TARJETAS (excepto botones) =====
   document.getElementById('product-grid').addEventListener('click', (e) => {
     const card = e.target.closest('.product-card');
     if (!card) return;
-
-    // Si el clic fue en un botón de peso, botón de añadir al carrito, o el botón de vista rápida, no abrimos el modal
     if (e.target.closest('.weight-btn') || e.target.closest('.add-cart-btn') || e.target.closest('.quick-view-btn')) {
       return;
     }
-
-    // Si el clic fue en la imagen o en el área general, abrimos el modal
     openQuickview(card);
   });
 
-  // ===== EVENTOS PARA BOTONES DE PESO EN LA TARJETA =====
+  // ===== BOTONES DE PESO EN LA TARJETA =====
   document.getElementById('product-grid').addEventListener('click', (e) => {
     const weightBtn = e.target.closest('.weight-btn');
     if (!weightBtn) return;
@@ -1108,13 +1133,10 @@
     if (!card) return;
     const weight = weightBtn.dataset.weight;
 
-    // Actualizar la tarjeta
     updateNoxrageCard(weight, card);
 
-    // Si el modal está abierto y es el producto NOXRAGE, sincronizar también
     if (quickviewModal.classList.contains('is-open') && currentProduct && currentProduct.id === 'noxrage') {
       currentSelection['peso'] = weight;
-      // Actualizar el nombre en el modal
       const baseName = 'PRE-ENTRENO NOXRAGE';
       pcardNameEl.textContent = `${baseName} ${weight.toUpperCase()}`;
       // Actualizar el dropdown visualmente
@@ -1134,7 +1156,7 @@
     }
   });
 
-  // ===== EVENTOS DEL BOTÓN DE OFERTA =====
+  // ===== BOTÓN DE OFERTA =====
   if (pcardOfferBtn) {
     pcardOfferBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1142,7 +1164,7 @@
     });
   }
 
-  // ===== EVENTOS DE CIERRE DEL MODAL =====
+  // ===== EVENTOS DE CIERRE =====
   document.querySelectorAll('.quick-view-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -1154,14 +1176,13 @@
   if (quickviewCloseBtn) quickviewCloseBtn.addEventListener('click', closeQuickview);
   if (quickviewOverlay) quickviewOverlay.addEventListener('click', closeQuickview);
 
-  // Cerrar con Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeQuickview();
     }
   });
 
-  // ===== AÑADIR AL CARRITO DESDE EL MODAL =====
+  // ===== AÑADIR AL CARRITO =====
   if (pcardAddBtn) {
     pcardAddBtn.addEventListener('click', () => {
       if (!currentProduct) return;
@@ -1178,7 +1199,7 @@
     });
   }
 
-  // ===== WHATSAPP (COMPRAR AHORA) =====
+  // ===== WHATSAPP =====
   if (pcardWhatsappBtn) {
     pcardWhatsappBtn.addEventListener('click', () => {
       if (!currentProduct) return;
@@ -1194,7 +1215,7 @@
     });
   }
 
-  // ===== BOTÓN CÁMARA (CAPTURA) =====
+  // ===== BOTÓN CÁMARA =====
   if (pcardCameraBtn) {
     pcardCameraBtn.addEventListener('click', async () => {
       if (typeof html2canvas === 'undefined' || !pcardInner) {
@@ -1537,7 +1558,6 @@
   initCategoryDropdown();
   updateHeaderForCategoryPage();
 
-  // Estilos para el badge del carrito (si no existen)
   if (!document.getElementById('cart-badge-styles')) {
     const styleBadge = document.createElement('style');
     styleBadge.id = 'cart-badge-styles';
@@ -1551,11 +1571,12 @@
     document.head.appendChild(styleBadge);
   }
 
-  // Inyectar estilos para el badge de descuento y el botón de oferta
+  // Inyectar estilos para el badge de descuento, botón de oferta y reflejos premium
   if (!document.getElementById('pcard-offer-styles')) {
     const styleOffer = document.createElement('style');
     styleOffer.id = 'pcard-offer-styles';
     styleOffer.textContent = `
+      /* ==== Estilos existentes ==== */
       .pcard-offer-btn {
         background: linear-gradient(135deg, #FFD700, #FFA500) !important;
         color: #1a1300 !important;
@@ -1638,9 +1659,7 @@
         0%, 100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
         50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
       }
-      .pcard-qty-wrap {
-        position: relative;
-      }
+      .pcard-qty-wrap { position: relative; }
       .badge-oferta {
         position: absolute;
         top: 12px;
@@ -1703,6 +1722,96 @@
       .weight-btn.active:hover {
         box-shadow: 0 6px 25px rgba(30, 155, 255, 0.7);
         transform: translateY(-2px);
+      }
+
+      /* ==== NUEVOS ESTILOS: reorganización del modal ==== */
+      .pcard-opt-row-single {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        align-items: flex-end;
+      }
+      .pcard-opt-half {
+        flex: 1 1 48%;
+        min-width: 140px;
+      }
+      .pcard-qty-half {
+        flex: 0 1 120px;
+        min-width: 100px;
+      }
+      .pcard-opt-row-single .pcard-opt-label {
+        font-size: 0.65rem;
+      }
+      .pcard-opt-row-single .pcard-opt-toggle {
+        padding: 9px 12px 9px 14px;
+        font-size: 0.78rem;
+      }
+      .pcard-opt-row-single .pcard-qty-input {
+        width: 100%;
+        padding: 9px 12px;
+        font-size: 0.85rem;
+      }
+
+      /* ==== Precio más compacto ==== */
+      .pcard-price {
+        font-size: 1.6rem;
+      }
+      .pcard-price-old {
+        font-size: 0.85rem;
+      }
+      .pcard-price-row {
+        margin-top: 2px;
+      }
+      .pcard-price-wrap {
+        gap: 8px;
+      }
+
+      /* ==== Reflejo animado en la imagen del producto ==== */
+      .pcard-img-wrap::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -60%;
+        width: 60%;
+        height: 200%;
+        background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
+        transform: rotate(25deg);
+        pointer-events: none;
+        animation: shine-sweep 6s ease-in-out infinite;
+      }
+      @keyframes shine-sweep {
+        0% { left: -60%; opacity: 0; }
+        30% { opacity: 1; }
+        60% { left: 120%; opacity: 0; }
+        100% { left: 120%; opacity: 0; }
+      }
+      .pcard-img-wrap {
+        position: relative;
+        overflow: hidden;
+      }
+      .pcard-img-wrap::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 30% 40%, rgba(30, 155, 255, 0.06), transparent 70%);
+        pointer-events: none;
+        z-index: 1;
+        animation: glow-pulse 4s ease-in-out infinite;
+      }
+      @keyframes glow-pulse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+      }
+
+      /* ==== Resplandor en el precio cuando hay descuento ==== */
+      .pcard-price.has-discount-price {
+        color: #FFD700 !important;
+        text-shadow: 0 0 30px rgba(255, 215, 0, 0.5) !important;
+        animation: price-glow 1.8s ease-in-out infinite;
+      }
+      @keyframes price-glow {
+        0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
+        50% { text-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
       }
     `;
     document.head.appendChild(styleOffer);
