@@ -766,7 +766,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- ============================================================
-       MODAL DE VISTA RÁPIDA (Quick View) — ACTUALIZADO CON OFERTA
+       MODAL DE VISTA RÁPIDA (Quick View) — ACTUALIZADO
   ============================================================= -->
   <div id="quickview-overlay" class="cart-overlay"></div>
   <div id="quickview-modal" class="pcard" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="quickview-name">
@@ -776,20 +776,14 @@
         <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
       </button>
 
-      <!-- Botones superiores derechos: cerrar + menú + BOTÓN OFERTA -->
+      <!-- Botones superiores derechos: CERRAR → MENÚ → OFERTA (de arriba a abajo) -->
       <div class="pcard-top-right">
-        <!-- BOTÓN DE OFERTA (se mostrará solo para productos con oferta) -->
-        <button class="pcard-icon-btn pcard-offer-btn" id="pcard-offer-btn" type="button" aria-label="Ver oferta" style="display:none;">
-          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8m2-2h4m0 0v-4m0 4-4-4"/><path d="M9 11h.01"/><path d="M15 11h.01"/></svg>
-        </button>
-        <!-- Mensaje de oferta emergente (aparece bajo el botón) -->
-        <div id="pcard-offer-message" class="pcard-offer-message" style="display:none;">
-          <span>¡POR CADA COMPRA DE 2 UNIDADES LLÉVATE UN DESCUENTO DEL 10%!</span>
-        </div>
-
+        <!-- Cerrar -->
         <button id="quickview-close-btn" class="pcard-icon-btn" aria-label="Cerrar" type="button">
           <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
+
+        <!-- Menú (tres puntos) -->
         <div class="pcard-menu-wrap">
           <button class="pcard-icon-btn" id="pcard-menu-btn" type="button" aria-label="Más opciones" aria-haspopup="true" aria-expanded="false">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg>
@@ -823,6 +817,15 @@
             </button>
           </div>
         </div>
+
+        <!-- BOTÓN DE OFERTA (se mostrará solo para productos con oferta) -->
+        <button class="pcard-icon-btn pcard-offer-btn" id="pcard-offer-btn" type="button" aria-label="Ver oferta" style="display:none;">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8m2-2h4m0 0v-4m0 4-4-4"/><path d="M9 11h.01"/><path d="M15 11h.01"/></svg>
+        </button>
+        <!-- Mensaje de oferta emergente (aparece bajo el botón) -->
+        <div id="pcard-offer-message" class="pcard-offer-message" style="display:none;">
+          <span>¡POR CADA COMPRA DE 2 UNIDADES LLÉVATE UN DESCUENTO DEL 10%!</span>
+        </div>
       </div>
 
       <!-- Imagen del producto -->
@@ -838,7 +841,7 @@
         </div>
         <p class="pcard-desc" id="quickview-desc">Descripción del producto.</p>
         <div class="pcard-options" id="pcard-options">
-          <!-- Filas de atributos generadas dinámicamente por JS -->
+          <!-- Las opciones se generan dinámicamente en JS -->
         </div>
         <!-- Badge de descuento por cantidad (se muestra sobre el input de cantidad) -->
         <div id="pcard-discount-badge" class="pcard-discount-badge" style="display:none;">-10%</div>
