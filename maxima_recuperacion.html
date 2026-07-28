@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leviathan Nutrition | Máxima Recuperación</title>
+
+  <!-- FUENTES -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- TailwindCSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'lv-black': '#050607',
+            'lv-dark': '#0A0E14',
+            'lv-panel': '#0D1420',
+            'lv-blue': '#1E9BFF',
+            'lv-blue-deep': '#0B5FCC',
+            'lv-cyan': '#5FD4FF',
+            'lv-green': '#39FF8A',
+            'lv-steel': '#8B96A8',
+          },
+          fontFamily: {
+            'display': ['Anton', 'sans-serif'],
+            'body': ['Manrope', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="bg-lv-black text-white font-body antialiased overflow-x-hidden">
+
+  <!-- ============================================================
+       FONDO DINÁMICO (tonos púrpura/azul para recuperación)
+  ============================================================= -->
+  <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bg-ambient">
+    <div class="absolute inset-0 bg-lv-black"></div>
+    <div class="absolute inset-0 bg-gradient-radial from-[#1a0a2e] via-[#0A0E14] to-[#050607] opacity-90 animate-bg-pulse"></div>
+    <div class="absolute top-1/4 left-1/4 w-[800px] h-[800px] rounded-full bg-purple-600/15 blur-[150px] animate-float-1"></div>
+    <div class="absolute bottom-1/3 right-1/4 w-[700px] h-[700px] rounded-full bg-indigo-500/15 blur-[160px] animate-float-2"></div>
+    <div class="absolute top-3/4 left-1/2 w-[600px] h-[600px] rounded-full bg-pink-500/10 blur-[120px] animate-float-3"></div>
+    <div class="absolute top-1/3 right-1/3 w-[500px] h-[500px] rounded-full bg-blue-500/10 blur-[100px] animate-float-4"></div>
+    <div class="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full bg-purple-400/10 blur-[90px] animate-float-5"></div>
+    <div class="absolute top-10 left-20 w-1 h-1 bg-purple-300 rounded-full opacity-70 animate-twinkle"></div>
+    <div class="absolute top-40 right-20 w-1.5 h-1.5 bg-indigo-300 rounded-full opacity-60 animate-twinkle-delay"></div>
+    <div class="absolute bottom-20 left-1/2 w-2 h-2 bg-purple-400 rounded-full opacity-50 animate-twinkle-slow"></div>
+    <div class="absolute top-1/2 left-10 w-1 h-1 bg-blue-300 rounded-full opacity-80 animate-twinkle-fast"></div>
+    <div class="absolute bottom-1/3 right-10 w-1.5 h-1.5 bg-pink-300 rounded-full opacity-60 animate-twinkle"></div>
+  </div>
+
+  <!-- FONDO DE PARTÍCULAS -->
+  <div class="fixed inset-0 z-0 pointer-events-none">
+    <canvas id="particle-canvas" class="absolute inset-0 w-full h-full"></canvas>
+  </div>
+
+  <!-- ============================================================
+       HEADER / NAVBAR
+  ============================================================= -->
+  <header id="site-header" class="fixed top-0 left-0 w-full z-50 nav-solid">
+    <div class="max-w-[1600px] mx-auto px-6 md:px-8">
+      <div class="flex items-center justify-between h-24 overflow-visible">
+        <a href="index.html" class="logo-wrap shrink-0 group">
+          <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="logo-mark" />
+        </a>
+        <nav class="hidden lg:flex items-center gap-10">
+          <a href="index.html" class="nav-link">Inicio</a>
+          <a href="#productos" class="nav-link active-link">Productos</a>
+          <div class="relative" id="category-nav">
+            <button id="category-dropdown-btn" class="nav-link flex items-center gap-1" aria-haspopup="true" aria-expanded="false">
+              Categorías
+              <svg class="w-3 h-3 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <span class="category-active-label">Máxima Recuperación</span>
+            <div id="category-dropdown-menu" class="category-dropdown-menu" role="menu">
+              <a href="aumentar_masa.html" class="dropdown-item" role="menuitem">Aumento de Masa Muscular</a>
+              <a href="musculo_limpio.html" class="dropdown-item" role="menuitem">Músculo Limpio</a>
+              <a href="maxima_recuperacion.html" class="dropdown-item" role="menuitem">Máxima Recuperación</a>
+              <a href="definicion.html" class="dropdown-item" role="menuitem">Definición</a>
+              <a href="belleza_y_bienestar.html" class="dropdown-item" role="menuitem">Belleza y Cuidado</a>
+              <a href="fuerza_y_rendimiento.html" class="dropdown-item" role="menuitem">Fuerza y Rendimiento</a>
+            </div>
+          </div>
+          <a href="index.html#nosotros" class="nav-link">Nosotros</a>
+          <a href="index.html#contacto" class="nav-link">Contacto</a>
+        </nav>
+        <div class="flex items-center gap-2">
+          <button id="search-toggle-btn" class="icon-btn" aria-label="Buscar">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+          <button class="icon-btn" aria-label="Mi cuenta">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </button>
+          <button class="icon-btn relative" aria-label="Carrito">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span class="cart-badge" id="cart-count">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-scanline"></div>
+  </header>
+
+  <!-- ============================================================
+       MODAL DE BÚSQUEDA
+  ============================================================= -->
+  <div id="search-overlay" class="search-overlay">
+    <div class="search-modal">
+      <div class="search-modal-header">
+        <h2 class="font-display text-2xl">Buscar productos</h2>
+        <button id="search-close-btn" class="icon-btn" aria-label="Cerrar búsqueda">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="search-input-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="search-input" placeholder="Buscar por nombre o categoría..." autofocus />
+      </div>
+      <div id="search-results" class="search-results"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       HERO DE CATEGORÍA — ENFOQUE EN REGENERACIÓN Y DESCANSO
+  ============================================================= -->
+  <section id="categoria-hero" class="relative z-10 min-h-[70vh] flex items-center justify-center overflow-hidden">
+    <!-- Video de fondo (recomendación: 1920x1080, MP4 H.264) -->
+    <!-- CAMBIA LA RUTA SEGÚN TU CONTENIDO -->
+    <video class="absolute inset-0 w-full h-full object-cover z-0" autoplay muted loop playsinline>
+      <source src="assets/video/recuperacion_hero.mp4" type="video/mp4">
+      <img src="assets/img/categorias/recuperacion_hero.jpg" alt="Máxima Recuperación" class="absolute inset-0 w-full h-full object-cover" />
+    </video>
+
+    <!-- Capas de degradado con tonos púrpura/azul -->
+    <div class="absolute inset-0 bg-gradient-to-r from-[#050607]/90 via-[#0A0E14]/70 to-transparent z-1"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#050607] via-transparent to-transparent z-1"></div>
+
+    <div class="relative z-10 text-center max-w-4xl mx-auto px-6 py-20">
+      <div class="inline-block mb-4 px-4 py-1 border border-purple-400/30 rounded-full text-purple-300 text-xs font-bold tracking-[0.2em] uppercase animate-pulse">
+        Regeneración Premium
+      </div>
+
+      <h1 class="font-display text-[clamp(3.5rem,10vw,7rem)] leading-[0.9] text-white category-hero-title">
+        <span class="block" id="category-title-line" data-text="RECUPERACIÓN">RECUPERACIÓN</span>
+      </h1>
+
+      <p class="text-lv-steel text-lg md:text-xl max-w-2xl mx-auto mt-6 leading-relaxed animate-fade-in-up">
+        Fórmulas diseñadas para <span class="text-purple-300 font-bold">acelerar la regeneración muscular</span>, mejorar la calidad del sueño y reducir el tiempo entre entrenamientos.
+      </p>
+
+      <div class="mt-8">
+        <a href="#productos" class="btn-primary group inline-flex items-center gap-3 animate-bounce-slow" style="background: linear-gradient(135deg, #7C3AED, #6D28D9, #4C1D95);">
+          <span>Explorar Productos</span>
+          <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-lv-steel text-xs uppercase tracking-widest animate-float">
+        <span>Desliza</span>
+        <div class="w-px h-8 bg-gradient-to-b from-purple-400 to-transparent"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECCIÓN DE BENEFICIOS — RECUPERACIÓN Y DESCANSO
+  ============================================================= -->
+  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-purple-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/10 reveal-on-scroll">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-400/20 to-indigo-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <svg class="w-8 h-8 text-purple-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <h3 class="font-display text-xl text-white mb-2">Regeneración Acelerada</h3>
+        <p class="text-lv-steel text-sm">Reduce el tiempo de recuperación entre entrenamientos intensos.</p>
+      </div>
+      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-purple-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/10 reveal-on-scroll">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-400/20 to-indigo-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <svg class="w-8 h-8 text-purple-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <h3 class="font-display text-xl text-white mb-2">Mejor Sueño</h3>
+        <p class="text-lv-steel text-sm">Fórmulas que potencian la calidad del sueño para una recuperación completa.</p>
+      </div>
+      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-purple-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/10 reveal-on-scroll">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-400/20 to-indigo-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <svg class="w-8 h-8 text-purple-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.5L4.5 18a1.5 1.5 0 0 0 1.3 2.3h12.4a1.5 1.5 0 0 0 1.3-2.3L14 8.5V3"/></svg>
+        </div>
+        <h3 class="font-display text-xl text-white mb-2">Reparación Muscular</h3>
+        <p class="text-lv-steel text-sm">Aminoácidos clave para reparar tejido muscular dañado durante el entrenamiento.</p>
+      </div>
+      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-purple-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/10 reveal-on-scroll">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-400/20 to-indigo-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <svg class="w-8 h-8 text-purple-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        </div>
+        <h3 class="font-display text-xl text-white mb-2">Equilibrio Hormonal</h3>
+        <p class="text-lv-steel text-sm">Ayuda a mantener niveles óptimos de hormonas clave para el rendimiento.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECCIÓN DE PRODUCTOS — CON ESTILO NOCTURNO Y RELAJANTE
+  ============================================================= -->
+  <section id="productos" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-12">
+
+    <div class="section-heading text-center mb-12 reveal-on-scroll">
+      <div class="flex items-center justify-center gap-3 mb-4">
+        <span class="eyebrow-line"></span>
+        <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Fórmulas para Recuperación Máxima</span>
+        <span class="eyebrow-line"></span>
+      </div>
+      <h2 class="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[0.95]">
+        PRODUCTOS <span class="text-electric-inline">DESTACADOS</span>
+      </h2>
+      <p class="text-lv-steel max-w-lg mx-auto mt-2">Selección premium para acelerar la regeneración y optimizar el descanso.</p>
+    </div>
+
+    <div class="flex justify-end items-center mb-6 reveal-on-scroll">
+      <label for="sort-select" class="text-lv-steel text-xs font-bold uppercase tracking-widest mr-3">Ordenar:</label>
+      <select id="sort-select" class="sort-select">
+        <option value="default">Más vendido</option>
+        <option value="price-desc">Mayor a menor precio</option>
+      </select>
+    </div>
+
+    <div class="product-grid" id="product-grid">
+
+      <!-- Producto 1: Night Fuel ZMA -->
+      <article class="product-card" data-id="night-fuel-zma" data-category="recuperacion" data-name="Night Fuel ZMA" data-price="S/ 79" data-cat-label="Recuperación" data-img="assets/img/productos/night-fuel-zma.jpg">
+        <span class="product-badge badge-bestseller">Bestseller</span>
+        <div class="product-img-wrap">
+          <img src="assets/img/productos/night-fuel-zma.jpg" alt="Night Fuel ZMA" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Recuperación</p>
+          <h3 class="product-name">Night Fuel ZMA</h3>
+          <div class="product-rating">★★★★★ <span>4.9 (312)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">S/ 79</span>
+              <span class="product-price-old">S/ 95</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 2: L-Glutamine -->
+      <article class="product-card" data-id="l-glutamine-rec" data-category="aminoacidos" data-name="L-Glutamine" data-price="S/ 65" data-cat-label="Aminoácidos" data-img="assets/img/productos/glutamine.jpg">
+        <span class="product-badge badge-new">Nuevo</span>
+        <div class="product-img-wrap">
+          <img src="assets/img/productos/glutamine.jpg" alt="L-Glutamine" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Aminoácidos</p>
+          <h3 class="product-name">L-Glutamine</h3>
+          <div class="product-rating">★★★★★ <span>4.7 (89)</span></div>
+          <div class="product-price-row">
+            <div><span class="product-price">S/ 65</span></div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 3: Melatonin 3mg -->
+      <article class="product-card" data-id="melatonin" data-category="sueño" data-name="Melatonin 3mg" data-price="S/ 49" data-cat-label="Sueño" data-img="assets/img/productos/melatonin.jpg">
+        <div class="product-img-wrap">
+          <img src="assets/img/productos/melatonin.jpg" alt="Melatonin 3mg" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Sueño</p>
+          <h3 class="product-name">Melatonin 3mg</h3>
+          <div class="product-rating">★★★★★ <span>4.8 (156)</span></div>
+          <div class="product-price-row">
+            <div><span class="product-price">S/ 49</span></div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 4: Omega 3 + DHA -->
+      <article class="product-card" data-id="omega-3-dha" data-category="vitaminas" data-name="Omega 3 + DHA" data-price="S/ 59" data-cat-label="Vitaminas" data-img="assets/img/productos/omega-3.jpg">
+        <div class="product-img-wrap">
+          <img src="assets/img/productos/omega-3.jpg" alt="Omega 3 + DHA" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Vitaminas</p>
+          <h3 class="product-name">Omega 3 + DHA</h3>
+          <div class="product-rating">★★★★★ <span>4.7 (102)</span></div>
+          <div class="product-price-row">
+            <div><span class="product-price">S/ 59</span></div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 5: BCAA Complex Recovery -->
+      <article class="product-card" data-id="bcaa-recovery" data-category="aminoacidos" data-name="BCAA Recovery" data-price="S/ 79" data-cat-label="Aminoácidos" data-img="assets/img/productos/bcaa.jpg">
+        <span class="product-badge badge-sale">-15%</span>
+        <div class="product-img-wrap">
+          <img src="assets/img/productos/bcaa.jpg" alt="BCAA Recovery" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Aminoácidos</p>
+          <h3 class="product-name">BCAA Recovery</h3>
+          <div class="product-rating">★★★★☆ <span>4.6 (134)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">S/ 79</span>
+              <span class="product-price-old">S/ 93</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 6: Casein Protein -->
+      <article class="product-card" data-id="casein-protein" data-category="proteina" data-name="Casein Protein" data-price="S/ 149" data-cat-label="Proteína" data-img="assets/img/productos/casein.jpg">
+        <div class="product-img-wrap">
+          <img src="assets/img/productos/casein.jpg" alt="Casein Protein" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 3v3h6V3"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Proteína</p>
+          <h3 class="product-name">Casein Protein</h3>
+          <div class="product-rating">★★★★★ <span>4.8 (87)</span></div>
+          <div class="product-price-row">
+            <div><span class="product-price">S/ 149</span></div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="flex justify-center mt-12 reveal-on-scroll">
+      <button class="btn-secondary">Ver más productos</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECCIÓN DE ESTADÍSTICAS
+  ============================================================= -->
+  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div class="reveal-on-scroll">
+        <p class="font-display text-4xl text-purple-300" data-count-to="6">0</p>
+        <p class="text-lv-steel text-sm uppercase tracking-widest">Productos</p>
+      </div>
+      <div class="reveal-on-scroll">
+        <p class="font-display text-4xl text-purple-300" data-count-to="1500" data-suffix="+">0</p>
+        <p class="text-lv-steel text-sm uppercase tracking-widest">Atletas</p>
+      </div>
+      <div class="reveal-on-scroll">
+        <p class="font-display text-4xl text-purple-300" data-count-to="97" data-suffix="%">0</p>
+        <p class="text-lv-steel text-sm uppercase tracking-widest">Satisfacción</p>
+      </div>
+      <div class="reveal-on-scroll">
+        <p class="font-display text-4xl text-purple-300" data-count-to="6" data-suffix="h">0</p>
+        <p class="text-lv-steel text-sm uppercase tracking-widest">Sueño reparador</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================= -->
+  <footer class="relative z-10 border-t border-white/[0.06] mt-10">
+    <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-16 grid md:grid-cols-[1.3fr_0.7fr_0.7fr_1fr] gap-12">
+      <div>
+        <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="h-16 w-auto mb-4" style="filter: drop-shadow(0 0 10px rgba(30,155,255,0.3));">
+        <p class="text-lv-steel text-sm max-w-xs leading-relaxed">Suplementos premium para atletas que desatan su poder cada día. Ciencia, calidad y rendimiento en cada fórmula.</p>
+      </div>
+      <div>
+        <p class="footer-heading">Tienda</p>
+        <a href="index.html#productos" class="footer-link">Productos</a>
+        <a href="index.html#categorias" class="footer-link">Categorías</a>
+        <a href="#" class="footer-link">Ofertas</a>
+        <a href="#" class="footer-link">Novedades</a>
+      </div>
+      <div>
+        <p class="footer-heading">Empresa</p>
+        <a href="index.html#nosotros" class="footer-link">Nosotros</a>
+        <a href="index.html#contacto" class="footer-link">Contacto</a>
+        <a href="#" class="footer-link">Blog</a>
+        <a href="#" class="footer-link">Trabaja con nosotros</a>
+      </div>
+      <div>
+        <p class="footer-heading">Únete a la manada</p>
+        <p class="text-lv-steel text-sm mb-4">Recibe descuentos exclusivos y lanzamientos antes que nadie.</p>
+        <form class="newsletter-form" id="newsletter-form">
+          <input type="email" placeholder="tu@correo.com" required>
+          <button type="submit" aria-label="Suscribirse">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="border-t border-white/[0.06]">
+      <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-6 flex flex-wrap items-center justify-between gap-4">
+        <p class="text-lv-steel text-xs">© 2026 Leviathan Nutrition. Todos los derechos reservados.</p>
+        <p class="text-lv-steel text-xs">Desata tu poder.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       CARRITO, MODALES Y SCRIPTS
+  ============================================================= -->
+  <div id="cart-overlay" class="cart-overlay"></div>
+  <aside id="cart-drawer" class="cart-drawer" aria-hidden="true">
+    <div class="cart-drawer-header">
+      <h3>Tu Carrito</h3>
+      <button id="cart-close-btn" class="icon-btn" aria-label="Cerrar carrito">
+        <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="cart-drawer-body" id="cart-items-container"></div>
+    <div class="cart-drawer-footer">
+      <div class="cart-subtotal-row">
+        <span>Subtotal</span>
+        <span id="cart-subtotal">S/ 0</span>
+      </div>
+      <button class="btn-primary w-full justify-center" id="checkout-btn" data-ripple>
+        <span>Finalizar Compra</span>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <div id="quickview-overlay" class="cart-overlay"></div>
+  <div id="quickview-modal" class="pcard" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="quickview-name">
+    <div class="pcard-inner" id="pcard-capture">
+      <button class="pcard-icon-btn pcard-camera-btn" id="pcard-camera-btn" type="button" aria-label="Capturar tarjeta">
+        <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      </button>
+      <div class="pcard-top-right">
+        <button id="quickview-close-btn" class="pcard-icon-btn" aria-label="Cerrar" type="button">
+          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="pcard-menu-wrap">
+          <button class="pcard-icon-btn" id="pcard-menu-btn" type="button" aria-label="Más opciones" aria-haspopup="true" aria-expanded="false">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg>
+          </button>
+          <div class="pcard-context-menu" id="pcard-context-menu" role="menu">
+            <button class="pcard-context-item" data-action="share" role="menuitem" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.7 15.7 6.3M8.3 13.3l7.4 4.4"/></svg>
+              <span>Compartir</span>
+            </button>
+            <button class="pcard-context-item" data-action="review" role="menuitem" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 15 9l7 1-5 5 1.2 7-6.2-3.3L5.8 22 7 15 2 10l7-1 3-6.5z"/></svg>
+              <span>Dar reseña</span>
+            </button>
+          </div>
+          <div class="pcard-share-menu" id="pcard-share-menu" role="menu">
+            <button class="pcard-share-item" data-share="whatsapp" role="menuitem" type="button">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.9.53 3.68 1.44 5.2L2 22l4.94-1.4A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.18-2.9.82.78-2.83-.2-.32A7.9 7.9 0 0 1 4 12c0-4.42 3.58-8 8-8s8 3.58 8 8-3.58 8-8 8zm4.34-5.94c-.24-.12-1.4-.7-1.62-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.18-.7-.62-1.18-1.4-1.32-1.64-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.4-.57 1.6-1.13.2-.55.2-1.02.14-1.13-.06-.1-.22-.16-.46-.28z"/></svg>
+              <span>WhatsApp</span>
+            </button>
+            <button class="pcard-share-item" data-share="facebook" role="menuitem" type="button">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              <span>Facebook</span>
+            </button>
+            <button class="pcard-share-item" data-share="x" role="menuitem" type="button">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.9 3H21l-7.2 8.2L22.3 21h-6.7l-5.2-6.4L4.4 21H1.3l7.7-8.8L1 3h6.9l4.7 5.9L17.9 3zm-1.2 16h1.8L7.4 5H5.5L16.7 19z"/></svg>
+              <span>X (Twitter)</span>
+            </button>
+            <button class="pcard-share-item" data-share="copy" role="menuitem" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span>Copiar enlace</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="pcard-img-wrap">
+        <img id="quickview-img" src="" alt="" class="pcard-img">
+      </div>
+      <div class="pcard-info">
+        <h3 class="pcard-title" id="quickview-name">Nombre del producto</h3>
+        <div class="pcard-rating-row">
+          <span class="product-rating" id="quickview-rating">★★★★★ <span>4.9 (0)</span></span>
+        </div>
+        <p class="pcard-desc" id="quickview-desc">Descripción del producto.</p>
+        <div class="pcard-options" id="pcard-options"></div>
+        <div class="pcard-price-row">
+          <div class="pcard-price-wrap">
+            <span class="pcard-price" id="quickview-price">S/ 0</span>
+            <span class="pcard-price-old" id="quickview-price-old"></span>
+          </div>
+        </div>
+        <div class="pcard-actions">
+          <button class="btn-primary pcard-btn-cart justify-center" id="quickview-add-btn" data-ripple type="button">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span>Añadir al Carrito</span>
+          </button>
+          <button class="pcard-btn-whatsapp" id="quickview-whatsapp-btn" type="button">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.9.53 3.68 1.44 5.2L2 22l4.94-1.4A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.18-2.9.82.78-2.83-.2-.32A7.9 7.9 0 0 1 4 12c0-4.42 3.58-8 8-8s8 3.58 8 8-3.58 8-8 8zm4.34-5.94c-.24-.12-1.4-.7-1.62-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.18-.7-.62-1.18-1.4-1.32-1.64-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.4-.57 1.6-1.13.2-.55.2-1.02.14-1.13-.06-.1-.22-.16-.46-.28z"/></svg>
+            <span>Comprar Ahora</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="particles.js"></script>
+  <script src="interactions.js"></script>
+
+  <!-- ============================================================
+       ANIMACIÓN ESPECIAL PARA EL TÍTULO DE CATEGORÍA
+  ============================================================= -->
+  <script>
+    (function() {
+      const titleEl = document.getElementById('category-title-line');
+      if (!titleEl) return;
+      const text = titleEl.getAttribute('data-text') || titleEl.textContent;
+      titleEl.innerHTML = '';
+      [...text].forEach((char, i) => {
+        const span = document.createElement('span');
+        span.className = 'letter category-hero-letter';
+        span.textContent = char === ' ' ? '\u00A0' : char;
+        span.style.background = 'linear-gradient(180deg, #C084FC, #8B5CF6, #6D28D9)';
+        span.style.webkitBackgroundClip = 'text';
+        span.style.backgroundClip = 'text';
+        span.style.color = 'transparent';
+        span.style.filter = 'drop-shadow(0 0 20px rgba(139,92,246,0.5))';
+        span.style.animationDelay = `${0.3 + i * 0.06}s`;
+        span.style.display = 'inline-block';
+        span.style.opacity = '0';
+        span.style.transform = 'translateY(30px) scale(0.8)';
+        span.style.animation = 'categoryHeroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+        titleEl.appendChild(span);
+      });
+
+      if (!document.getElementById('category-hero-styles')) {
+        const style = document.createElement('style');
+        style.id = 'category-hero-styles';
+        style.textContent = `
+          @keyframes categoryHeroIn {
+            0% { opacity: 0; transform: translateY(30px) scale(0.8); }
+            60% { opacity: 1; transform: translateY(-6px) scale(1.05); filter: drop-shadow(0 0 40px rgba(139,92,246,0.8)); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: drop-shadow(0 0 20px rgba(139,92,246,0.5)); }
+          }
+          .animate-fade-in-up {
+            animation: fadeInUp 1s ease-out 0.6s both;
+          }
+          @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          .animate-bounce-slow {
+            animation: bounceSlow 3s ease-in-out infinite;
+          }
+          @keyframes bounceSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+          }
+          .animate-float {
+            animation: floatY 3s ease-in-out infinite;
+          }
+          @keyframes floatY {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    })();
+  </script>
+
+</body>
+</html>
