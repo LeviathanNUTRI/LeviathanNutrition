@@ -69,26 +69,20 @@
   <header id="site-header" class="fixed top-0 left-0 w-full z-50 nav-solid">
     <div class="max-w-[1600px] mx-auto px-6 md:px-8">
       <div class="flex items-center justify-between h-24 overflow-visible">
-
-        <!-- LOGO -->
         <a href="index.html" class="logo-wrap shrink-0 group">
           <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="logo-mark" />
         </a>
-
-        <!-- NAV LINKS -->
         <nav class="hidden lg:flex items-center gap-10">
           <a href="index.html" class="nav-link">Inicio</a>
           <a href="#productos" class="nav-link active-link">Productos</a>
-          <!-- DROPDOWN DE CATEGORÍAS con categoría activa -->
           <div class="relative" id="category-nav">
             <button id="category-dropdown-btn" class="nav-link flex items-center gap-1" aria-haspopup="true" aria-expanded="false">
               Categorías
               <svg class="w-3 h-3 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
-            <!-- El label de categoría activa se muestra gracias a la clase is-category-page y el JS -->
             <span class="category-active-label">Masa muscular</span>
             <div id="category-dropdown-menu" class="category-dropdown-menu" role="menu">
-              <a href="aumento_masa_muscular.html" class="dropdown-item" role="menuitem">Aumento de Masa Muscular</a>
+              <a href="aumentar_masa.html" class="dropdown-item" role="menuitem">Aumento de Masa Muscular</a>
               <a href="musculo_limpio.html" class="dropdown-item" role="menuitem">Músculo Limpio</a>
               <a href="maxima_recuperacion.html" class="dropdown-item" role="menuitem">Máxima Recuperación</a>
               <a href="definicion.html" class="dropdown-item" role="menuitem">Definición</a>
@@ -99,8 +93,6 @@
           <a href="index.html#nosotros" class="nav-link">Nosotros</a>
           <a href="index.html#contacto" class="nav-link">Contacto</a>
         </nav>
-
-        <!-- ACCIONES -->
         <div class="flex items-center gap-2">
           <button id="search-toggle-btn" class="icon-btn" aria-label="Buscar">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -113,7 +105,6 @@
             <span class="cart-badge" id="cart-count">0</span>
           </button>
         </div>
-
       </div>
     </div>
     <div class="nav-scanline"></div>
@@ -134,18 +125,15 @@
         <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" id="search-input" placeholder="Buscar por nombre o categoría..." autofocus />
       </div>
-      <div id="search-results" class="search-results">
-        <!-- Los resultados se inyectan aquí -->
-      </div>
+      <div id="search-results" class="search-results"></div>
     </div>
   </div>
 
   <!-- ============================================================
-       HERO / TÍTULO DE CATEGORÍA CON VIDEO DE FONDO
-       (Diseño específico para Aumentar Masa)
+       HERO DE CATEGORÍA — CON VIDEO DE FONDO Y ANIMACIONES
   ============================================================= -->
-  <section id="categoria-hero" class="relative z-10 min-h-[60vh] flex items-center justify-center overflow-hidden">
-    <!-- Video de fondo (sugerencia: assets/video/aumentar_masa_hero.mp4) -->
+  <section id="categoria-hero" class="relative z-10 min-h-[70vh] flex items-center justify-center overflow-hidden">
+    <!-- Video de fondo (recomendación: 1920x1080, MP4 H.264) -->
     <!-- CAMBIA LA RUTA DEL VIDEO SEGÚN TU CONTENIDO -->
     <video class="absolute inset-0 w-full h-full object-cover z-0" autoplay muted loop playsinline>
       <source src="assets/video/aumentar_masa_hero.mp4" type="video/mp4">
@@ -153,76 +141,89 @@
       <img src="assets/img/categorias/aumento_masa_hero.jpg" alt="Aumentar Masa" class="absolute inset-0 w-full h-full object-cover" />
     </video>
 
-    <!-- Capa de degradado para legibilidad -->
-    <div class="absolute inset-0 bg-gradient-to-r from-[#050607]/90 via-[#050607]/50 to-transparent z-1"></div>
+    <!-- Capas de degradado para legibilidad -->
+    <div class="absolute inset-0 bg-gradient-to-r from-[#050607]/90 via-[#050607]/60 to-transparent z-1"></div>
     <div class="absolute inset-0 bg-gradient-to-t from-[#050607] via-transparent to-transparent z-1"></div>
 
-    <!-- Contenido centrado -->
+    <!-- Contenido centrado con efecto de entrada -->
     <div class="relative z-10 text-center max-w-4xl mx-auto px-6 py-20">
-      <!-- Badge de categoría -->
-      <div class="inline-block mb-4 px-4 py-1 border border-lv-blue/30 rounded-full text-lv-cyan text-xs font-bold tracking-[0.2em] uppercase animate-pulse">
+      <!-- Badge de categoría con animación -->
+      <div class="inline-block mb-4 px-4 py-1 border border-lv-cyan/30 rounded-full text-lv-cyan text-xs font-bold tracking-[0.2em] uppercase animate-pulse">
         Categoría Premium
       </div>
 
-      <!-- Título con animación de letras (efecto de "fuego" o "energía") -->
-      <h1 class="font-display text-[clamp(3rem,8vw,6rem)] leading-[0.9] text-white category-hero-title">
+      <!-- Título con animación de letras y efecto "fuego" -->
+      <h1 class="font-display text-[clamp(3.5rem,10vw,7rem)] leading-[0.9] text-white category-hero-title">
         <span class="block" id="category-title-line" data-text="AUMENTAR MASA">AUMENTAR MASA</span>
       </h1>
 
-      <!-- Subtítulo -->
-      <p class="text-lv-steel text-lg md:text-xl max-w-2xl mx-auto mt-6 leading-relaxed">
+      <!-- Subtítulo con efecto de escritura -->
+      <p class="text-lv-steel text-lg md:text-xl max-w-2xl mx-auto mt-6 leading-relaxed animate-fade-in-up">
         Suplementos diseñados para <span class="text-lv-cyan font-bold">maximizar el crecimiento muscular</span> con fórmulas de alta densidad calórica y proteínas de absorción rápida.
       </p>
 
-      <!-- Botón de acción -->
+      <!-- Botón de acción con efecto de brillo -->
       <div class="mt-8">
-        <a href="#productos" class="btn-primary group inline-flex items-center gap-3">
+        <a href="#productos" class="btn-primary group inline-flex items-center gap-3 animate-bounce-slow">
           <span>Explorar Productos</span>
           <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
-    </div>
-  </section>
 
-  <!-- ============================================================
-       BANNER INTERMEDIO CON VIDEO (toque premium)
-  ============================================================= -->
-  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-16">
-    <div class="relative overflow-hidden rounded-2xl bg-lv-dark/50 backdrop-blur-sm border border-white/5">
-      <!-- Video o imagen de fondo (sugerencia: assets/video/aumentar_masa_banner.mp4) -->
-      <video class="absolute inset-0 w-full h-full object-cover opacity-30" autoplay muted loop playsinline>
-        <source src="assets/video/aumentar_masa_banner.mp4" type="video/mp4">
-      </video>
-
-      <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 p-8 md:p-12">
-        <div class="flex-1">
-          <span class="inline-block text-lv-cyan text-xs font-bold tracking-[0.2em] uppercase mb-2">⚡ Objetivo</span>
-          <h3 class="font-display text-2xl md:text-4xl text-white mb-2">Gana Masa <span class="text-lv-cyan">Sin Límites</span></h3>
-          <p class="text-lv-steel max-w-md">Nuestros productos para aumento de masa combinan proteínas de alta calidad con carbohidratos complejos y creatina para un crecimiento muscular óptimo.</p>
-        </div>
-        <div class="flex-shrink-0">
-          <div class="flex items-center gap-6 text-center">
-            <div>
-              <p class="font-display text-3xl text-lv-cyan">+5kg</p>
-              <p class="text-xs text-lv-steel uppercase tracking-widest">Masa muscular</p>
-            </div>
-            <div class="w-px h-12 bg-white/10"></div>
-            <div>
-              <p class="font-display text-3xl text-lv-cyan">30g</p>
-              <p class="text-xs text-lv-steel uppercase tracking-widest">Proteína por toma</p>
-            </div>
-          </div>
-        </div>
+      <!-- Indicador de scroll -->
+      <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-lv-steel text-xs uppercase tracking-widest animate-float">
+        <span>Desliza</span>
+        <div class="w-px h-8 bg-gradient-to-b from-lv-cyan to-transparent"></div>
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       PRODUCTOS - AUMENTAR MASA (grid con diseño idéntico al index)
+       SECCIÓN DE BENEFICIOS — CON TARJETAS DE VALOR
+  ============================================================= -->
+  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Beneficio 1 -->
+      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <svg class="w-8 h-8 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5"/><path d="M14 3l7 7-2.5 2.5L11 5.5 14 3z"/><path d="M3 14l7 7-2.5 2.5-7-7L3 14z"/></svg>
+        </div>
+        <h3 class="font-display text-xl text-white mb-2">Alta Densidad</h3>
+        <p class="text-lv-steel text-sm">Fórmulas con +500 kcal por toma para un superávit calórico efectivo.</p>
+      </div>
+      <!-- Beneficio 2 -->
+      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <svg class="w-8 h-8 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.5L4.5 18a1.5 1.5 0 0 0 1.3 2.3h12.4a1.5 1.5 0 0 0 1.3-2.3L14 8.5V3"/></svg>
+        </div>
+        <h3 class="font-display text-xl text-white mb-2">Proteína Premium</h3>
+        <p class="text-lv-steel text-sm">30g de proteína por dosis con perfil completo de aminoácidos.</p>
+      </div>
+      <!-- Beneficio 3 -->
+      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <svg class="w-8 h-8 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <h3 class="font-display text-xl text-white mb-2">Resultados Garantizados</h3>
+        <p class="text-lv-steel text-sm">+5kg de masa muscular en 8 semanas con entrenamiento adecuado.</p>
+      </div>
+      <!-- Beneficio 4 -->
+      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <svg class="w-8 h-8 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        </div>
+        <h3 class="font-display text-xl text-white mb-2">Energía Constante</h3>
+        <p class="text-lv-steel text-sm">Carbohidratos de absorción gradual para entrenamientos intensos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECCIÓN DE PRODUCTOS — CON ESTILO PREMIUM Y ANIMACIONES
   ============================================================= -->
   <section id="productos" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-12">
 
-    <div class="section-heading text-center mb-12">
+    <div class="section-heading text-center mb-12 reveal-on-scroll">
       <div class="flex items-center justify-center gap-3 mb-4">
         <span class="eyebrow-line"></span>
         <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Fórmulas de élite para Masa</span>
@@ -235,7 +236,7 @@
     </div>
 
     <!-- Control de ordenamiento -->
-    <div class="flex justify-end items-center mb-6">
+    <div class="flex justify-end items-center mb-6 reveal-on-scroll">
       <label for="sort-select" class="text-lv-steel text-xs font-bold uppercase tracking-widest mr-3">Ordenar:</label>
       <select id="sort-select" class="sort-select">
         <option value="default">Más vendido</option>
@@ -243,14 +244,13 @@
       </select>
     </div>
 
-    <!-- Grid de productos -->
+    <!-- Grid de productos con diseño renovado -->
     <div class="product-grid" id="product-grid">
 
       <!-- Producto 1: Whey Protein Isolate -->
-      <article class="product-card" data-category="aumento_masa" data-name="Whey Protein Isolate" data-price="S/ 189" data-cat-label="Proteína" data-img="assets/img/productos/whey-protein.jpg">
+      <article class="product-card" data-id="whey-protein-isolate" data-category="proteina" data-name="Whey Protein Isolate" data-price="S/ 189" data-cat-label="Proteína" data-img="assets/img/productos/whey-protein.jpg">
         <span class="product-badge badge-bestseller">Bestseller</span>
         <div class="product-img-wrap">
-          <!-- CAMBIA LA RUTA DE LA IMAGEN SEGÚN TU CONTENIDO -->
           <img src="assets/img/productos/whey-protein.jpg" alt="Whey Protein Isolate" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="product-placeholder-icon" style="display:none">
             <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 3v3h6V3"/></svg>
@@ -276,7 +276,7 @@
       </article>
 
       <!-- Producto 2: Mass Gainer 5kg -->
-      <article class="product-card" data-category="aumento_masa" data-name="Mass Gainer 5kg" data-price="S/ 210" data-cat-label="Ganador de Masa" data-img="assets/img/productos/mass-gainer.jpg">
+      <article class="product-card" data-id="mass-gainer" data-category="proteina" data-name="Mass Gainer 5kg" data-price="S/ 210" data-cat-label="Ganador de Masa" data-img="assets/img/productos/mass-gainer.jpg">
         <span class="product-badge badge-new">Nuevo</span>
         <div class="product-img-wrap">
           <img src="assets/img/productos/mass-gainer.jpg" alt="Mass Gainer" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -301,7 +301,7 @@
       </article>
 
       <!-- Producto 3: Creatine Monohydrate -->
-      <article class="product-card" data-category="aumento_masa" data-name="Creatine Monohydrate" data-price="S/ 99" data-cat-label="Creatina" data-img="assets/img/productos/creatine-monohydrate.jpg">
+      <article class="product-card" data-id="creatine-monohydrate" data-category="creatina" data-name="Creatine Monohydrate" data-price="S/ 99" data-cat-label="Creatina" data-img="assets/img/productos/creatine-monohydrate.jpg">
         <div class="product-img-wrap">
           <img src="assets/img/productos/creatine-monohydrate.jpg" alt="Creatine Monohydrate" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="product-placeholder-icon" style="display:none">
@@ -325,7 +325,7 @@
       </article>
 
       <!-- Producto 4: Pre-Workout Fury -->
-      <article class="product-card" data-category="aumento_masa" data-name="Pre-Workout Fury" data-price="S/ 129" data-cat-label="Pre-Entreno" data-img="assets/img/productos/pre-workout-fury.jpg">
+      <article class="product-card" data-id="pre-workout-fury" data-category="pre-entreno" data-name="Pre-Workout Fury" data-price="S/ 129" data-cat-label="Pre-Entreno" data-img="assets/img/productos/pre-workout-fury.jpg">
         <div class="product-img-wrap">
           <img src="assets/img/productos/pre-workout-fury.jpg" alt="Pre-Workout Fury" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="product-placeholder-icon" style="display:none">
@@ -348,8 +348,8 @@
         </div>
       </article>
 
-      <!-- Producto 5: Thermo Burn (para mantener masa magra) -->
-      <article class="product-card" data-category="aumento_masa" data-name="Thermo Burn" data-price="S/ 118" data-cat-label="Quemadores" data-img="assets/img/productos/thermo-burn.jpg">
+      <!-- Producto 5: Thermo Burn -->
+      <article class="product-card" data-id="thermo-burn" data-category="quemadores" data-name="Thermo Burn" data-price="S/ 118" data-cat-label="Quemadores" data-img="assets/img/productos/thermo-burn.jpg">
         <span class="product-badge badge-sale">-15%</span>
         <div class="product-img-wrap">
           <img src="assets/img/productos/thermo-burn.jpg" alt="Thermo Burn" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -376,8 +376,8 @@
         </div>
       </article>
 
-      <!-- Producto 6: ZMA (recuperación) -->
-      <article class="product-card" data-category="aumento_masa" data-name="Night Fuel ZMA" data-price="S/ 79" data-cat-label="Recuperación" data-img="assets/img/productos/night-fuel-zma.jpg">
+      <!-- Producto 6: Night Fuel ZMA -->
+      <article class="product-card" data-id="night-fuel-zma" data-category="recuperacion" data-name="Night Fuel ZMA" data-price="S/ 79" data-cat-label="Recuperación" data-img="assets/img/productos/night-fuel-zma.jpg">
         <div class="product-img-wrap">
           <img src="assets/img/productos/night-fuel-zma.jpg" alt="Night Fuel ZMA" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="product-placeholder-icon" style="display:none">
@@ -400,8 +400,8 @@
         </div>
       </article>
 
-      <!-- Producto 7: Shaker Pro (accesorio) -->
-      <article class="product-card" data-category="aumento_masa" data-name="Shaker Pro 700ml" data-price="S/ 39" data-cat-label="Accesorios" data-img="assets/img/productos/shaker-pro.jpg">
+      <!-- Producto 7: Shaker Pro 700ml -->
+      <article class="product-card" data-id="shaker-pro" data-category="accesorios" data-name="Shaker Pro 700ml" data-price="S/ 39" data-cat-label="Accesorios" data-img="assets/img/productos/shaker-pro.jpg">
         <div class="product-img-wrap">
           <img src="assets/img/productos/shaker-pro.jpg" alt="Shaker Pro" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="product-placeholder-icon" style="display:none">
@@ -426,8 +426,32 @@
 
     </div>
 
-    <div class="flex justify-center mt-12">
+    <div class="flex justify-center mt-12 reveal-on-scroll">
       <button class="btn-secondary">Ver más productos</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECCIÓN DE ESTADÍSTICAS / RESULTADOS
+  ============================================================= -->
+  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div class="reveal-on-scroll">
+        <p class="font-display text-4xl text-lv-cyan" data-count-to="12">0</p>
+        <p class="text-lv-steel text-sm uppercase tracking-widest">Productos</p>
+      </div>
+      <div class="reveal-on-scroll">
+        <p class="font-display text-4xl text-lv-cyan" data-count-to="3500" data-suffix="+">0</p>
+        <p class="text-lv-steel text-sm uppercase tracking-widest">Clientes felices</p>
+      </div>
+      <div class="reveal-on-scroll">
+        <p class="font-display text-4xl text-lv-cyan" data-count-to="98" data-suffix="%">0</p>
+        <p class="text-lv-steel text-sm uppercase tracking-widest">Satisfacción</p>
+      </div>
+      <div class="reveal-on-scroll">
+        <p class="font-display text-4xl text-lv-cyan" data-count-to="5" data-suffix="kg">0</p>
+        <p class="text-lv-steel text-sm uppercase tracking-widest">Ganancia promedio</p>
+      </div>
     </div>
   </section>
 
@@ -436,14 +460,10 @@
   ============================================================= -->
   <footer class="relative z-10 border-t border-white/[0.06] mt-10">
     <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-16 grid md:grid-cols-[1.3fr_0.7fr_0.7fr_1fr] gap-12">
-
       <div>
         <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="h-16 w-auto mb-4" style="filter: drop-shadow(0 0 10px rgba(30,155,255,0.3));">
-        <p class="text-lv-steel text-sm max-w-xs leading-relaxed">
-          Suplementos premium para atletas que desatan su poder cada día. Ciencia, calidad y rendimiento en cada fórmula.
-        </p>
+        <p class="text-lv-steel text-sm max-w-xs leading-relaxed">Suplementos premium para atletas que desatan su poder cada día. Ciencia, calidad y rendimiento en cada fórmula.</p>
       </div>
-
       <div>
         <p class="footer-heading">Tienda</p>
         <a href="index.html#productos" class="footer-link">Productos</a>
@@ -451,7 +471,6 @@
         <a href="#" class="footer-link">Ofertas</a>
         <a href="#" class="footer-link">Novedades</a>
       </div>
-
       <div>
         <p class="footer-heading">Empresa</p>
         <a href="index.html#nosotros" class="footer-link">Nosotros</a>
@@ -459,7 +478,6 @@
         <a href="#" class="footer-link">Blog</a>
         <a href="#" class="footer-link">Trabaja con nosotros</a>
       </div>
-
       <div>
         <p class="footer-heading">Únete a la manada</p>
         <p class="text-lv-steel text-sm mb-4">Recibe descuentos exclusivos y lanzamientos antes que nadie.</p>
@@ -470,9 +488,7 @@
           </button>
         </form>
       </div>
-
     </div>
-
     <div class="border-t border-white/[0.06]">
       <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-6 flex flex-wrap items-center justify-between gap-4">
         <p class="text-lv-steel text-xs">© 2026 Leviathan Nutrition. Todos los derechos reservados.</p>
@@ -492,9 +508,7 @@
         <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
-    <div class="cart-drawer-body" id="cart-items-container">
-      <!-- Se llena dinámicamente vía JS -->
-    </div>
+    <div class="cart-drawer-body" id="cart-items-container"></div>
     <div class="cart-drawer-footer">
       <div class="cart-subtotal-row">
         <span>Subtotal</span>
@@ -512,13 +526,9 @@
   <div id="quickview-overlay" class="cart-overlay"></div>
   <div id="quickview-modal" class="pcard" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="quickview-name">
     <div class="pcard-inner" id="pcard-capture">
-
-      <!-- Botón cámara (superior izquierda) -->
       <button class="pcard-icon-btn pcard-camera-btn" id="pcard-camera-btn" type="button" aria-label="Capturar tarjeta">
         <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
       </button>
-
-      <!-- Botones superiores derechos: cerrar + menú -->
       <div class="pcard-top-right">
         <button id="quickview-close-btn" class="pcard-icon-btn" aria-label="Cerrar" type="button">
           <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -537,7 +547,6 @@
               <span>Dar reseña</span>
             </button>
           </div>
-          <!-- Menú de compartir (fallback sin Web Share API) -->
           <div class="pcard-share-menu" id="pcard-share-menu" role="menu">
             <button class="pcard-share-item" data-share="whatsapp" role="menuitem" type="button">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.9.53 3.68 1.44 5.2L2 22l4.94-1.4A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.18-2.9.82.78-2.83-.2-.32A7.9 7.9 0 0 1 4 12c0-4.42 3.58-8 8-8s8 3.58 8 8-3.58 8-8 8zm4.34-5.94c-.24-.12-1.4-.7-1.62-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.18-.7-.62-1.18-1.4-1.32-1.64-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.4-.57 1.6-1.13.2-.55.2-1.02.14-1.13-.06-.1-.22-.16-.46-.28z"/></svg>
@@ -558,31 +567,22 @@
           </div>
         </div>
       </div>
-
-      <!-- Imagen del producto -->
       <div class="pcard-img-wrap">
         <img id="quickview-img" src="" alt="" class="pcard-img">
       </div>
-
-      <!-- Información -->
       <div class="pcard-info">
         <h3 class="pcard-title" id="quickview-name">Nombre del producto</h3>
         <div class="pcard-rating-row">
           <span class="product-rating" id="quickview-rating">★★★★★ <span>4.9 (0)</span></span>
         </div>
         <p class="pcard-desc" id="quickview-desc">Descripción del producto.</p>
-
-        <div class="pcard-options" id="pcard-options">
-          <!-- Filas de atributos generadas dinámicamente por JS -->
-        </div>
-
+        <div class="pcard-options" id="pcard-options"></div>
         <div class="pcard-price-row">
           <div class="pcard-price-wrap">
             <span class="pcard-price" id="quickview-price">S/ 0</span>
             <span class="pcard-price-old" id="quickview-price-old"></span>
           </div>
         </div>
-
         <div class="pcard-actions">
           <button class="btn-primary pcard-btn-cart justify-center" id="quickview-add-btn" data-ripple type="button">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -594,17 +594,15 @@
           </button>
         </div>
       </div>
-
     </div>
   </div>
 
-  <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="particles.js"></script>
   <script src="interactions.js"></script>
 
   <!-- ============================================================
-       ANIMACIÓN ESPECIAL PARA EL TÍTULO DE CATEGORÍA (similar al hero)
+       ANIMACIÓN ESPECIAL PARA EL TÍTULO DE CATEGORÍA
   ============================================================= -->
   <script>
     (function() {
@@ -616,7 +614,6 @@
         const span = document.createElement('span');
         span.className = 'letter category-hero-letter';
         span.textContent = char === ' ' ? '\u00A0' : char;
-        // Efecto de "fuego" con degradado rojo/naranja/amarillo
         span.style.background = 'linear-gradient(180deg, #FF6B35, #FF4500, #FFD700)';
         span.style.webkitBackgroundClip = 'text';
         span.style.backgroundClip = 'text';
@@ -630,7 +627,6 @@
         titleEl.appendChild(span);
       });
 
-      // Inyectar keyframes si no existen
       if (!document.getElementById('category-hero-styles')) {
         const style = document.createElement('style');
         style.id = 'category-hero-styles';
@@ -640,11 +636,32 @@
             60% { opacity: 1; transform: translateY(-6px) scale(1.05); filter: drop-shadow(0 0 40px rgba(255,69,0,0.8)); }
             100% { opacity: 1; transform: translateY(0) scale(1); filter: drop-shadow(0 0 20px rgba(255,69,0,0.5)); }
           }
+          .animate-fade-in-up {
+            animation: fadeInUp 1s ease-out 0.6s both;
+          }
+          @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          .animate-bounce-slow {
+            animation: bounceSlow 3s ease-in-out infinite;
+          }
+          @keyframes bounceSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+          }
+          .animate-float {
+            animation: floatY 3s ease-in-out infinite;
+          }
+          @keyframes floatY {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+          }
         `;
         document.head.appendChild(style);
       }
     })();
   </script>
-
+  <!-- Inicializar contadores automáticamente con el IntersectionObserver de interactions.js -->
 </body>
 </html>
