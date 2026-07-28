@@ -41,7 +41,7 @@
 <body class="bg-lv-black text-white font-body antialiased overflow-x-hidden">
 
   <!-- ============================================================
-       FONDO DINÁMICO (el mismo del index)
+       FONDO DINÁMICO
   ============================================================= -->
   <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bg-ambient">
     <div class="absolute inset-0 bg-lv-black"></div>
@@ -64,7 +64,7 @@
   </div>
 
   <!-- ============================================================
-       HEADER / NAVBAR (idéntico al index)
+       HEADER / NAVBAR
   ============================================================= -->
   <header id="site-header" class="fixed top-0 left-0 w-full z-50 nav-solid">
     <div class="max-w-[1600px] mx-auto px-6 md:px-8">
@@ -111,7 +111,7 @@
   </header>
 
   <!-- ============================================================
-       MODAL DE BÚSQUEDA (idéntico al index)
+       MODAL DE BÚSQUEDA
   ============================================================= -->
   <div id="search-overlay" class="search-overlay">
     <div class="search-modal">
@@ -130,109 +130,98 @@
   </div>
 
   <!-- ============================================================
-       HERO DE CATEGORÍA — CON VIDEO DE FONDO Y ANIMACIONES
+       HERO DE CATEGORÍA — CON VIDEO DE FONDO (MENOS OPACO)
   ============================================================= -->
-  <section id="categoria-hero" class="relative z-10 min-h-[70vh] flex items-center justify-center overflow-hidden">
-    <!-- Video de fondo (recomendación: 1920x1080, MP4 H.264) -->
-    <!-- CAMBIA LA RUTA DEL VIDEO SEGÚN TU CONTENIDO -->
+  <section id="categoria-hero" class="relative z-10 min-h-[55vh] flex items-center justify-center overflow-hidden">
+    <!-- Video de fondo -->
     <video class="absolute inset-0 w-full h-full object-cover z-0" autoplay muted loop playsinline>
-      <source src="assets/img/Masa Muscular.mp4" type="video/mp4">
-      <!-- Fallback: imagen estática -->
+      <source src="assets/video/aumentar_masa_hero.mp4" type="video/mp4">
       <img src="assets/img/categorias/aumento_masa_hero.jpg" alt="Aumentar Masa" class="absolute inset-0 w-full h-full object-cover" />
     </video>
 
-    <!-- Capas de degradado para legibilidad -->
-    <div class="absolute inset-0 bg-gradient-to-r from-[#050607]/90 via-[#050607]/60 to-transparent z-1"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-[#050607] via-transparent to-transparent z-1"></div>
+    <!-- Capas de degradado con MENOS OPACIDAD -->
+    <div class="absolute inset-0 bg-gradient-to-r from-[#050607]/70 via-[#050607]/40 to-transparent z-1"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#050607]/60 via-transparent to-transparent z-1"></div>
 
-    <!-- Contenido centrado con efecto de entrada -->
-    <div class="relative z-10 text-center max-w-4xl mx-auto px-6 py-20">
-      <!-- Badge de categoría con animación -->
-      <div class="inline-block mb-4 px-4 py-1 border border-lv-cyan/30 rounded-full text-lv-cyan text-xs font-bold tracking-[0.2em] uppercase animate-pulse">
+    <div class="relative z-10 text-center max-w-4xl mx-auto px-6 py-16">
+      <div class="inline-block mb-3 px-4 py-1 border border-lv-cyan/30 rounded-full text-lv-cyan text-xs font-bold tracking-[0.2em] uppercase animate-pulse">
         Categoría Premium
       </div>
 
-      <!-- Título con animación de letras y efecto "fuego" -->
-      <h1 class="font-display text-[clamp(3.5rem,10vw,7rem)] leading-[0.9] text-white category-hero-title">
+      <!-- Título MÁS PEQUEÑO -->
+      <h1 class="font-display text-[clamp(2.8rem,6vw,4.5rem)] leading-[0.9] text-white category-hero-title">
         <span class="block" id="category-title-line" data-text="AUMENTAR MASA">AUMENTAR MASA</span>
       </h1>
 
-      <!-- Subtítulo con efecto de escritura -->
-      <p class="text-lv-steel text-lg md:text-xl max-w-2xl mx-auto mt-6 leading-relaxed animate-fade-in-up">
+      <p class="text-lv-steel text-base md:text-lg max-w-2xl mx-auto mt-4 leading-relaxed animate-fade-in-up">
         Suplementos diseñados para <span class="text-lv-cyan font-bold">maximizar el crecimiento muscular</span> con fórmulas de alta densidad calórica y proteínas de absorción rápida.
       </p>
 
-      <!-- Botón de acción con efecto de brillo -->
-      <div class="mt-8">
+      <div class="mt-6">
         <a href="#productos" class="btn-primary group inline-flex items-center gap-3 animate-bounce-slow">
           <span>Explorar Productos</span>
           <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
 
-      <!-- Indicador de scroll -->
-      <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-lv-steel text-xs uppercase tracking-widest animate-float">
+      <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-lv-steel text-xs uppercase tracking-widest animate-float">
         <span>Desliza</span>
-        <div class="w-px h-8 bg-gradient-to-b from-lv-cyan to-transparent"></div>
+        <div class="w-px h-6 bg-gradient-to-b from-lv-cyan to-transparent"></div>
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       SECCIÓN DE BENEFICIOS — CON TARJETAS DE VALOR
+       SECCIÓN DE BENEFICIOS (contenido reducido)
   ============================================================= -->
-  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-20">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <!-- Beneficio 1 -->
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5"/><path d="M14 3l7 7-2.5 2.5L11 5.5 14 3z"/><path d="M3 14l7 7-2.5 2.5-7-7L3 14z"/></svg>
+  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-14">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-5 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
+        <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <svg class="w-7 h-7 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5"/><path d="M14 3l7 7-2.5 2.5L11 5.5 14 3z"/><path d="M3 14l7 7-2.5 2.5-7-7L3 14z"/></svg>
         </div>
-        <h3 class="font-display text-xl text-white mb-2">Alta Densidad</h3>
-        <p class="text-lv-steel text-sm">Fórmulas con +500 kcal por toma para un superávit calórico efectivo.</p>
+        <h3 class="font-display text-lg text-white mb-1">Alta Densidad</h3>
+        <p class="text-lv-steel text-sm">+500 kcal por toma para superávit calórico.</p>
       </div>
-      <!-- Beneficio 2 -->
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.5L4.5 18a1.5 1.5 0 0 0 1.3 2.3h12.4a1.5 1.5 0 0 0 1.3-2.3L14 8.5V3"/></svg>
+      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-5 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
+        <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <svg class="w-7 h-7 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.5L4.5 18a1.5 1.5 0 0 0 1.3 2.3h12.4a1.5 1.5 0 0 0 1.3-2.3L14 8.5V3"/></svg>
         </div>
-        <h3 class="font-display text-xl text-white mb-2">Proteína Premium</h3>
-        <p class="text-lv-steel text-sm">30g de proteína por dosis con perfil completo de aminoácidos.</p>
+        <h3 class="font-display text-lg text-white mb-1">Proteína Premium</h3>
+        <p class="text-lv-steel text-sm">30g de proteína por dosis.</p>
       </div>
-      <!-- Beneficio 3 -->
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
+      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-5 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
+        <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <svg class="w-7 h-7 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
         </div>
-        <h3 class="font-display text-xl text-white mb-2">Resultados Garantizados</h3>
-        <p class="text-lv-steel text-sm">+5kg de masa muscular en 8 semanas con entrenamiento adecuado.</p>
+        <h3 class="font-display text-lg text-white mb-1">Resultados Garantizados</h3>
+        <p class="text-lv-steel text-sm">+5kg de masa muscular en 8 semanas.</p>
       </div>
-      <!-- Beneficio 4 -->
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-5 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
+        <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <svg class="w-7 h-7 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
         </div>
-        <h3 class="font-display text-xl text-white mb-2">Energía Constante</h3>
-        <p class="text-lv-steel text-sm">Carbohidratos de absorción gradual para entrenamientos intensos.</p>
+        <h3 class="font-display text-lg text-white mb-1">Energía Constante</h3>
+        <p class="text-lv-steel text-sm">Carbohidratos de absorción gradual.</p>
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       SECCIÓN DE PRODUCTOS — CON ESTILO PREMIUM Y ANIMACIONES
+       SECCIÓN DE PRODUCTOS — TÍTULO DIRECTR (SIN "DESTACADOS")
   ============================================================= -->
   <section id="productos" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-12">
 
-    <div class="section-heading text-center mb-12 reveal-on-scroll">
-      <div class="flex items-center justify-center gap-3 mb-4">
+    <div class="section-heading text-center mb-10 reveal-on-scroll">
+      <div class="flex items-center justify-center gap-3 mb-3">
         <span class="eyebrow-line"></span>
-        <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Fórmulas de élite para Masa</span>
+        <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Catálogo de Aumento de Masa</span>
         <span class="eyebrow-line"></span>
       </div>
-      <h2 class="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[0.95]">
-        PRODUCTOS <span class="text-electric-inline">DESTACADOS</span>
+      <h2 class="font-display text-[clamp(2rem,4vw,3.2rem)] leading-[0.95]">
+        PRODUCTOS PARA <span class="text-electric-inline">MASA MUSCULAR</span>
       </h2>
-      <p class="text-lv-steel max-w-lg mx-auto mt-2">Selección premium para quienes buscan ganar músculo de forma efectiva.</p>
+      <p class="text-lv-steel max-w-lg mx-auto mt-2">Fórmulas premium para maximizar tu crecimiento muscular.</p>
     </div>
 
     <!-- Control de ordenamiento -->
@@ -244,7 +233,7 @@
       </select>
     </div>
 
-    <!-- Grid de productos con diseño renovado -->
+    <!-- Grid de productos (con funcionalidad asegurada) -->
     <div class="product-grid" id="product-grid">
 
       <!-- Producto 1: Whey Protein Isolate -->
@@ -426,37 +415,37 @@
 
     </div>
 
-    <div class="flex justify-center mt-12 reveal-on-scroll">
+    <div class="flex justify-center mt-10 reveal-on-scroll">
       <button class="btn-secondary">Ver más productos</button>
     </div>
   </section>
 
   <!-- ============================================================
-       SECCIÓN DE ESTADÍSTICAS / RESULTADOS
+       SECCIÓN DE ESTADÍSTICAS
   ============================================================= -->
-  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-16">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-12">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-lv-cyan" data-count-to="12">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Productos</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="12">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Productos</p>
       </div>
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-lv-cyan" data-count-to="3500" data-suffix="+">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Clientes felices</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="3500" data-suffix="+">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Clientes felices</p>
       </div>
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-lv-cyan" data-count-to="98" data-suffix="%">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Satisfacción</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="98" data-suffix="%">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Satisfacción</p>
       </div>
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-lv-cyan" data-count-to="5" data-suffix="kg">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Ganancia promedio</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="5" data-suffix="kg">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Ganancia promedio</p>
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       FOOTER (idéntico al index)
+       FOOTER
   ============================================================= -->
   <footer class="relative z-10 border-t border-white/[0.06] mt-10">
     <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-16 grid md:grid-cols-[1.3fr_0.7fr_0.7fr_1fr] gap-12">
@@ -498,7 +487,7 @@
   </footer>
 
   <!-- ============================================================
-       CARRITO, MODALES Y SCRIPTS (idéntico al index)
+       CARRITO, MODALES Y SCRIPTS
   ============================================================= -->
   <div id="cart-overlay" class="cart-overlay"></div>
   <aside id="cart-drawer" class="cart-drawer" aria-hidden="true">
@@ -614,16 +603,16 @@
         const span = document.createElement('span');
         span.className = 'letter category-hero-letter';
         span.textContent = char === ' ' ? '\u00A0' : char;
-        span.style.background = 'linear-gradient(180deg, #FF6B35, #FF4500, #FFD700)';
+        span.style.background = 'linear-gradient(180deg, #ffffff, #5FD4FF, #1E9BFF)';
         span.style.webkitBackgroundClip = 'text';
         span.style.backgroundClip = 'text';
         span.style.color = 'transparent';
-        span.style.filter = 'drop-shadow(0 0 20px rgba(255,69,0,0.5))';
+        span.style.filter = 'drop-shadow(0 0 20px rgba(30,155,255,0.3))';
         span.style.animationDelay = `${0.3 + i * 0.06}s`;
         span.style.display = 'inline-block';
         span.style.opacity = '0';
-        span.style.transform = 'translateY(30px) scale(0.8)';
-        span.style.animation = 'categoryHeroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+        span.style.transform = 'translateY(25px) scale(0.85)';
+        span.style.animation = 'categoryHeroIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards';
         titleEl.appendChild(span);
       });
 
@@ -632,15 +621,15 @@
         style.id = 'category-hero-styles';
         style.textContent = `
           @keyframes categoryHeroIn {
-            0% { opacity: 0; transform: translateY(30px) scale(0.8); }
-            60% { opacity: 1; transform: translateY(-6px) scale(1.05); filter: drop-shadow(0 0 40px rgba(255,69,0,0.8)); }
-            100% { opacity: 1; transform: translateY(0) scale(1); filter: drop-shadow(0 0 20px rgba(255,69,0,0.5)); }
+            0% { opacity: 0; transform: translateY(25px) scale(0.85); }
+            60% { opacity: 1; transform: translateY(-4px) scale(1.03); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
           }
           .animate-fade-in-up {
-            animation: fadeInUp 1s ease-out 0.6s both;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
           }
           @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
           }
           .animate-bounce-slow {
@@ -648,20 +637,20 @@
           }
           @keyframes bounceSlow {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
+            50% { transform: translateY(-4px); }
           }
           .animate-float {
             animation: floatY 3s ease-in-out infinite;
           }
           @keyframes floatY {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            50% { transform: translateY(-6px); }
           }
         `;
         document.head.appendChild(style);
       }
     })();
   </script>
-  <!-- Inicializar contadores automáticamente con el IntersectionObserver de interactions.js -->
+
 </body>
 </html>
