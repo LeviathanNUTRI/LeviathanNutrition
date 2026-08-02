@@ -1,5 +1,5 @@
 /* ==============================================================
-   LEVIATHAN NUTRITION — interactions.js (v12)
+   LEVIATHAN NUTRITION — interactions.js (v13)
    - Producto NOXRAGE con selector de peso en tarjeta y modal
    - Oferta especial: 10% de descuento en la segunda unidad de cada par
    - Badge de descuento dinámico sobre el campo de cantidad
@@ -9,6 +9,9 @@
    - Filtro de peso + cantidad en la misma fila (para un solo atributo)
    - Precio más compacto y profesional
    - Reflejos animados en la imagen del producto
+   - Soporte para la nueva sección "Combos en Promo"
+   - Click en tarjetas (tanto en productos destacados como en combos) abre el modal
+   - Estilos mejorados para el badge "PROMO"
 ================================================================= */
 (function () {
   'use strict';
@@ -594,8 +597,6 @@
         const peso = selections.peso || '700g';
         const pesoImg = `assets/img/Noxrage_${peso}.png`;
         const fallbackImg = 'assets/img/Noxrage_2uni.png';
-        // Si el peso es 700g, la imagen de portada es la misma, pero la ponemos igual
-        // para que el fallback funcione siempre.
         return [pesoImg, fallbackImg];
       }
     }
@@ -1112,18 +1113,20 @@
     pcardOfferMessage.classList.remove('show');
   }
 
-  // ===== CLICK EN TARJETAS (excepto botones) =====
-  document.getElementById('product-grid').addEventListener('click', (e) => {
+  // ===== CLICK EN TARJETAS (excepto botones) — AHORA TAMBIÉN EN LA SECCIÓN DE COMBOS =====
+  document.addEventListener('click', (e) => {
     const card = e.target.closest('.product-card');
     if (!card) return;
+    // Si el clic fue en un botón de peso, botón de añadir al carrito, o el botón de vista rápida, no abrimos el modal
     if (e.target.closest('.weight-btn') || e.target.closest('.add-cart-btn') || e.target.closest('.quick-view-btn')) {
       return;
     }
+    // Si el clic fue en la imagen o en el área general, abrimos el modal
     openQuickview(card);
   });
 
   // ===== BOTONES DE PESO EN LA TARJETA =====
-  document.getElementById('product-grid').addEventListener('click', (e) => {
+  document.addEventListener('click', (e) => {
     const weightBtn = e.target.closest('.weight-btn');
     if (!weightBtn) return;
     e.preventDefault();
@@ -1571,7 +1574,7 @@
     document.head.appendChild(styleBadge);
   }
 
-  // Inyectar estilos para el badge de descuento, botón de oferta y reflejos premium
+  // Inyectar estilos para el badge de descuento, botón de oferta, reflejos premium y BADGE PROMO
   if (!document.getElementById('pcard-offer-styles')) {
     const styleOffer = document.createElement('style');
     styleOffer.id = 'pcard-offer-styles';
@@ -1812,6 +1815,31 @@
       @keyframes price-glow {
         0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
         50% { text-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
+      }
+
+      /* ==== NUEVO: Badge "PROMO" para combos ==== */
+      .badge-promo {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        left: auto;
+        z-index: 5;
+        background: linear-gradient(135deg, #FF6B6B, #EE5A24);
+        color: #fff;
+        font-size: 0.6rem;
+        font-weight: 900;
+        padding: 4px 12px;
+        border-radius: 999px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        box-shadow: 0 4px 15px rgba(238, 90, 36, 0.6), inset 0 1px 0 rgba(255,255,255,0.2);
+        transform: perspective(200px) rotateY(-4deg) rotateX(2deg);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        animation: promo-pulse 1.8s ease-in-out infinite;
+      }
+      @keyframes promo-pulse {
+        0%, 100% { box-shadow: 0 4px 15px rgba(238, 90, 36, 0.5); }
+        50% { box-shadow: 0 4px 25px rgba(238, 90, 36, 0.9), 0 0 40px rgba(238, 90, 36, 0.2); }
       }
     `;
     document.head.appendChild(styleOffer);
