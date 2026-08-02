@@ -64,7 +64,7 @@
   </div>
 
   <!-- ============================================================
-       HEADER / NAVBAR
+       HEADER / NAVBAR (con nuevo botón "COMBOS")
   ============================================================= -->
   <header id="site-header" class="fixed top-0 left-0 w-full z-50 nav-solid">
     <div class="max-w-[1600px] mx-auto px-6 md:px-8">
@@ -89,6 +89,8 @@
               <a href="fuerza_y_rendimiento.html" class="dropdown-item" role="menuitem">Fuerza y Rendimiento</a>
             </div>
           </div>
+          <!-- NUEVO BOTÓN COMBOS -->
+          <a href="#combos" class="nav-link">Combos</a>
           <a href="#nosotros" class="nav-link">Nosotros</a>
           <a href="#contacto" class="nav-link">Contacto</a>
         </nav>
@@ -129,7 +131,7 @@
   </div>
 
   <!-- ============================================================
-       HERO
+       HERO (sin cambios)
   ============================================================= -->
   <section id="inicio" class="relative z-10 min-h-screen flex items-end overflow-hidden">
     <div class="absolute top-0 left-0 w-full h-24 bg-lv-black z-0"></div>
@@ -240,7 +242,7 @@
   </section>
 
   <!-- ============================================================
-       CATEGORÍAS
+       CATEGORÍAS (sin cambios)
   ============================================================= -->
   <section id="categorias" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-24">
     <div class="section-heading reveal-on-scroll text-center mb-12">
@@ -411,7 +413,6 @@
           </button>
         </div>
         <div class="product-info">
-          <!-- Contenedor flexible para categoría + botones de peso -->
           <div class="product-header-row">
             <p class="product-cat">Pre-Entreno</p>
             <div class="product-weight-buttons" data-weight="700g">
@@ -419,7 +420,6 @@
               <button class="weight-btn" data-weight="350g">350g</button>
             </div>
           </div>
-          <!-- Nombre dinámico (se actualizará con JS) -->
           <h3 class="product-name" id="noxrage-name">PRE-ENTRENO NOXRAGE 700G</h3>
           <div class="product-rating">★★★★★ <span>4.8 (54)</span></div>
           <div class="product-price-row">
@@ -434,7 +434,7 @@
         </div>
       </article>
 
-      <!-- ============ PRODUCTO 3: Creatine Monohydrate ============ -->
+      <!-- ============ PRODUCTO 3: ECOCOMBO ISO WHEY + CREATINE ============ -->
       <article class="product-card" data-category="creatina" data-name="Creatine Monohydrate" data-price="S/ 99" data-cat-label="Creatina" data-img="assets/img/ECOCOMBO ISO WHEY_1.1KG.png">
         <div class="product-img-wrap">
           <img src="assets/img/ECOCOMBO ISO WHEY_1.1KG.png" alt="Leviathan Creatine Monohydrate" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -452,7 +452,7 @@
           <div class="product-price-row">
             <div>
               <span class="product-price">S/ 149.00</span>
-              <span class="product-price-old" id="noxrage-old-price">S/ 160</span>
+              <span class="product-price-old">S/ 160</span>
             </div>
             <button class="add-cart-btn" data-ripple>
               <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -461,8 +461,8 @@
         </div>
       </article>
 
-      <!-- ============ PRODUCTO 4: Fat ============ -->
-      <article class="product-card" data-category="quemadores" data-name="Fat" data-price="S/ 70 data-cat-label="Quemadores" data-img="assets/img/Fat.png">
+      <!-- ============ PRODUCTO 4: XFAT LOSS ============ -->
+      <article class="product-card" data-category="quemadores" data-name="Fat" data-price="S/ 70" data-cat-label="Quemadores" data-img="assets/img/Fat.png">
         <span class="product-badge badge-sale">-15%</span>
         <div class="product-img-wrap">
           <img src="assets/img/Fat.png" alt="Leviathan XFAT LOSS" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -489,7 +489,7 @@
         </div>
       </article>
 
-      <!-- ============ PRODUCTO 5: Mass Gainer 5kg ============ -->
+      <!-- ============ PRODUCTO 5: COMBO ISO WHEY PRO + CREATINE + REGALOS ============ -->
       <article class="product-card" data-category="proteina" data-name="Mass Gainer 5kg" data-price="S/ 210" data-cat-label="Proteína" data-img="assets/img/COMBO ISO WHEY CREATINE_Cookies & Cream_1.1kg_diabolus.png">
         <div class="product-img-wrap">
           <img src="assets/img/COMBO ISO WHEY CREATINE_Cookies & Cream_1.1kg_diabolus.png" alt="Leviathan Mass Gainer" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -506,8 +506,8 @@
           <div class="product-rating">★★★★★ <span>4.7 (98)</span></div>
           <div class="product-price-row">
             <div>
-              <span class="product-price">S/162.00</span>
-              <span class="product-price-old" id="noxrage-old-price">S/ 175.00</span>
+              <span class="product-price">S/ 162.00</span>
+              <span class="product-price-old">S/ 175.00</span>
             </div>
             <button class="add-cart-btn" data-ripple>
               <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -516,7 +516,7 @@
         </div>
       </article>
 
-      <!-- ============ PRODUCTO 6: Colageno ============ -->
+      <!-- ============ PRODUCTO 6: COLAGENO ============ -->
       <article class="product-card" data-category="vitaminas" data-name="Colageno" data-price="S/ 69.90" data-cat-label="Vitaminas" data-img="assets/img/COLAGENO.png">
         <div class="product-img-wrap">
           <img src="assets/img/COLAGENO.png" alt="Leviathan COLAGENO" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -534,7 +534,7 @@
           <div class="product-price-row">
             <div>
               <span class="product-price">S/ 69.90</span>
-              <span class="product-price-old" id="noxrage-old-price">S/ 75.00</span>
+              <span class="product-price-old">S/ 75.00</span>
             </div>
             <button class="add-cart-btn" data-ripple>
               <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -561,7 +561,7 @@
           <div class="product-price-row">
             <div>
               <span class="product-price">S/ 54.00</span>
-              <span class="product-price-old" id="noxrage-old-price">S/ 60.00</span>
+              <span class="product-price-old">S/ 60.00</span>
             </div>
             <button class="add-cart-btn" data-ripple>
               <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -578,19 +578,143 @@
   </section>
 
   <!-- ============================================================
-       NOSOTROS
+       NUEVA SECCIÓN: COMBOS EN PROMO (ALINEADA A LA IZQUIERDA)
+  ============================================================= -->
+  <section id="combos" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-20">
+    <div class="reveal-on-scroll">
+      <!-- Encabezado alineado a la izquierda -->
+      <div class="flex items-center gap-3 mb-3">
+        <span class="eyebrow-line"></span>
+        <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Ahorra en combos</span>
+      </div>
+      <h2 class="font-display text-[clamp(2rem,4vw,3.2rem)] leading-[0.95] text-white">
+        COMBOS EN <span class="text-electric-inline">PROMO</span>
+      </h2>
+      <p class="text-lv-steel max-w-lg mt-2 mb-8">Lleva más por menos. Combos exclusivos con descuentos especiales.</p>
+    </div>
+
+    <!-- Grid de 3 combos -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <!-- COMBO 1: WHEY PRO + CREATINE (con badge "PROMO") -->
+      <article class="product-card product-card--combo reveal-on-scroll" data-id="whey-pro-creatine" data-category="proteina" data-name="Whey Protein Isolate" data-price="S/ 189" data-cat-label="Proteína" data-img="assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg_bebidas energeticas.png">
+        <span class="product-badge badge-promo">PROMO</span>
+        <div class="product-img-wrap">
+          <img src="assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg_bebidas energeticas.png" alt="COMBO WHEY + CREATINE" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 3v3h6V3"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Proteína</p>
+          <h3 class="product-name">COMBO WEY PRO + CREATINE + REGALOS</h3>
+          <div class="product-rating">★★★★★ <span>4.9 (312)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">S/ 89.00</span>
+              <span class="product-price-old">S/ 110.00</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- COMBO 2: NOXRAGE + REGALO (con badge "PROMO") -->
+      <article class="product-card product-card--combo reveal-on-scroll" data-id="noxrage" data-category="pre-entreno" data-name="PRE-ENTRENO NOXRAGE 700G" data-price="S/ 169.90" data-cat-label="Pre-Entreno" data-img="assets/img/Noxrage_2uni.png" data-selected-weight="700g">
+        <span class="product-badge badge-promo">PROMO</span>
+        <div class="product-img-wrap">
+          <img src="assets/img/Noxrage_2uni.png" alt="NOXRAGE" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <div class="product-header-row">
+            <p class="product-cat">Pre-Entreno</p>
+            <div class="product-weight-buttons" data-weight="700g">
+              <button class="weight-btn active" data-weight="700g">700g</button>
+              <button class="weight-btn" data-weight="350g">350g</button>
+            </div>
+          </div>
+          <h3 class="product-name" id="noxrage-name">PRE-ENTRENO NOXRAGE 700G</h3>
+          <div class="product-rating">★★★★★ <span>4.8 (54)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price" id="noxrage-price">S/ 169.90</span>
+              <span class="product-price-old" id="noxrage-old-price">S/ 180</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- COMBO 3: ECOCOMBO ISO WHEY + CREATINE (con badge "PROMO") -->
+      <article class="product-card product-card--combo reveal-on-scroll" data-category="creatina" data-name="Creatine Monohydrate" data-price="S/ 99" data-cat-label="Creatina" data-img="assets/img/ECOCOMBO ISO WHEY_1.1KG.png">
+        <span class="product-badge badge-promo">PROMO</span>
+        <div class="product-img-wrap">
+          <img src="assets/img/ECOCOMBO ISO WHEY_1.1KG.png" alt="ECOCOMBO" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Creatina</p>
+          <h3 class="product-name">ECOCOMBO ISO WHEY + CREATINE</h3>
+          <div class="product-rating">★★★★★ <span>4.9 (441)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">S/ 149.00</span>
+              <span class="product-price-old">S/ 160</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Botón "Ver más" -->
+    <div class="flex justify-center mt-10 reveal-on-scroll">
+      <a href="#productos" class="btn-secondary inline-flex items-center gap-2">
+        <span>Descubre más combos</span>
+        <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       NOSOTROS — CON VIDEO EN LUGAR DE IMAGEN
   ============================================================= -->
   <section id="nosotros" class="relative z-10 py-28 overflow-hidden nosotros-section">
     <div class="absolute inset-0 nosotros-glow pointer-events-none"></div>
     <div class="relative max-w-[1600px] mx-auto px-6 md:px-8 grid lg:grid-cols-2 gap-16 items-center">
+      <!-- Lado izquierdo: VIDEO (reemplaza la imagen) -->
       <div class="reveal-on-scroll nosotros-img-wrap">
-        <img src="assets/img/equipo-leviathan.jpg" alt="Equipo Leviathan Nutrition" class="nosotros-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="nosotros-placeholder" style="display:none">
-          <svg class="w-14 h-14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5"/><path d="M14 3l7 7-2.5 2.5L11 5.5 14 3z"/><path d="M3 14l7 7-2.5 2.5-7-7L3 14z"/></svg>
-          <p>Reemplaza <code>assets/img/equipo-leviathan.jpg</code></p>
-        </div>
+        <!-- Video que se adapta al contenedor -->
+        <video class="nosotros-video" autoplay muted loop playsinline>
+          <!-- CAMBIA LA RUTA POR LA DE TU VIDEO -->
+          <source src="assets/video/nosotros_hero.mp4" type="video/mp4">
+          <!-- Fallback: si no hay video, muestra la imagen -->
+          <img src="assets/img/equipo-leviathan.jpg" alt="Equipo Leviathan Nutrition" class="nosotros-img" />
+        </video>
         <div class="nosotros-frame"></div>
       </div>
+      <!-- Lado derecho: texto (sin cambios) -->
       <div>
         <div class="flex items-center gap-3 mb-4 reveal-on-scroll">
           <span class="eyebrow-line"></span>
@@ -649,7 +773,7 @@
   </section>
 
   <!-- ============================================================
-       CONTACTO
+       CONTACTO (sin cambios)
   ============================================================= -->
   <section id="contacto" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-28">
     <div class="section-heading reveal-on-scroll mb-14">
@@ -709,7 +833,7 @@
   </section>
 
   <!-- ============================================================
-       FOOTER
+       FOOTER (sin cambios)
   ============================================================= -->
   <footer class="relative z-10 border-t border-white/[0.06] mt-10">
     <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-16 grid md:grid-cols-[1.3fr_0.7fr_0.7fr_1fr] gap-12">
@@ -880,5 +1004,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="particles.js"></script>
   <script src="interactions.js"></script>
+
 </body>
 </html>
