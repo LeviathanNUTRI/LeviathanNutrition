@@ -600,14 +600,85 @@
         return [pesoImg, fallbackImg];
       }
     },
-    // ✅ ISO WHEY – AHORA DENTRO DEL OBJETO
-    'iso whey-pro-creatine': {
+    'ecocombo iso whey-pro-creatine': {
+      name: 'ISO WHEY PRO + CREATINE 1.1 KG',
+      rating: 468,
+      reviews: 197,
+      description: 'Despierta a la bestia que llevas dentro. Lleva tu rendimiento al extremo y domina el gimnasio con nuestro pack de fuerza y construcción muscular.',
+      basePrice: 149.90,
+      oldPrice: 160,
+      defaultImage: 'assets/img/ECOCOMBO ISO WHEY_1.1KG.png',
+      attributes: [
+        {
+          key: 'sabor',
+          label: 'Sabores',
+          options: [
+            { id: 'chocolate', label: 'Chocolate' },
+            { id: 'vainilla', label: 'Vainilla' },
+            { id: 'cookies', label: 'Cookies & Cream' },
+          ],
+        },
+        {
+          key: 'peso',
+          label: 'Iso Whey Pro P.Neto',
+          options: [
+            { id: '1.1kg', label: '1.1 kg', priceDelta: 0 },
+            { id: '2.5kg', label: '2.5 kg', priceDelta: 45 },
+            { id: '3kg', label: '3 kg', priceDelta: 90 },
+          ],
+        },
+      ],
+      hasOffer: false,
+      imageResolver: function(selections) {
+        const saborMap = {
+          'chocolate': ['chocolate'],
+          'vainilla': ['vainilla', 'vaivinilla'],
+          'cookies': ['Cookies & Cream', 'Cookies_&_Cream']
+        };
+        const saborList = saborMap[selections.sabor] || [selections.sabor];
+        const peso = selections.peso || '1.1kg';
+        const baseName = 'COMBO ISO WHEY PRO_CREATINE';
+        const rutas = [];
+        const seen = new Set();
+         
+        saborList.forEach(s => addPath(s, peso, ''));
+        if (selections.sabor === 'vainilla' && peso === '1.1kg') {
+          const pathConLlave = `assets/img/${baseName}_vainilla_1.1kg{.png`;
+          if (!seen.has(pathConLlave)) {
+            seen.add(pathConLlave);
+            rutas.push(pathConLlave);
+          }
+        }
+        if (regalo === 'bebidas energeticas') {
+          saborList.forEach(s => {
+            const pathConGuion = `assets/img/${baseName}_${s}_${peso}.png`;
+            if (!seen.has(pathConGuion)) {
+              seen.add(pathConGuion);
+              rutas.push(pathConGuion);
+            }
+          });
+        }
+        const defaultPaths = [
+          'assets/img/ECOCOMBO ISO WHEY_1.1KG.png'
+        ];
+        defaultPaths.forEach(p => {
+          if (!seen.has(p)) {
+            seen.add(p);
+            rutas.push(p);
+          }
+        });
+        return rutas;
+      }
+    }
+  };
+    // COMBO ISO WHEY – AHORA DENTRO DEL OBJETO
+    'combo iso whey-pro-creatine': {
       name: 'ISO WHEY PRO + CREATINE 1.1 KG + REGALOS',
       rating: 4.8,
-      reviews: 292,
+      reviews: 262,
       description: 'Despierta a la bestia que llevas dentro. Lleva tu rendimiento al extremo y domina el gimnasio con nuestro pack de fuerza y construcción muscular.',
       basePrice: 162.00,
-      oldPrice: 175,
+      oldPrice: 175.00,
       defaultImage: 'assets/img/COMBO ISO WHEY CREATINE_Cookies & Cream_1.1kg_diabolus.png',
       attributes: [
         {
