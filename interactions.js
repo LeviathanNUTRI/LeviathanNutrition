@@ -642,7 +642,6 @@
         return [this.defaultImage];
       }
     };
-  }
 'iso whey-pro-creatine': {
       name: 'ISO WHEY PRO + CREATINE 1.1 KG + REGALOS',
       rating: 4.8,
@@ -744,7 +743,7 @@
     const richData = PRODUCT_DB[id];
     return richData ? Object.assign({ id }, richData) : Object.assign({ id }, buildGenericProduct(card));
   }
-
+  }
   // -------- Elementos del modal --------
   const quickviewOverlay = document.getElementById('quickview-overlay');
   const quickviewModal = document.getElementById('quickview-modal');
