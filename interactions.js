@@ -601,7 +601,7 @@
       }
     },
     // ✅ ISO WHEY – AHORA DENTRO DEL OBJETO
-    'iso-whey-pro-creatine': {
+    'iso whey-pro-creatine': {
       name: 'ISO WHEY PRO + CREATINE 1.1 KG + REGALOS',
       rating: 4.8,
       reviews: 292,
