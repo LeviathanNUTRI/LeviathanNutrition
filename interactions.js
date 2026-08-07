@@ -638,106 +638,110 @@
         { key: 'peso', label: 'Presentación', options: [{ id: 'unico', label: 'Único', priceDelta: 0 }] },
         { key: 'regalo', label: 'Regalo', options: [{ id: 'sin-regalo', label: 'Sin regalo' }] },
       ],
+       
       imageResolver: function(selections) {
         return [this.defaultImage];
       }
     };
-'iso whey-pro-creatine': {
-      name: 'ISO WHEY PRO + CREATINE 1.1 KG + REGALOS',
-      rating: 4.8,
-      reviews: 292,
-      description: 'Despierta a la bestia que llevas dentro. Lleva tu rendimiento al extremo y domina el gimnasio con nuestro pack de fuerza y construcción muscular.',
-      basePrice: 162.00,
-      oldPrice: 175,
-      defaultImage: 'assets/img/COMBO ISO WHEY CREATINE_Cookies & Cream_1.1kg_diabolus.png',
-      attributes: [
-        {
-          key: 'sabor',
-          label: 'Sabores',
-          options: [
-            { id: 'chocolate', label: 'Chocolate' },
-            { id: 'vainilla', label: 'Vainilla' },
-            { id: 'cookies', label: 'Cookies & Cream' },
-          ],
-        },
-        {
-          key: 'peso',
-          label: 'Iso Whey Pro P.Neto',
-          options: [
-            { id: '1.1kg', label: '1.1 kg', priceDelta: 0 },
-            { id: '2.5kg', label: '2.5 kg', priceDelta: 45 },
-            { id: '3kg', label: '3 kg', priceDelta: 90 },
-          ],
-        },
-        {
-          key: 'regalo',
-          label: 'Regalo',
-          options: [
-            { id: 'bebidas energeticas', label: '2 bebidas energéticas' },
-            { id: 'diabolus', label: '2 Diabolus' },
-            { id: 'sin-regalo', label: 'Sin regalo' },
-          ],
-        },
-      ],
-      hasOffer: false,
-      imageResolver: function(selections) {
-        const saborMap = {
-          'chocolate': ['chocolate'],
-          'vainilla': ['vainilla', 'vaivinilla'],
-          'cookies': ['Cookies & Cream', 'Cookies_&_Cream']
-        };
-        const saborList = saborMap[selections.sabor] || [selections.sabor];
-        const peso = selections.peso || '1.1kg';
-        const regalo = selections.regalo || 'sin-regalo';
-        const baseName = 'COMBO ISO WHEY PRO_CREATINE';
-        const rutas = [];
-        const seen = new Set();
+},
+  // ✅ ISO WHEY – AHORA DENTRO DEL OBJETO
+  'iso-whey-pro-creatine': {   // <- Usa un slug sin espacios ni mayúsculas
+    name: 'ISO WHEY PRO + CREATINE 1.1 KG + REGALOS',
+    rating: 4.8,
+    reviews: 292,
+    description: 'Despierta a la bestia que llevas dentro. Lleva tu rendimiento al extremo y domina el gimnasio con nuestro pack de fuerza y construcción muscular.',
+    basePrice: 162.00,
+    oldPrice: 175,
+    defaultImage: 'assets/img/COMBO ISO WHEY CREATINE_Cookies & Cream_1.1kg_diabolus.png',
+    attributes: [
+      {
+        key: 'sabor',
+        label: 'Sabores',
+        options: [
+          { id: 'chocolate', label: 'Chocolate' },
+          { id: 'vainilla', label: 'Vainilla' },
+          { id: 'cookies', label: 'Cookies & Cream' },
+        ],
+      },
+      {
+        key: 'peso',
+        label: 'Iso Whey Pro P.Neto',
+        options: [
+          { id: '1.1kg', label: '1.1 kg', priceDelta: 0 },
+          { id: '2.5kg', label: '2.5 kg', priceDelta: 45 },
+          { id: '3kg', label: '3 kg', priceDelta: 90 },
+        ],
+      },
+      {
+        key: 'regalo',
+        label: 'Regalo',
+        options: [
+          { id: 'bebidas energeticas', label: '2 bebidas energéticas' },
+          { id: 'diabolus', label: '2 Diabolus' },
+          { id: 'sin-regalo', label: 'Sin regalo' },
+        ],
+      },
+    ],
+    hasOffer: false,
+    imageResolver: function(selections) {
+      const saborMap = {
+        'chocolate': ['chocolate'],
+        'vainilla': ['vainilla', 'vaivinilla'],
+        'cookies': ['Cookies & Cream', 'Cookies_&_Cream']
+      };
+      const saborList = saborMap[selections.sabor] || [selections.sabor];
+      const peso = selections.peso || '1.1kg';
+      const regalo = selections.regalo || 'sin-regalo';
+      const baseName = 'COMBO ISO WHEY PRO_CREATINE';
+      const rutas = [];
+      const seen = new Set();
 
-        const addPath = (sabor, pesoVal, regaloVal) => {
-          let path = `assets/img/${baseName}_${sabor}_${pesoVal}`;
-          if (regaloVal) {
-            path += `_${regaloVal}`;
-          }
-          path += '.png';
-          if (!seen.has(path)) {
-            seen.add(path);
-            rutas.push(path);
-          }
-        };
+      const addPath = (sabor, pesoVal, regaloVal) => {
+        let path = `assets/img/${baseName}_${sabor}_${pesoVal}`;
+        if (regaloVal) {
+          path += `_${regaloVal}`;
+        }
+        path += '.png';
+        if (!seen.has(path)) {
+          seen.add(path);
+          rutas.push(path);
+        }
+      };
 
-        if (regalo !== 'sin-regalo') {
-          saborList.forEach(s => addPath(s, peso, regalo));
+      if (regalo !== 'sin-regalo') {
+        saborList.forEach(s => addPath(s, peso, regalo));
+      }
+      saborList.forEach(s => addPath(s, peso, 'sin-regalo'));
+      saborList.forEach(s => addPath(s, peso, ''));
+      if (selections.sabor === 'vainilla' && peso === '1.1kg') {
+        const pathConLlave = `assets/img/${baseName}_vainilla_1.1kg_sin-regalo{.png`;
+        if (!seen.has(pathConLlave)) {
+          seen.add(pathConLlave);
+          rutas.push(pathConLlave);
         }
-        saborList.forEach(s => addPath(s, peso, 'sin-regalo'));
-        saborList.forEach(s => addPath(s, peso, ''));
-        if (selections.sabor === 'vainilla' && peso === '1.1kg') {
-          const pathConLlave = `assets/img/${baseName}_vainilla_1.1kg_sin-regalo{.png`;
-          if (!seen.has(pathConLlave)) {
-            seen.add(pathConLlave);
-            rutas.push(pathConLlave);
-          }
-        }
-        if (regalo === 'bebidas energeticas') {
-          saborList.forEach(s => {
-            const pathConGuion = `assets/img/${baseName}_${s}_${peso}_bebidas_energeticas.png`;
-            if (!seen.has(pathConGuion)) {
-              seen.add(pathConGuion);
-              rutas.push(pathConGuion);
-            }
-          });
-        }
-        const defaultPaths = [
-          'assets/img/COMBO ISO WHEY PRO_CREATINE_chocolate_1.1kg_sin-regalo.png'
-        ];
-        defaultPaths.forEach(p => {
-          if (!seen.has(p)) {
-            seen.add(p);
-            rutas.push(p);
+      }
+      if (regalo === 'bebidas energeticas') {
+        saborList.forEach(s => {
+          const pathConGuion = `assets/img/${baseName}_${s}_${peso}_bebidas_energeticas.png`;
+          if (!seen.has(pathConGuion)) {
+            seen.add(pathConGuion);
+            rutas.push(pathConGuion);
           }
         });
-        return rutas;
       }
-    },
+      const defaultPaths = [
+        'assets/img/COMBO ISO WHEY PRO_CREATINE_chocolate_1.1kg_sin-regalo.png'
+      ];
+      defaultPaths.forEach(p => {
+        if (!seen.has(p)) {
+          seen.add(p);
+          rutas.push(p);
+        }
+      });
+      return rutas;
+    }
+  }
+};
   function getProductForCard(card) {
     const id = card.dataset.id || slugify(card.dataset.name);
     const richData = PRODUCT_DB[id];
