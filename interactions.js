@@ -1,17 +1,11 @@
 /* ==============================================================
-   LEVIATHAN NUTRITION — interactions.js (v13)
-   - Producto NOXRAGE con selector de peso en tarjeta y modal
-   - Oferta especial: 10% de descuento en la segunda unidad de cada par
-   - Badge de descuento dinámico sobre el campo de cantidad
-   - Botón de oferta con mensaje emergente interactivo
-   - Sincronización total entre tarjeta y modal
-   - Fallback de imagen para NOXRAGE (usa Noxrage_2uni.png si falla)
-   - Filtro de peso + cantidad en la misma fila (para un solo atributo)
-   - Precio más compacto y profesional
-   - Reflejos animados en la imagen del producto
-   - Soporte para la nueva sección "Combos en Promo"
-   - Click en tarjetas (tanto en productos destacados como en combos) abre el modal
-   - Estilos mejorados para el badge "PROMO"
+   LEVIATHAN NUTRITION — interactions.js (v14)
+   - Corregido error de sintaxis en PRODUCT_DB
+   - Añadidas plantillas duplicadas para nuevos productos
+   - Productos: whey-pro-creatine, noxrage, ecocombo, combo-iso
+   - Soporte para la sección "Combos en Promo"
+   - Click en tarjetas (productos y combos) abre el modal
+   - Oferta especial, descuentos, fallbacks, etc.
 ================================================================= */
 (function () {
   'use strict';
@@ -474,8 +468,12 @@
   ---------------------------------------------------------- */
   const WHATSAPP_NUMBER = '51905649768';
 
-  // BASE DE DATOS DE PRODUCTOS
+  // ================================================================
+  // BASE DE DATOS DE PRODUCTOS (CORREGIDA Y CON PLANTILLAS DUPLICADAS)
+  // ================================================================
   const PRODUCT_DB = {
+
+    // ---------- PRODUCTO 1: WHEY PRO + CREATINE ----------
     'whey-pro-creatine': {
       name: 'WHEY PRO + CREATINE 1.1 KG + REGALOS',
       rating: 4.9,
@@ -572,7 +570,8 @@
         return rutas;
       }
     },
-    // ===================== NOXRAGE (ACTUALIZADO CON FALLBACK) =====================
+
+    // ---------- PRODUCTO 2: NOXRAGE ----------
     'noxrage': {
       name: 'PRE-ENTRENO NOXRAGE',
       rating: 4.8,
@@ -580,7 +579,7 @@
       description: 'Maximiza tu enfoque y energía con nuestra fórmula avanzada. Diseñado para potenciar tu rendimiento físico, aumentar tu resistencia y retrasar la fatiga en cada entrenamiento. ¡Supera tus límites con Leviathan Nutrition!',
       basePrice: 169.90,
       oldPrice: 180,
-      defaultImage: 'assets/img/Noxrage_2uni.png', // imagen de portada
+      defaultImage: 'assets/img/Noxrage_2uni.png',
       hasOffer: true,
       attributes: [
         {
@@ -592,7 +591,6 @@
           ]
         }
       ],
-      // imageResolver devuelve ARRAY con fallback: primero la imagen del peso, luego la de portada
       imageResolver: function(selections) {
         const peso = selections.peso || '700g';
         const pesoImg = `assets/img/Noxrage_${peso}.png`;
@@ -600,9 +598,11 @@
         return [pesoImg, fallbackImg];
       }
     },
-    'ecocombo iso whey-pro-creatine': {
+
+    // ---------- PRODUCTO 3: ECOCOMBO ISO WHEY + CREATINE ----------
+    'ecocombo-iso-whey': {
       name: 'ISO WHEY PRO + CREATINE 1.1 KG',
-      rating: 468,
+      rating: 4.7,
       reviews: 197,
       description: 'Despierta a la bestia que llevas dentro. Lleva tu rendimiento al extremo y domina el gimnasio con nuestro pack de fuerza y construcción muscular.',
       basePrice: 149.90,
@@ -640,8 +640,17 @@
         const baseName = 'COMBO ISO WHEY PRO_CREATINE';
         const rutas = [];
         const seen = new Set();
-         
-        saborList.forEach(s => addPath(s, peso, ''));
+
+        const addPath = (sabor, pesoVal) => {
+          let path = `assets/img/${baseName}_${sabor}_${pesoVal}.png`;
+          if (!seen.has(path)) {
+            seen.add(path);
+            rutas.push(path);
+          }
+        };
+
+        saborList.forEach(s => addPath(s, peso));
+        // Fallback especial para vainilla (si existe)
         if (selections.sabor === 'vainilla' && peso === '1.1kg') {
           const pathConLlave = `assets/img/${baseName}_vainilla_1.1kg{.png`;
           if (!seen.has(pathConLlave)) {
@@ -649,15 +658,7 @@
             rutas.push(pathConLlave);
           }
         }
-        if (regalo === 'bebidas energeticas') {
-          saborList.forEach(s => {
-            const pathConGuion = `assets/img/${baseName}_${s}_${peso}.png`;
-            if (!seen.has(pathConGuion)) {
-              seen.add(pathConGuion);
-              rutas.push(pathConGuion);
-            }
-          });
-        }
+        // Imagen por defecto
         const defaultPaths = [
           'assets/img/ECOCOMBO ISO WHEY_1.1KG.png'
         ];
@@ -669,10 +670,10 @@
         });
         return rutas;
       }
-    }
-  };
-    // COMBO ISO WHEY – AHORA DENTRO DEL OBJETO
-    'combo iso whey-pro-creatine': {
+    },
+
+    // ---------- PRODUCTO 4: COMBO ISO WHEY PRO + CREATINE + REGALOS ----------
+    'combo-iso-whey': {
       name: 'ISO WHEY PRO + CREATINE 1.1 KG + REGALOS',
       rating: 4.8,
       reviews: 262,
@@ -757,7 +758,8 @@
           });
         }
         const defaultPaths = [
-          'assets/img/COMBO ISO WHEY PRO_CREATINE_chocolate_1.1kg_sin-regalo.png'
+          'assets/img/COMBO ISO WHEY PRO_CREATINE_chocolate_1.1kg_sin-regalo.png',
+          'assets/img/COMBO ISO WHEY CREATINE_Cookies & Cream_1.1kg_diabolus.png'
         ];
         defaultPaths.forEach(p => {
           if (!seen.has(p)) {
@@ -767,8 +769,230 @@
         });
         return rutas;
       }
+    },
+
+    // ================================================================
+    // PLANTILLAS DUPLICADAS PARA NUEVOS PRODUCTOS (copia y modifica)
+    // ================================================================
+
+    // ---------- PLANTILLA 1: Nuevo Producto (ejemplo) ----------
+    // Copia este bloque y cambia el id, nombre, precios, imágenes, etc.
+    'nuevo-producto-1': {
+      name: 'NOMBRE DEL PRODUCTO 1',
+      rating: 4.7,
+      reviews: 100,
+      description: 'Descripción del producto 1. Personaliza este texto.',
+      basePrice: 99.90,
+      oldPrice: 120,
+      defaultImage: 'assets/img/producto1_default.png',
+      attributes: [
+        {
+          key: 'sabor',
+          label: 'Sabores',
+          options: [
+            { id: 'chocolate', label: 'Chocolate' },
+            { id: 'vainilla', label: 'Vainilla' },
+          ],
+        },
+        {
+          key: 'peso',
+          label: 'Presentación',
+          options: [
+            { id: '1kg', label: '1 kg', priceDelta: 0 },
+            { id: '2kg', label: '2 kg', priceDelta: 30 },
+          ],
+        },
+        {
+          key: 'regalo',
+          label: 'Regalo',
+          options: [
+            { id: 'shaker', label: 'Shaker' },
+            { id: 'sin-regalo', label: 'Sin regalo' },
+          ],
+        },
+      ],
+      hasOffer: false,
+      imageResolver: function(selections) {
+        const saborMap = {
+          'chocolate': ['chocolate'],
+          'vainilla': ['vainilla'],
+        };
+        const saborList = saborMap[selections.sabor] || [selections.sabor];
+        const peso = selections.peso || '1kg';
+        const regalo = selections.regalo || 'sin-regalo';
+        const baseName = 'PRODUCTO1';
+        const rutas = [];
+        const seen = new Set();
+
+        const addPath = (sabor, pesoVal, regaloVal) => {
+          let path = `assets/img/${baseName}_${sabor}_${pesoVal}`;
+          if (regaloVal && regaloVal !== 'sin-regalo') {
+            path += `_${regaloVal}`;
+          }
+          path += '.png';
+          if (!seen.has(path)) {
+            seen.add(path);
+            rutas.push(path);
+          }
+        };
+
+        if (regalo !== 'sin-regalo') {
+          saborList.forEach(s => addPath(s, peso, regalo));
+        }
+        saborList.forEach(s => addPath(s, peso, 'sin-regalo'));
+        saborList.forEach(s => addPath(s, peso, ''));
+        const defaultPaths = ['assets/img/producto1_default.png'];
+        defaultPaths.forEach(p => {
+          if (!seen.has(p)) {
+            seen.add(p);
+            rutas.push(p);
+          }
+        });
+        return rutas;
+      }
+    },
+
+    // ---------- PLANTILLA 2: Nuevo Producto (ejemplo) ----------
+    'nuevo-producto-2': {
+      name: 'NOMBRE DEL PRODUCTO 2',
+      rating: 4.6,
+      reviews: 85,
+      description: 'Descripción del producto 2. Personaliza este texto.',
+      basePrice: 79.90,
+      oldPrice: 95,
+      defaultImage: 'assets/img/producto2_default.png',
+      attributes: [
+        {
+          key: 'sabor',
+          label: 'Sabores',
+          options: [
+            { id: 'fresa', label: 'Fresa' },
+            { id: 'limon', label: 'Limón' },
+          ],
+        },
+        {
+          key: 'peso',
+          label: 'Presentación',
+          options: [
+            { id: '500g', label: '500 g', priceDelta: 0 },
+            { id: '1kg', label: '1 kg', priceDelta: 25 },
+          ],
+        },
+      ],
+      hasOffer: true, // Activa descuento por pares si quieres
+      imageResolver: function(selections) {
+        const saborMap = {
+          'fresa': ['fresa'],
+          'limon': ['limon'],
+        };
+        const saborList = saborMap[selections.sabor] || [selections.sabor];
+        const peso = selections.peso || '500g';
+        const baseName = 'PRODUCTO2';
+        const rutas = [];
+        const seen = new Set();
+
+        const addPath = (sabor, pesoVal) => {
+          let path = `assets/img/${baseName}_${sabor}_${pesoVal}.png`;
+          if (!seen.has(path)) {
+            seen.add(path);
+            rutas.push(path);
+          }
+        };
+        saborList.forEach(s => addPath(s, peso));
+        const defaultPaths = ['assets/img/producto2_default.png'];
+        defaultPaths.forEach(p => {
+          if (!seen.has(p)) {
+            seen.add(p);
+            rutas.push(p);
+          }
+        });
+        return rutas;
+      }
+    },
+
+    // ---------- PLANTILLA 3: Nuevo Producto (ejemplo) ----------
+    'nuevo-producto-3': {
+      name: 'NOMBRE DEL PRODUCTO 3',
+      rating: 4.9,
+      reviews: 200,
+      description: 'Descripción del producto 3. Personaliza este texto.',
+      basePrice: 199.90,
+      oldPrice: 230,
+      defaultImage: 'assets/img/producto3_default.png',
+      attributes: [
+        {
+          key: 'sabor',
+          label: 'Sabores',
+          options: [
+            { id: 'chocolate', label: 'Chocolate' },
+            { id: 'vainilla', label: 'Vainilla' },
+            { id: 'cookies', label: 'Cookies & Cream' },
+          ],
+        },
+        {
+          key: 'peso',
+          label: 'Presentación',
+          options: [
+            { id: '1kg', label: '1 kg', priceDelta: 0 },
+            { id: '2.5kg', label: '2.5 kg', priceDelta: 60 },
+          ],
+        },
+        {
+          key: 'regalo',
+          label: 'Regalo',
+          options: [
+            { id: 'shaker', label: 'Shaker Pro' },
+            { id: 'sin-regalo', label: 'Sin regalo' },
+          ],
+        },
+      ],
+      hasOffer: false,
+      imageResolver: function(selections) {
+        const saborMap = {
+          'chocolate': ['chocolate'],
+          'vainilla': ['vainilla'],
+          'cookies': ['Cookies & Cream'],
+        };
+        const saborList = saborMap[selections.sabor] || [selections.sabor];
+        const peso = selections.peso || '1kg';
+        const regalo = selections.regalo || 'sin-regalo';
+        const baseName = 'PRODUCTO3';
+        const rutas = [];
+        const seen = new Set();
+
+        const addPath = (sabor, pesoVal, regaloVal) => {
+          let path = `assets/img/${baseName}_${sabor}_${pesoVal}`;
+          if (regaloVal && regaloVal !== 'sin-regalo') {
+            path += `_${regaloVal}`;
+          }
+          path += '.png';
+          if (!seen.has(path)) {
+            seen.add(path);
+            rutas.push(path);
+          }
+        };
+
+        if (regalo !== 'sin-regalo') {
+          saborList.forEach(s => addPath(s, peso, regalo));
+        }
+        saborList.forEach(s => addPath(s, peso, 'sin-regalo'));
+        saborList.forEach(s => addPath(s, peso, ''));
+        const defaultPaths = ['assets/img/producto3_default.png'];
+        defaultPaths.forEach(p => {
+          if (!seen.has(p)) {
+            seen.add(p);
+            rutas.push(p);
+          }
+        });
+        return rutas;
+      }
     }
-  };
+
+  }; // FIN DE PRODUCT_DB
+
+  // ================================================================
+  // FUNCIONES AUXILIARES Y RESTANTES (sin cambios)
+  // ================================================================
 
   function slugify(str) {
     return String(str || 'producto')
@@ -1024,18 +1248,16 @@
     }, 400);
   }
 
-  // ===== RENDER DE OPCIONES CON REORGANIZACIÓN (peso + cantidad en misma fila) =====
+  // ===== RENDER DE OPCIONES =====
   function renderOptions() {
     pcardOptionsEl.innerHTML = '';
     const attrs = currentProduct.attributes;
     const hasSingleAttr = attrs.length === 1;
 
-    // Si tiene un solo atributo, lo mostramos en una fila con la cantidad a la derecha
     if (hasSingleAttr && currentProduct.id === 'noxrage') {
       const rowEl = document.createElement('div');
       rowEl.className = 'pcard-opt-row pcard-opt-row-single';
 
-      // Columna izquierda: selector de peso
       const attr = attrs[0];
       const selectedId = currentSelection[attr.key] || attr.options[0].id;
       const selectedOpt = findAttrOption(attr, selectedId);
@@ -1055,7 +1277,6 @@
       `;
       rowEl.appendChild(optEl);
 
-      // Columna derecha: cantidad
       const qtyEl = document.createElement('div');
       qtyEl.className = 'pcard-qty-wrap pcard-qty-half';
       qtyEl.innerHTML = `
@@ -1066,7 +1287,6 @@
 
       pcardOptionsEl.appendChild(rowEl);
 
-      // Aplicar selección guardada
       const dropdown = optEl.querySelector('.pcard-opt-dropdown');
       if (dropdown) {
         const items = dropdown.querySelectorAll('.pcard-opt-item');
@@ -1080,7 +1300,6 @@
       return;
     }
 
-    // Para productos con múltiples atributos, usamos el layout original
     const rows = [attrs.slice(0, 2), attrs.slice(2, 3)];
     rows.forEach((rowAttrs, rowIndex) => {
       const rowEl = document.createElement('div');
@@ -1119,7 +1338,6 @@
       pcardOptionsEl.appendChild(rowEl);
     });
 
-    // Aplicar selecciones guardadas
     for (const key in currentSelection) {
       const dropdown = pcardOptionsEl.querySelector(`.pcard-opt[data-attr="${key}"] .pcard-opt-dropdown`);
       if (dropdown) {
@@ -1135,7 +1353,7 @@
     }
   }
 
-  // ===== DELEGACIÓN DE EVENTOS PARA OPCIONES =====
+  // ===== DELEGACIÓN DE EVENTOS =====
   pcardOptionsEl.addEventListener('click', (e) => {
     const toggle = e.target.closest('.pcard-opt-toggle');
     const item = e.target.closest('.pcard-opt-item');
@@ -1187,7 +1405,6 @@
 
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.pcard-opt')) closeAllOptionDropdowns();
-    // Ocultar mensaje de oferta si se hace clic fuera del botón o del mensaje
     if (pcardOfferBtn && pcardOfferMessage) {
       const isClickOnOffer = e.target.closest('.pcard-offer-btn') || e.target.closest('.pcard-offer-message');
       if (!isClickOnOffer && pcardOfferMessage.style.display !== 'none' && pcardOfferMessage.classList.contains('show')) {
@@ -1240,7 +1457,6 @@
     pcardImgEl.alt = currentProduct.name;
     pcardImgEl.classList.remove('is-fading');
 
-    // Mostrar botón de oferta
     if (currentProduct.hasOffer) {
       pcardOfferBtn.style.display = 'flex';
       setTimeout(() => {
@@ -1281,15 +1497,13 @@
     pcardOfferMessage.classList.remove('show');
   }
 
-  // ===== CLICK EN TARJETAS (excepto botones) — AHORA TAMBIÉN EN LA SECCIÓN DE COMBOS =====
+  // ===== CLICK EN TARJETAS (productos y combos) =====
   document.addEventListener('click', (e) => {
     const card = e.target.closest('.product-card');
     if (!card) return;
-    // Si el clic fue en un botón de peso, botón de añadir al carrito, o el botón de vista rápida, no abrimos el modal
     if (e.target.closest('.weight-btn') || e.target.closest('.add-cart-btn') || e.target.closest('.quick-view-btn')) {
       return;
     }
-    // Si el clic fue en la imagen o en el área general, abrimos el modal
     openQuickview(card);
   });
 
@@ -1310,7 +1524,6 @@
       currentSelection['peso'] = weight;
       const baseName = 'PRE-ENTRENO NOXRAGE';
       pcardNameEl.textContent = `${baseName} ${weight.toUpperCase()}`;
-      // Actualizar el dropdown visualmente
       const pesoDropdown = pcardOptionsEl.querySelector('.pcard-opt[data-attr="peso"] .pcard-opt-dropdown');
       if (pesoDropdown) {
         const items = pesoDropdown.querySelectorAll('.pcard-opt-item');
@@ -1985,7 +2198,7 @@
         50% { text-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
       }
 
-      /* ==== NUEVO: Badge "PROMO" para combos ==== */
+      /* ==== Badge "PROMO" para combos ==== */
       .badge-promo {
         position: absolute;
         top: 12px;
