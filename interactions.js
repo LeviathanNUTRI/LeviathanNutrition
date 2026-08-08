@@ -578,7 +578,7 @@
       reviews: 54,
       description: 'Maximiza tu enfoque y energía con nuestra fórmula avanzada. Diseñado para potenciar tu rendimiento físico, aumentar tu resistencia y retrasar la fatiga en cada entrenamiento. ¡Supera tus límites con Leviathan Nutrition!',
       basePrice: 169.90,
-      oldPrice: 180,
+      oldPrice: 180.00,
       defaultImage: 'assets/img/Noxrage_2uni.png',
       hasOffer: true,
       attributes: [
@@ -606,8 +606,8 @@
       reviews: 197,
       description: 'Despierta a la bestia que llevas dentro. Lleva tu rendimiento al extremo y domina el gimnasio con nuestro pack de fuerza y construcción muscular.',
       basePrice: 149.90,
-      oldPrice: 160,
-      defaultImage: 'assets/img/ECOCOMBO ISO WHEY_1.1KG.png',
+      oldPrice: 160.00,
+      defaultImage: 'assets/img/ECOCOMBO ISO WHEY_chocolate_1.1kg.png',
       attributes: [
         {
           key: 'sabor',
@@ -660,7 +660,7 @@
         }
         // Imagen por defecto
         const defaultPaths = [
-          'assets/img/ECOCOMBO ISO WHEY_1.1KG.png'
+          'assets/img/ECOCOMBO ISO WHEY_chocolate_1.1kg.png'
         ];
         defaultPaths.forEach(p => {
           if (!seen.has(p)) {
