@@ -130,85 +130,29 @@
   </div>
 
   <!-- ============================================================
-       HERO DE CATEGORÍA — CON VIDEO DE FONDO (MENOS OPACO)
+       HERO DE CATEGORÍA — SOLO VIDEO + TÍTULO (SIN TEXTO EXTRA)
   ============================================================= -->
-  <section id="categoria-hero" class="relative z-10 min-h-[55vh] flex items-center justify-center overflow-hidden">
+  <section id="categoria-hero" class="relative z-10 min-h-[60vh] flex items-center justify-center overflow-hidden">
     <!-- Video de fondo -->
     <video class="absolute inset-0 w-full h-full object-cover z-0" autoplay muted loop playsinline>
       <source src="assets/video/aumentar_masa_hero.mp4" type="video/mp4">
       <img src="assets/img/categorias/aumento_masa_hero.jpg" alt="Aumentar Masa" class="absolute inset-0 w-full h-full object-cover" />
     </video>
 
-    <!-- Capas de degradado con MENOS OPACIDAD -->
-    <div class="absolute inset-0 bg-gradient-to-r from-[#050607]/70 via-[#050607]/40 to-transparent z-1"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-[#050607]/60 via-transparent to-transparent z-1"></div>
+    <!-- Capas de degradado (muy sutiles para no opacar el video) -->
+    <div class="absolute inset-0 bg-gradient-to-r from-[#050607]/60 via-[#050607]/20 to-transparent z-1"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#050607]/50 via-transparent to-transparent z-1"></div>
 
-    <div class="relative z-10 text-center max-w-4xl mx-auto px-6 py-16">
-      <div class="inline-block mb-3 px-4 py-1 border border-lv-cyan/30 rounded-full text-lv-cyan text-xs font-bold tracking-[0.2em] uppercase animate-pulse">
-        Categoría Premium
-      </div>
-
-      <!-- Título MÁS PEQUEÑO -->
-      <h1 class="font-display text-[clamp(2.8rem,6vw,4.5rem)] leading-[0.9] text-white category-hero-title">
+    <div class="relative z-10 text-center max-w-4xl mx-auto px-6">
+      <!-- TÍTULO GRANDE CENTRADO (sin badge ni botón) -->
+      <h1 class="font-display text-[clamp(3.5rem,10vw,6.5rem)] leading-[0.9] text-white category-hero-title">
         <span class="block" id="category-title-line" data-text="AUMENTAR MASA">AUMENTAR MASA</span>
       </h1>
-
-      <p class="text-lv-steel text-base md:text-lg max-w-2xl mx-auto mt-4 leading-relaxed animate-fade-in-up">
-        Suplementos diseñados para <span class="text-lv-cyan font-bold">maximizar el crecimiento muscular</span> con fórmulas de alta densidad calórica y proteínas de absorción rápida.
-      </p>
-
-      <div class="mt-6">
-        <a href="#productos" class="btn-primary group inline-flex items-center gap-3 animate-bounce-slow">
-          <span>Explorar Productos</span>
-          <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-
-      <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-lv-steel text-xs uppercase tracking-widest animate-float">
-        <span>Desliza</span>
-        <div class="w-px h-6 bg-gradient-to-b from-lv-cyan to-transparent"></div>
-      </div>
     </div>
   </section>
 
   <!-- ============================================================
-       SECCIÓN DE BENEFICIOS (contenido reducido)
-  ============================================================= -->
-  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-14">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-5 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
-        <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-7 h-7 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5"/><path d="M14 3l7 7-2.5 2.5L11 5.5 14 3z"/><path d="M3 14l7 7-2.5 2.5-7-7L3 14z"/></svg>
-        </div>
-        <h3 class="font-display text-lg text-white mb-1">Alta Densidad</h3>
-        <p class="text-lv-steel text-sm">+500 kcal por toma para superávit calórico.</p>
-      </div>
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-5 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
-        <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-7 h-7 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.5L4.5 18a1.5 1.5 0 0 0 1.3 2.3h12.4a1.5 1.5 0 0 0 1.3-2.3L14 8.5V3"/></svg>
-        </div>
-        <h3 class="font-display text-lg text-white mb-1">Proteína Premium</h3>
-        <p class="text-lv-steel text-sm">30g de proteína por dosis.</p>
-      </div>
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-5 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
-        <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-7 h-7 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
-        </div>
-        <h3 class="font-display text-lg text-white mb-1">Resultados Garantizados</h3>
-        <p class="text-lv-steel text-sm">+5kg de masa muscular en 8 semanas.</p>
-      </div>
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-5 text-center hover:border-lv-cyan/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-lv-blue/10 reveal-on-scroll">
-        <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-gradient-to-br from-lv-cyan/20 to-lv-blue/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-7 h-7 text-lv-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-        </div>
-        <h3 class="font-display text-lg text-white mb-1">Energía Constante</h3>
-        <p class="text-lv-steel text-sm">Carbohidratos de absorción gradual.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SECCIÓN DE PRODUCTOS — TÍTULO DIRECTR (SIN "DESTACADOS")
+       SECCIÓN DE PRODUCTOS — TÍTULO DIRECTO (SIN SUBTÍTULO REPETIDO)
   ============================================================= -->
   <section id="productos" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-12">
 
@@ -221,10 +165,10 @@
       <h2 class="font-display text-[clamp(2rem,4vw,3.2rem)] leading-[0.95]">
         PRODUCTOS PARA <span class="text-electric-inline">MASA MUSCULAR</span>
       </h2>
-      <p class="text-lv-steel max-w-lg mx-auto mt-2">Fórmulas premium para maximizar tu crecimiento muscular.</p>
+      <!-- ELIMINADO: <p class="text-lv-steel max-w-lg mx-auto mt-2">Fórmulas premium...</p> -->
     </div>
 
-    <!-- Control de ordenamiento -->
+    <!-- Control de ordenamiento (FUNCIONALIDAD CORREGIDA) -->
     <div class="flex justify-end items-center mb-6 reveal-on-scroll">
       <label for="sort-select" class="text-lv-steel text-xs font-bold uppercase tracking-widest mr-3">Ordenar:</label>
       <select id="sort-select" class="sort-select">
@@ -233,7 +177,7 @@
       </select>
     </div>
 
-    <!-- Grid de productos (con funcionalidad asegurada) -->
+    <!-- Grid de productos -->
     <div class="product-grid" id="product-grid">
 
       <!-- Producto 1: Whey Protein Isolate -->
@@ -612,27 +556,6 @@
             0% { opacity: 0; transform: translateY(25px) scale(0.85); }
             60% { opacity: 1; transform: translateY(-4px) scale(1.03); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
-          }
-          .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out 0.6s both;
-          }
-          @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          .animate-bounce-slow {
-            animation: bounceSlow 3s ease-in-out infinite;
-          }
-          @keyframes bounceSlow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
-          }
-          .animate-float {
-            animation: floatY 3s ease-in-out infinite;
-          }
-          @keyframes floatY {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
           }
         `;
         document.head.appendChild(style);
