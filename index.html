@@ -64,19 +64,19 @@
   </div>
 
   <!-- ============================================================
-       HEADER / NAVBAR (CON BÚSQUEDA Y MENÚ MÓVIL)
+       HEADER / NAVBAR (CORREGIDO Y OPTIMIZADO)
   ============================================================= -->
   <header id="site-header" class="fixed top-0 left-0 w-full z-50 nav-solid">
     <div class="max-w-[1600px] mx-auto px-4 md:px-8">
-      <div class="flex items-center justify-between h-20 md:h-24 overflow-visible">
+      <div class="flex items-center justify-between h-16 md:h-20 lg:h-24">
 
         <!-- LOGO -->
-        <a href="#inicio" class="logo-wrap shrink-0 group">
-          <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="logo-mark" />
+        <a href="#inicio" class="flex-shrink-0">
+          <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="h-12 md:h-16 lg:h-[72px] w-auto" style="filter: drop-shadow(0 8px 18px rgba(0,0,0,0.6)) drop-shadow(0 0 16px rgba(30,155,255,0.35));" />
         </a>
 
         <!-- NAV LINKS (escritorio) -->
-        <nav class="hidden lg:flex items-center gap-6 xl:gap-10">
+        <nav class="hidden lg:flex items-center gap-6 xl:gap-8">
           <a href="#inicio" class="nav-link active-link">Inicio</a>
           <a href="#productos" class="nav-link">Productos</a>
           <div class="relative" id="category-nav">
@@ -100,8 +100,9 @@
 
         <!-- BÚSQUEDA + ACCIONES (escritorio y móvil) -->
         <div class="flex items-center gap-2 md:gap-3">
+
           <!-- Campo de búsqueda (escritorio) -->
-          <div class="hidden md:flex search-header-wrapper">
+          <div class="hidden md:block search-header-wrapper">
             <div class="search-header-container">
               <svg class="search-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               <input type="text" id="search-input-header" placeholder="Buscar productos..." class="search-header-input" autocomplete="off" />
@@ -109,24 +110,24 @@
             </div>
           </div>
 
-          <!-- Botón búsqueda móvil (muestra el campo) -->
+          <!-- Botón búsqueda móvil -->
           <button id="search-mobile-toggle" class="md:hidden icon-btn" aria-label="Buscar">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           </button>
 
           <!-- Botón menú hamburguesa (móvil) -->
           <button id="menu-toggle" class="lg:hidden icon-btn" aria-label="Menú">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
           </button>
 
-          <!-- Mi cuenta -->
-          <button class="icon-btn hidden sm:flex" aria-label="Mi cuenta">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <!-- Mi cuenta (oculto en móvil) -->
+          <button class="hidden sm:flex icon-btn" aria-label="Mi cuenta">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </button>
 
           <!-- Carrito -->
           <button class="icon-btn relative" aria-label="Carrito">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
             <span class="cart-badge" id="cart-count">0</span>
           </button>
         </div>
@@ -188,7 +189,7 @@
   </div>
 
   <!-- ============================================================
-       HERO (sin cambios)
+       HERO (sin cambios estructurales)
   ============================================================= -->
   <section id="inicio" class="relative z-10 min-h-screen flex items-end overflow-hidden">
     <div class="absolute top-0 left-0 w-full h-24 bg-lv-black z-0"></div>
@@ -398,7 +399,7 @@
   </section>
 
   <!-- ============================================================
-       PRODUCTOS DESTACADOS (responsive)
+       PRODUCTOS DESTACADOS (sin cambios relevantes)
   ============================================================= -->
   <section id="productos" class="relative z-10 max-w-[1600px] mx-auto px-4 md:px-8 py-16 md:py-24">
 
@@ -427,7 +428,7 @@
     </div>
 
     <div class="product-grid" id="product-grid">
-      <!-- ============ PRODUCTO 1: WHEY PRO + CREATINE (MÁS VENDIDO) ============ -->
+      <!-- Producto 1: WHEY PRO + CREATINE -->
       <article class="product-card" data-id="whey-pro-creatine" data-category="proteina" data-name="Whey Protein Isolate" data-price="S/ 189" data-cat-label="Proteína" data-img="assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg_bebidas energeticas.png">
         <span class="product-badge badge-bestseller">MÁS VENDIDO</span>
         <div class="product-img-wrap">
@@ -455,7 +456,7 @@
         </div>
       </article>
 
-      <!-- ============ PRODUCTO 2: PRE-ENTRENO NOXRAGE (NUEVO) ============ -->
+      <!-- Producto 2: NOXRAGE -->
       <article class="product-card" data-id="noxrage" data-category="pre-entreno" data-name="PRE-ENTRENO NOXRAGE 700G" data-price="S/ 169.90" data-cat-label="Pre-Entreno" data-img="assets/img/Noxrage_2uni.png" data-selected-weight="700g">
         <span class="product-badge badge-oferta">¡OFERTA!</span>
         <div class="product-img-wrap">
@@ -489,7 +490,7 @@
         </div>
       </article>
 
-      <!-- ============ PRODUCTO 3: ECOCOMBO ISO WHEY ============ -->
+      <!-- Producto 3: ECOCOMBO ISO WHEY -->
       <article class="product-card" data-category="creatina" data-name="Creatine Monohydrate" data-price="S/ 99" data-cat-label="Creatina" data-img="assets/img/ECOCOMBO ISO WHEY_1.1KG.png">
         <div class="product-img-wrap">
           <img src="assets/img/ECOCOMBO ISO WHEY_1.1KG.png" alt="Leviathan Creatine Monohydrate" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -516,7 +517,7 @@
         </div>
       </article>
 
-      <!-- ============ PRODUCTO 4: XFAT LOSS ============ -->
+      <!-- Producto 4: XFAT LOSS -->
       <article class="product-card" data-category="quemadores" data-name="Fat" data-price="S/ 70" data-cat-label="Quemadores" data-img="assets/img/Fat.png">
         <span class="product-badge badge-sale">-15%</span>
         <div class="product-img-wrap">
@@ -544,7 +545,7 @@
         </div>
       </article>
 
-      <!-- ============ PRODUCTO 5: COMBO ISO WHEY PRO + CREATINE + REGALOS ============ -->
+      <!-- Producto 5: COMBO ISO WHEY PRO + CREATINE + REGALOS -->
       <article class="product-card" data-category="proteina" data-name="Mass Gainer 5kg" data-price="S/ 210" data-cat-label="Proteína" data-img="assets/img/COMBO ISO WHEY CREATINE_Cookies & Cream_1.1kg_diabolus.png">
         <div class="product-img-wrap">
           <img src="assets/img/COMBO ISO WHEY CREATINE_Cookies & Cream_1.1kg_diabolus.png" alt="Leviathan Mass Gainer" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -571,7 +572,7 @@
         </div>
       </article>
 
-      <!-- ============ PRODUCTO 6: COLAGENO ============ -->
+      <!-- Producto 6: COLAGENO -->
       <article class="product-card" data-category="vitaminas" data-name="Colageno" data-price="S/ 69.90" data-cat-label="Vitaminas" data-img="assets/img/COLAGENO.png">
         <div class="product-img-wrap">
           <img src="assets/img/COLAGENO.png" alt="Leviathan COLAGENO" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -598,7 +599,7 @@
         </div>
       </article>
 
-      <!-- ============ PRODUCTO 7: Whey Pro ============ -->
+      <!-- Producto 7: Whey Pro -->
       <article class="product-card" data-category="accesorios" data-name="Whey Pro" data-price="S/ 54.00" data-cat-label="Accesorios" data-img="assets/img/WHEY PRO_vainilla_1.1kg.png">
         <div class="product-img-wrap">
           <img src="assets/img/WHEY PRO_vainilla_1.1kg.png" alt="Leviathan Whey Pro" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -648,7 +649,7 @@
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-      <!-- COMBO 1: WHEY PRO + CREATINE -->
+      <!-- COMBO 1 -->
       <article class="product-card product-card--combo reveal-on-scroll" data-id="whey-pro-creatine" data-category="proteina" data-name="Whey Protein Isolate" data-price="S/ 189" data-cat-label="Proteína" data-img="assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg_bebidas energeticas.png">
         <span class="product-badge badge-promo">PROMO</span>
         <div class="product-img-wrap">
@@ -676,7 +677,7 @@
         </div>
       </article>
 
-      <!-- COMBO 2: NOXRAGE + REGALO -->
+      <!-- COMBO 2 -->
       <article class="product-card product-card--combo reveal-on-scroll" data-id="noxrage" data-category="pre-entreno" data-name="PRE-ENTRENO NOXRAGE 700G" data-price="S/ 169.90" data-cat-label="Pre-Entreno" data-img="assets/img/Noxrage_2uni.png" data-selected-weight="700g">
         <span class="product-badge badge-promo">PROMO</span>
         <div class="product-img-wrap">
@@ -710,7 +711,7 @@
         </div>
       </article>
 
-      <!-- COMBO 3: ECOCOMBO ISO WHEY + CREATINE -->
+      <!-- COMBO 3 -->
       <article class="product-card product-card--combo reveal-on-scroll" data-category="creatina" data-name="Creatine Monohydrate" data-price="S/ 99" data-cat-label="Creatina" data-img="assets/img/ECOCOMBO ISO WHEY_1.1KG.png">
         <span class="product-badge badge-promo">PROMO</span>
         <div class="product-img-wrap">
@@ -753,7 +754,6 @@
   <section id="nosotros" class="relative z-10 py-20 md:py-28 overflow-hidden nosotros-section">
     <div class="absolute inset-0 nosotros-glow pointer-events-none"></div>
     <div class="relative max-w-[1600px] mx-auto px-4 md:px-8 grid lg:grid-cols-2 gap-8 md:gap-16 items-center">
-      <!-- Lado izquierdo: VIDEO (más pequeño) -->
       <div class="reveal-on-scroll nosotros-img-wrap nosotros-img-wrap--compact">
         <video class="nosotros-video" autoplay muted loop playsinline>
           <source src="assets/video/nosotros_hero.mp4" type="video/mp4">
@@ -761,7 +761,6 @@
         </video>
         <div class="nosotros-frame"></div>
       </div>
-      <!-- Lado derecho: texto -->
       <div>
         <div class="flex items-center gap-3 mb-4 reveal-on-scroll">
           <span class="eyebrow-line"></span>
