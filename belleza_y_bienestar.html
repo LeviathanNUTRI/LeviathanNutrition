@@ -41,21 +41,21 @@
 <body class="bg-lv-black text-white font-body antialiased overflow-x-hidden">
 
   <!-- ============================================================
-       FONDO DINÁMICO (tonos rosas / púrpura para bienestar)
+       FONDO DINÁMICO
   ============================================================= -->
-  <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bg-ambient">
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bg-ambient">
     <div class="absolute inset-0 bg-lv-black"></div>
-    <div class="absolute inset-0 bg-gradient-radial from-[#2a0a2e] via-[#0A0E14] to-[#050607] opacity-90 animate-bg-pulse"></div>
-    <div class="absolute top-1/4 left-1/4 w-[800px] h-[800px] rounded-full bg-pink-600/15 blur-[150px] animate-float-1"></div>
-    <div class="absolute bottom-1/3 right-1/4 w-[700px] h-[700px] rounded-full bg-purple-500/15 blur-[160px] animate-float-2"></div>
-    <div class="absolute top-3/4 left-1/2 w-[600px] h-[600px] rounded-full bg-rose-500/10 blur-[120px] animate-float-3"></div>
-    <div class="absolute top-1/3 right-1/3 w-[500px] h-[500px] rounded-full bg-pink-400/10 blur-[100px] animate-float-4"></div>
-    <div class="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full bg-amber-300/10 blur-[90px] animate-float-5"></div>
-    <div class="absolute top-10 left-20 w-1 h-1 bg-pink-300 rounded-full opacity-70 animate-twinkle"></div>
-    <div class="absolute top-40 right-20 w-1.5 h-1.5 bg-purple-300 rounded-full opacity-60 animate-twinkle-delay"></div>
-    <div class="absolute bottom-20 left-1/2 w-2 h-2 bg-rose-400 rounded-full opacity-50 animate-twinkle-slow"></div>
-    <div class="absolute top-1/2 left-10 w-1 h-1 bg-pink-400 rounded-full opacity-80 animate-twinkle-fast"></div>
-    <div class="absolute bottom-1/3 right-10 w-1.5 h-1.5 bg-amber-300 rounded-full opacity-60 animate-twinkle"></div>
+    <div class="absolute inset-0 bg-gradient-radial from-[#0B2A4A] via-[#050607] to-[#050607] opacity-90 animate-bg-pulse"></div>
+    <div class="absolute top-1/4 left-1/4 w-[800px] h-[800px] rounded-full bg-lv-cyan/15 blur-[150px] animate-float-1"></div>
+    <div class="absolute bottom-1/3 right-1/4 w-[700px] h-[700px] rounded-full bg-[#FF8FC0]/15 blur-[160px] animate-float-2"></div>
+    <div class="absolute top-3/4 left-1/2 w-[600px] h-[600px] rounded-full bg-lv-cyan/20 blur-[120px] animate-float-3"></div>
+    <div class="absolute top-1/3 right-1/3 w-[500px] h-[500px] rounded-full bg-lv-cyan/10 blur-[100px] animate-float-4"></div>
+    <div class="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full bg-[#FF8FC0]/10 blur-[90px] animate-float-5"></div>
+    <div class="absolute top-10 left-20 w-1 h-1 bg-[#FF8FC0]/70 rounded-full opacity-70 animate-twinkle"></div>
+    <div class="absolute top-40 right-20 w-1.5 h-1.5 bg-lv-cyan/60 rounded-full opacity-60 animate-twinkle-delay"></div>
+    <div class="absolute bottom-20 left-1/2 w-2 h-2 bg-[#FF8FC0]/50 rounded-full opacity-50 animate-twinkle-slow"></div>
+    <div class="absolute top-1/2 left-10 w-1 h-1 bg-lv-cyan/80 rounded-full opacity-80 animate-twinkle-fast"></div>
+    <div class="absolute bottom-1/3 right-10 w-1.5 h-1.5 bg-[#FF8FC0]/60 rounded-full opacity-60 animate-twinkle"></div>
   </div>
 
   <!-- FONDO DE PARTÍCULAS -->
@@ -80,7 +80,7 @@
               Categorías
               <svg class="w-3 h-3 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
-            <span class="category-active-label">Belleza y Bienestar</span>
+            <span class="category-active-label">Belleza y bienestar</span>
             <div id="category-dropdown-menu" class="category-dropdown-menu" role="menu">
               <a href="aumentar_masa.html" class="dropdown-item" role="menuitem">Aumento de Masa Muscular</a>
               <a href="musculo_limpio.html" class="dropdown-item" role="menuitem">Músculo Limpio</a>
@@ -130,100 +130,44 @@
   </div>
 
   <!-- ============================================================
-       HERO DE CATEGORÍA — ENFOQUE EN BELLEZA Y BIENESTAR
+       HERO DE CATEGORÍA — SOLO VIDEO + TÍTULO (SIN TEXTO EXTRA)
   ============================================================= -->
-  <section id="categoria-hero" class="relative z-10 min-h-[70vh] flex items-center justify-center overflow-hidden">
-    <!-- Video de fondo (recomendación: 1920x1080, MP4 H.264) -->
-    <!-- CAMBIA LA RUTA SEGÚN TU CONTENIDO -->
-    <video class="absolute inset-0 w-full h-full object-cover z-0" autoplay muted loop playsinline>
-      <source src="assets/video/belleza_hero.mp4" type="video/mp4">
-      <img src="assets/img/categorias/belleza_hero.jpg" alt="Belleza y Bienestar" class="absolute inset-0 w-full h-full object-cover" />
+  <section id="categoria-hero" class="relative z-10 min-h-[60vh] flex items-center justify-center overflow-hidden" style="background-image:url('assets/img/Belleza_Bienestar.jpeg'); background-size:cover; background-position:center;">
+    <!-- Video de fondo -->
+    <video class="absolute inset-0 w-full h-full object-cover z-0" autoplay muted loop playsinline poster="assets/img/Belleza_Bienestar.jpeg" onerror="this.style.display='none';">
+      <source src="assets/img/Productos_Destacados.mp4" type="video/mp4">
     </video>
 
-    <!-- Capas de degradado con tonos rosas/púrpura -->
-    <div class="absolute inset-0 bg-gradient-to-r from-[#050607]/90 via-[#1a0a1e]/70 to-transparent z-1"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-[#050607] via-transparent to-transparent z-1"></div>
+    <!-- Capas de degradado (muy sutiles para no opacar el video) -->
+    <div class="absolute inset-0 bg-gradient-to-r from-[#050607]/60 via-[#050607]/20 to-transparent z-1"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#050607]/50 via-transparent to-transparent z-1"></div>
 
-    <div class="relative z-10 text-center max-w-4xl mx-auto px-6 py-20">
-      <div class="inline-block mb-4 px-4 py-1 border border-pink-400/30 rounded-full text-pink-300 text-xs font-bold tracking-[0.2em] uppercase animate-pulse">
-        Bienestar Integral
-      </div>
-
-      <h1 class="font-display text-[clamp(3.5rem,10vw,7rem)] leading-[0.9] text-white category-hero-title">
-        <span class="block" id="category-title-line" data-text="BIENESTAR">BIENESTAR</span>
+    <div class="relative z-10 text-center max-w-4xl mx-auto px-6">
+      <!-- TÍTULO GRANDE CENTRADO (sin badge ni botón) -->
+      <h1 class="font-display text-[clamp(3.5rem,10vw,6.5rem)] leading-[0.9] text-white category-hero-title">
+        <span class="block" id="category-title-line" data-text="BELLEZA Y BIENESTAR">BELLEZA Y BIENESTAR</span>
       </h1>
-
-      <p class="text-lv-steel text-lg md:text-xl max-w-2xl mx-auto mt-6 leading-relaxed animate-fade-in-up">
-        Suplementos diseñados para <span class="text-pink-300 font-bold">potenciar tu belleza desde el interior</span>, con colágeno, vitaminas y antioxidantes que revitalizan tu piel, cabello y bienestar general.
-      </p>
-
-      <div class="mt-8">
-        <a href="#productos" class="btn-primary group inline-flex items-center gap-3 animate-bounce-slow" style="background: linear-gradient(135deg, #F472B6, #A855F7, #6B21A5);">
-          <span>Explorar Productos</span>
-          <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-
-      <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-lv-steel text-xs uppercase tracking-widest animate-float">
-        <span>Desliza</span>
-        <div class="w-px h-8 bg-gradient-to-b from-pink-400 to-transparent"></div>
-      </div>
     </div>
   </section>
 
   <!-- ============================================================
-       SECCIÓN DE BENEFICIOS — BELLEZA Y CUIDADO PERSONAL
-  ============================================================= -->
-  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-20">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-pink-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-pink-500/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-400/20 to-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-pink-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
-        </div>
-        <h3 class="font-display text-xl text-white mb-2">Colágeno Premium</h3>
-        <p class="text-lv-steel text-sm">Fórmulas que estimulan la producción natural de colágeno para una piel firme y elástica.</p>
-      </div>
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-pink-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-pink-500/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-400/20 to-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-pink-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-        <h3 class="font-display text-xl text-white mb-2">Antioxidantes</h3>
-        <p class="text-lv-steel text-sm">Protección celular contra el envejecimiento prematuro y el daño oxidativo.</p>
-      </div>
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-pink-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-pink-500/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-400/20 to-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-pink-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-        </div>
-        <h3 class="font-display text-xl text-white mb-2">Cabello y Uñas</h3>
-        <p class="text-lv-steel text-sm">Vitaminas y minerales esenciales para fortalecer el cabello y las uñas desde la raíz.</p>
-      </div>
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-pink-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-pink-500/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-400/20 to-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-pink-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5"/><path d="M14 3l7 7-2.5 2.5L11 5.5 14 3z"/><path d="M3 14l7 7-2.5 2.5-7-7L3 14z"/></svg>
-        </div>
-        <h3 class="font-display text-xl text-white mb-2">Bienestar Integral</h3>
-        <p class="text-lv-steel text-sm">Equilibrio hormonal y energía natural para sentirte bien por dentro y por fuera.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SECCIÓN DE PRODUCTOS — CON ESTILO ELEGANTE Y SUAVE
+       SECCIÓN DE PRODUCTOS — TÍTULO DIRECTO (SIN SUBTÍTULO REPETIDO)
   ============================================================= -->
   <section id="productos" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-12">
 
-    <div class="section-heading text-center mb-12 reveal-on-scroll">
-      <div class="flex items-center justify-center gap-3 mb-4">
+    <div class="section-heading text-center mb-10 reveal-on-scroll">
+      <div class="flex items-center justify-center gap-3 mb-3">
         <span class="eyebrow-line"></span>
-        <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Fórmulas para Belleza y Bienestar</span>
+        <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Catálogo de Belleza y Bienestar</span>
         <span class="eyebrow-line"></span>
       </div>
-      <h2 class="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[0.95]">
-        PRODUCTOS <span class="text-electric-inline">DESTACADOS</span>
+      <h2 class="font-display text-[clamp(2rem,4vw,3.2rem)] leading-[0.95]">
+        PRODUCTOS PARA <span class="text-electric-inline">BELLEZA Y BIENESTAR</span>
       </h2>
-      <p class="text-lv-steel max-w-lg mx-auto mt-2">Selección premium para cuidar tu belleza y bienestar desde el interior.</p>
+      <!-- ELIMINADO: <p class="text-lv-steel max-w-lg mx-auto mt-2">Fórmulas premium...</p> -->
     </div>
 
+    <!-- Control de ordenamiento (FUNCIONALIDAD CORREGIDA) -->
     <div class="flex justify-end items-center mb-6 reveal-on-scroll">
       <label for="sort-select" class="text-lv-steel text-xs font-bold uppercase tracking-widest mr-3">Ordenar:</label>
       <select id="sort-select" class="sort-select">
@@ -232,13 +176,124 @@
       </select>
     </div>
 
+    <!-- Grid de productos -->
     <div class="product-grid" id="product-grid">
 
-      <!-- Producto 1: Collagen Peptides -->
-      <article class="product-card" data-id="collagen-peptides" data-category="colageno" data-name="Colágeno Hidrolizado" data-price="S/ 120" data-cat-label="Colágeno" data-img="assets/img/productos/collagen.jpg">
+      <!-- Producto 1: Collagen Pro -->
+      <article class="product-card" data-id="colageno-hidrolizado-belleza" data-category="colageno" data-name="COLLAGEN PRO" data-price="S/ 75.00" data-cat-label="Colágeno" data-img="assets/img/COLAGENO.png">
         <span class="product-badge badge-bestseller">Bestseller</span>
         <div class="product-img-wrap">
-          <img src="assets/img/productos/collagen.jpg" alt="Colágeno Hidrolizado" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="assets/img/COLAGENO.png" alt="Colágeno hidrolizado" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 15 9l7 1-5 5 1.2 7-6.2-3.3L5.8 22 7 15 2 10l7-1 3-6.5z"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Colágeno</p>
+          <h3 class="product-name">COLLAGEN PRO</h3>
+          <div class="product-rating">★★★★★ <span>4.9 (342)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">S/ 75.00</span>
+              <span class="product-price-old">S/ 85.00</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 2: Ecocombo Iso Whey Vainilla -->
+      <article class="product-card" data-id="ecocombo-iso-whey-vainilla-belleza" data-category="proteina" data-name="ECOCOMBO ISO WHEY VAINILLA" data-price="S/ 92.90" data-cat-label="Proteína Ligera" data-img="assets/img/ECOCOMBO ISO WHEY_vainilla_1.1kg.png">
+        <div class="product-img-wrap">
+          <img src="assets/img/ECOCOMBO ISO WHEY_vainilla_1.1kg.png" alt="Ecocombo iso whey vainilla" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5s6 7 6 11.5a6 6 0 1 1-12 0c0-4.5 6-11.5 6-11.5z"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Proteína Ligera</p>
+          <h3 class="product-name">ECOCOMBO ISO WHEY VAINILLA</h3>
+          <div class="product-rating">★★★★★ <span>4.7 (154)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">S/ 92.90</span>
+              <span class="product-price-old">S/ 105.00</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 3: X Fat Loss -->
+      <article class="product-card" data-id="x-fat-loss-belleza" data-category="control-de-peso" data-name="X FAT LOSS" data-price="S/ 119.90" data-cat-label="Control de Peso" data-img="assets/img/Fat.png">
+        <span class="product-badge badge-new">Nuevo</span>
+        <div class="product-img-wrap">
+          <img src="assets/img/Fat.png" alt="X Fat Loss control de peso" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4 0 7-3 7-7 0-4-3-6-4-9-1 2-2 3-3 3-1-2-1-4-1-6-3 2-6 6-6 12 0 4 3 7 7 7z"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Control de Peso</p>
+          <h3 class="product-name">X FAT LOSS</h3>
+          <div class="product-rating">★★★★★ <span>4.6 (120)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">S/ 119.90</span>
+              <span class="product-price-old">S/ 135.00</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 4: Combo Whey Pro Creatine Cookies&Cream -->
+      <article class="product-card" data-id="combo-whey-pro-creatine-sinregalo-belleza" data-category="proteina" data-name="COMBO WEY PRO + CREATINE" data-price="S/ 89.90" data-cat-label="Proteína & Bienestar" data-img="assets/img/COMBO WEY PRO_CREATINE_Cookies & Cream_1.1kg_sin-regalo.png">
+        <div class="product-img-wrap">
+          <img src="assets/img/COMBO WEY PRO_CREATINE_Cookies & Cream_1.1kg_sin-regalo.png" alt="Combo whey pro creatine cookies and cream" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Proteína & Bienestar</p>
+          <h3 class="product-name">COMBO WEY PRO + CREATINE</h3>
+          <div class="product-rating">★★★★★ <span>4.8 (198)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">S/ 89.90</span>
+              <span class="product-price-old">S/ 100.00</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 5: Whey Pro Vainilla -->
+      <article class="product-card" data-id="whey-pro-belleza" data-category="proteina" data-name="WHEY PRO" data-price="S/ 69.90" data-cat-label="Proteína" data-img="assets/img/WHEY PRO_vainilla_1.1kg.png">
+        <span class="product-badge badge-sale">-12%</span>
+        <div class="product-img-wrap">
+          <img src="assets/img/WHEY PRO_vainilla_1.1kg.png" alt="Whey pro vainilla" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="product-placeholder-icon" style="display:none">
             <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 3v3h6V3"/></svg>
           </div>
@@ -247,13 +302,13 @@
           </button>
         </div>
         <div class="product-info">
-          <p class="product-cat">Colágeno</p>
-          <h3 class="product-name">Colágeno Hidrolizado</h3>
-          <div class="product-rating">★★★★★ <span>4.9 (312)</span></div>
+          <p class="product-cat">Proteína</p>
+          <h3 class="product-name">WHEY PRO</h3>
+          <div class="product-rating">★★★★★ <span>4.9 (276)</span></div>
           <div class="product-price-row">
             <div>
-              <span class="product-price">S/ 120</span>
-              <span class="product-price-old">S/ 140</span>
+              <span class="product-price">S/ 69.90</span>
+              <span class="product-price-old">S/ 80.00</span>
             </div>
             <button class="add-cart-btn" data-ripple>
               <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -262,124 +317,26 @@
         </div>
       </article>
 
-      <!-- Producto 2: Multivitamin Women -->
-      <article class="product-card" data-id="multivitamin-women" data-category="vitaminas" data-name="Multivitamínico Mujer" data-price="S/ 65" data-cat-label="Vitaminas" data-img="assets/img/productos/multivitamin.jpg">
-        <span class="product-badge badge-new">Nuevo</span>
+      <!-- Producto 6: Ecocombo Whey Pro Creatine -->
+      <article class="product-card" data-id="ecocombo-whey-pro-creatine-belleza" data-category="proteina" data-name="ECOCOMBO WHEY PRO + CREATINE" data-price="S/ 89.90" data-cat-label="Nutrición Diaria" data-img="assets/img/ECOCOMBO WHEY PRO CREATINE_chocolate_1.1kg.png">
         <div class="product-img-wrap">
-          <img src="assets/img/productos/multivitamin.jpg" alt="Multivitamínico" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="assets/img/ECOCOMBO WHEY PRO CREATINE_chocolate_1.1kg.png" alt="Ecocombo whey pro creatine" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
           </div>
           <button class="quick-view-btn" aria-label="Vista rápida">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
         <div class="product-info">
-          <p class="product-cat">Vitaminas</p>
-          <h3 class="product-name">Multivitamínico Mujer</h3>
-          <div class="product-rating">★★★★★ <span>4.8 (204)</span></div>
-          <div class="product-price-row">
-            <div><span class="product-price">S/ 65</span></div>
-            <button class="add-cart-btn" data-ripple>
-              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-            </button>
-          </div>
-        </div>
-      </article>
-
-      <!-- Producto 3: Biotin 10000mcg -->
-      <article class="product-card" data-id="biotin" data-category="vitaminas" data-name="Biotina 10000mcg" data-price="S/ 49" data-cat-label="Vitaminas" data-img="assets/img/productos/biotin.jpg">
-        <div class="product-img-wrap">
-          <img src="assets/img/productos/biotin.jpg" alt="Biotina" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-          </div>
-          <button class="quick-view-btn" aria-label="Vista rápida">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
-        </div>
-        <div class="product-info">
-          <p class="product-cat">Vitaminas</p>
-          <h3 class="product-name">Biotina 10000mcg</h3>
-          <div class="product-rating">★★★★★ <span>4.7 (156)</span></div>
-          <div class="product-price-row">
-            <div><span class="product-price">S/ 49</span></div>
-            <button class="add-cart-btn" data-ripple>
-              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-            </button>
-          </div>
-        </div>
-      </article>
-
-      <!-- Producto 4: Vitamin C + Zinc -->
-      <article class="product-card" data-id="vitamin-c-zinc" data-category="vitaminas" data-name="Vitamina C + Zinc" data-price="S/ 55" data-cat-label="Vitaminas" data-img="assets/img/productos/vitamin-c.jpg">
-        <div class="product-img-wrap">
-          <img src="assets/img/productos/vitamin-c.jpg" alt="Vitamina C + Zinc" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-          </div>
-          <button class="quick-view-btn" aria-label="Vista rápida">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
-        </div>
-        <div class="product-info">
-          <p class="product-cat">Vitaminas</p>
-          <h3 class="product-name">Vitamina C + Zinc</h3>
-          <div class="product-rating">★★★★★ <span>4.9 (87)</span></div>
-          <div class="product-price-row">
-            <div><span class="product-price">S/ 55</span></div>
-            <button class="add-cart-btn" data-ripple>
-              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-            </button>
-          </div>
-        </div>
-      </article>
-
-      <!-- Producto 5: Omega 3 + Vitamina E -->
-      <article class="product-card" data-id="omega-3-vit-e" data-category="vitaminas" data-name="Omega 3 + Vitamina E" data-price="S/ 69" data-cat-label="Vitaminas" data-img="assets/img/productos/omega-3.jpg">
-        <span class="product-badge badge-sale">-15%</span>
-        <div class="product-img-wrap">
-          <img src="assets/img/productos/omega-3.jpg" alt="Omega 3 + Vit E" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-          </div>
-          <button class="quick-view-btn" aria-label="Vista rápida">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
-        </div>
-        <div class="product-info">
-          <p class="product-cat">Vitaminas</p>
-          <h3 class="product-name">Omega 3 + Vitamina E</h3>
-          <div class="product-rating">★★★★☆ <span>4.6 (102)</span></div>
+          <p class="product-cat">Nutrición Diaria</p>
+          <h3 class="product-name">ECOCOMBO WHEY PRO + CREATINE</h3>
+          <div class="product-rating">★★★★★ <span>4.7 (165)</span></div>
           <div class="product-price-row">
             <div>
-              <span class="product-price">S/ 69</span>
-              <span class="product-price-old">S/ 82</span>
+              <span class="product-price">S/ 89.90</span>
+              <span class="product-price-old">S/ 100.00</span>
             </div>
-            <button class="add-cart-btn" data-ripple>
-              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-            </button>
-          </div>
-        </div>
-      </article>
-
-      <!-- Producto 6: Sleep & Relax (Melatonin + Valerian) -->
-      <article class="product-card" data-id="sleep-relax" data-category="sueño" data-name="Sleep & Relax" data-price="S/ 45" data-cat-label="Sueño" data-img="assets/img/productos/melatonin.jpg">
-        <div class="product-img-wrap">
-          <img src="assets/img/productos/melatonin.jpg" alt="Sleep & Relax" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-          </div>
-          <button class="quick-view-btn" aria-label="Vista rápida">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
-        </div>
-        <div class="product-info">
-          <p class="product-cat">Sueño</p>
-          <h3 class="product-name">Sleep & Relax</h3>
-          <div class="product-rating">★★★★★ <span>4.8 (63)</span></div>
-          <div class="product-price-row">
-            <div><span class="product-price">S/ 45</span></div>
             <button class="add-cart-btn" data-ripple>
               <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
             </button>
@@ -389,7 +346,7 @@
 
     </div>
 
-    <div class="flex justify-center mt-12 reveal-on-scroll">
+    <div class="flex justify-center mt-10 reveal-on-scroll">
       <button class="btn-secondary">Ver más productos</button>
     </div>
   </section>
@@ -397,23 +354,23 @@
   <!-- ============================================================
        SECCIÓN DE ESTADÍSTICAS
   ============================================================= -->
-  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-16">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-12">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-pink-300" data-count-to="6">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Productos</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="6">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Productos</p>
       </div>
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-pink-300" data-count-to="3200" data-suffix="+">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Clientes</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="3100" data-suffix="+">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Clientes felices</p>
       </div>
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-pink-300" data-count-to="98" data-suffix="%">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Satisfacción</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="98" data-suffix="%">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Satisfacción</p>
       </div>
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-pink-300" data-count-to="10" data-suffix="+">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Beneficios</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="90" data-suffix="%">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Piel & cabello</p>
       </div>
     </div>
   </section>
@@ -577,16 +534,16 @@
         const span = document.createElement('span');
         span.className = 'letter category-hero-letter';
         span.textContent = char === ' ' ? '\u00A0' : char;
-        span.style.background = 'linear-gradient(180deg, #F9A8D4, #EC4899, #8B5CF6)';
+        span.style.background = 'linear-gradient(180deg, #ffffff, #FFD3E8, #5FD4FF)';
         span.style.webkitBackgroundClip = 'text';
         span.style.backgroundClip = 'text';
         span.style.color = 'transparent';
-        span.style.filter = 'drop-shadow(0 0 20px rgba(236,72,153,0.5))';
+        span.style.filter = 'drop-shadow(0 0 20px rgba(255,143,192,0.4))';
         span.style.animationDelay = `${0.3 + i * 0.06}s`;
         span.style.display = 'inline-block';
         span.style.opacity = '0';
-        span.style.transform = 'translateY(30px) scale(0.8)';
-        span.style.animation = 'categoryHeroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+        span.style.transform = 'translateY(25px) scale(0.85)';
+        span.style.animation = 'categoryHeroIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards';
         titleEl.appendChild(span);
       });
 
@@ -595,30 +552,9 @@
         style.id = 'category-hero-styles';
         style.textContent = `
           @keyframes categoryHeroIn {
-            0% { opacity: 0; transform: translateY(30px) scale(0.8); }
-            60% { opacity: 1; transform: translateY(-6px) scale(1.05); filter: drop-shadow(0 0 40px rgba(236,72,153,0.8)); }
-            100% { opacity: 1; transform: translateY(0) scale(1); filter: drop-shadow(0 0 20px rgba(236,72,153,0.5)); }
-          }
-          .animate-fade-in-up {
-            animation: fadeInUp 1s ease-out 0.6s both;
-          }
-          @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          .animate-bounce-slow {
-            animation: bounceSlow 3s ease-in-out infinite;
-          }
-          @keyframes bounceSlow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
-          }
-          .animate-float {
-            animation: floatY 3s ease-in-out infinite;
-          }
-          @keyframes floatY {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            0% { opacity: 0; transform: translateY(25px) scale(0.85); }
+            60% { opacity: 1; transform: translateY(-4px) scale(1.03); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
           }
         `;
         document.head.appendChild(style);
