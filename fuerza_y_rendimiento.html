@@ -41,21 +41,21 @@
 <body class="bg-lv-black text-white font-body antialiased overflow-x-hidden">
 
   <!-- ============================================================
-       FONDO DINÁMICO (tonos rojo / negro / acero)
+       FONDO DINÁMICO
   ============================================================= -->
-  <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bg-ambient">
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bg-ambient">
     <div class="absolute inset-0 bg-lv-black"></div>
-    <div class="absolute inset-0 bg-gradient-radial from-[#1a0505] via-[#0A0E14] to-[#050607] opacity-90 animate-bg-pulse"></div>
-    <div class="absolute top-1/4 left-1/4 w-[800px] h-[800px] rounded-full bg-red-700/15 blur-[150px] animate-float-1"></div>
-    <div class="absolute bottom-1/3 right-1/4 w-[700px] h-[700px] rounded-full bg-amber-600/15 blur-[160px] animate-float-2"></div>
-    <div class="absolute top-3/4 left-1/2 w-[600px] h-[600px] rounded-full bg-red-600/10 blur-[120px] animate-float-3"></div>
-    <div class="absolute top-1/3 right-1/3 w-[500px] h-[500px] rounded-full bg-amber-500/10 blur-[100px] animate-float-4"></div>
-    <div class="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full bg-red-500/10 blur-[90px] animate-float-5"></div>
-    <div class="absolute top-10 left-20 w-1 h-1 bg-amber-400 rounded-full opacity-70 animate-twinkle"></div>
-    <div class="absolute top-40 right-20 w-1.5 h-1.5 bg-red-400 rounded-full opacity-60 animate-twinkle-delay"></div>
-    <div class="absolute bottom-20 left-1/2 w-2 h-2 bg-amber-500 rounded-full opacity-50 animate-twinkle-slow"></div>
-    <div class="absolute top-1/2 left-10 w-1 h-1 bg-red-500 rounded-full opacity-80 animate-twinkle-fast"></div>
-    <div class="absolute bottom-1/3 right-10 w-1.5 h-1.5 bg-amber-400 rounded-full opacity-60 animate-twinkle"></div>
+    <div class="absolute inset-0 bg-gradient-radial from-[#0B2A4A] via-[#050607] to-[#050607] opacity-90 animate-bg-pulse"></div>
+    <div class="absolute top-1/4 left-1/4 w-[800px] h-[800px] rounded-full bg-[#FF4D4D]/15 blur-[150px] animate-float-1"></div>
+    <div class="absolute bottom-1/3 right-1/4 w-[700px] h-[700px] rounded-full bg-lv-blue/15 blur-[160px] animate-float-2"></div>
+    <div class="absolute top-3/4 left-1/2 w-[600px] h-[600px] rounded-full bg-[#FF4D4D]/20 blur-[120px] animate-float-3"></div>
+    <div class="absolute top-1/3 right-1/3 w-[500px] h-[500px] rounded-full bg-[#FF4D4D]/10 blur-[100px] animate-float-4"></div>
+    <div class="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full bg-lv-blue/10 blur-[90px] animate-float-5"></div>
+    <div class="absolute top-10 left-20 w-1 h-1 bg-lv-blue/70 rounded-full opacity-70 animate-twinkle"></div>
+    <div class="absolute top-40 right-20 w-1.5 h-1.5 bg-[#FF4D4D]/60 rounded-full opacity-60 animate-twinkle-delay"></div>
+    <div class="absolute bottom-20 left-1/2 w-2 h-2 bg-lv-blue/50 rounded-full opacity-50 animate-twinkle-slow"></div>
+    <div class="absolute top-1/2 left-10 w-1 h-1 bg-[#FF4D4D]/80 rounded-full opacity-80 animate-twinkle-fast"></div>
+    <div class="absolute bottom-1/3 right-10 w-1.5 h-1.5 bg-lv-blue/60 rounded-full opacity-60 animate-twinkle"></div>
   </div>
 
   <!-- FONDO DE PARTÍCULAS -->
@@ -80,7 +80,7 @@
               Categorías
               <svg class="w-3 h-3 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
-            <span class="category-active-label">Fuerza y Rendimiento</span>
+            <span class="category-active-label">Fuerza y rendimiento</span>
             <div id="category-dropdown-menu" class="category-dropdown-menu" role="menu">
               <a href="aumentar_masa.html" class="dropdown-item" role="menuitem">Aumento de Masa Muscular</a>
               <a href="musculo_limpio.html" class="dropdown-item" role="menuitem">Músculo Limpio</a>
@@ -130,100 +130,44 @@
   </div>
 
   <!-- ============================================================
-       HERO DE CATEGORÍA — ENFOQUE EN FUERZA Y RENDIMIENTO
+       HERO DE CATEGORÍA — SOLO VIDEO + TÍTULO (SIN TEXTO EXTRA)
   ============================================================= -->
-  <section id="categoria-hero" class="relative z-10 min-h-[70vh] flex items-center justify-center overflow-hidden">
-    <!-- Video de fondo (recomendación: 1920x1080, MP4 H.264) -->
-    <!-- CAMBIA LA RUTA SEGÚN TU CONTENIDO -->
-    <video class="absolute inset-0 w-full h-full object-cover z-0" autoplay muted loop playsinline>
-      <source src="assets/video/fuerza_hero.mp4" type="video/mp4">
-      <img src="assets/img/categorias/fuerza_hero.jpg" alt="Fuerza y Rendimiento" class="absolute inset-0 w-full h-full object-cover" />
+  <section id="categoria-hero" class="relative z-10 min-h-[60vh] flex items-center justify-center overflow-hidden" style="background-image:url('assets/img/Fuerza_y_Rendimiento.jpeg'); background-size:cover; background-position:center;">
+    <!-- Video de fondo -->
+    <video class="absolute inset-0 w-full h-full object-cover z-0" autoplay muted loop playsinline poster="assets/img/Fuerza_y_Rendimiento.jpeg" onerror="this.style.display='none';">
+      <source src="assets/img/Video Gym.mp4" type="video/mp4">
     </video>
 
-    <!-- Capas de degradado con tonos rojo/negro -->
-    <div class="absolute inset-0 bg-gradient-to-r from-[#050607]/95 via-[#0A0E14]/70 to-transparent z-1"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-[#050607] via-transparent to-transparent z-1"></div>
+    <!-- Capas de degradado (muy sutiles para no opacar el video) -->
+    <div class="absolute inset-0 bg-gradient-to-r from-[#050607]/60 via-[#050607]/20 to-transparent z-1"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#050607]/50 via-transparent to-transparent z-1"></div>
 
-    <div class="relative z-10 text-center max-w-4xl mx-auto px-6 py-20">
-      <div class="inline-block mb-4 px-4 py-1 border border-amber-400/30 rounded-full text-amber-300 text-xs font-bold tracking-[0.2em] uppercase animate-pulse">
-        Poder y Resistencia
-      </div>
-
-      <h1 class="font-display text-[clamp(3.5rem,10vw,7rem)] leading-[0.9] text-white category-hero-title">
-        <span class="block" id="category-title-line" data-text="FUERZA">FUERZA</span>
+    <div class="relative z-10 text-center max-w-4xl mx-auto px-6">
+      <!-- TÍTULO GRANDE CENTRADO (sin badge ni botón) -->
+      <h1 class="font-display text-[clamp(3.5rem,10vw,6.5rem)] leading-[0.9] text-white category-hero-title">
+        <span class="block" id="category-title-line" data-text="FUERZA Y RENDIMIENTO">FUERZA Y RENDIMIENTO</span>
       </h1>
-
-      <p class="text-lv-steel text-lg md:text-xl max-w-2xl mx-auto mt-6 leading-relaxed animate-fade-in-up">
-        Suplementos diseñados para <span class="text-amber-400 font-bold">potenciar tu fuerza, resistencia y rendimiento</span> al máximo nivel, con fórmulas que te llevan más allá de tus límites.
-      </p>
-
-      <div class="mt-8">
-        <a href="#productos" class="btn-primary group inline-flex items-center gap-3 animate-bounce-slow" style="background: linear-gradient(135deg, #F59E0B, #DC2626, #7F1D1D);">
-          <span>Explorar Productos</span>
-          <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-
-      <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-lv-steel text-xs uppercase tracking-widest animate-float">
-        <span>Desliza</span>
-        <div class="w-px h-8 bg-gradient-to-b from-amber-400 to-transparent"></div>
-      </div>
     </div>
   </section>
 
   <!-- ============================================================
-       SECCIÓN DE BENEFICIOS — FUERZA Y RENDIMIENTO
-  ============================================================= -->
-  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-20">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-amber-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-500/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-amber-400/20 to-red-600/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
-        </div>
-        <h3 class="font-display text-xl text-white mb-2">Máxima Potencia</h3>
-        <p class="text-lv-steel text-sm">Incrementa tu fuerza explosiva y rendimiento en cada repetición.</p>
-      </div>
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-amber-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-500/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-amber-400/20 to-red-600/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.5L4.5 18a1.5 1.5 0 0 0 1.3 2.3h12.4a1.5 1.5 0 0 0 1.3-2.3L14 8.5V3"/></svg>
-        </div>
-        <h3 class="font-display text-xl text-white mb-2">Resistencia Extrema</h3>
-        <p class="text-lv-steel text-sm">Retrasa la fatiga y mantén el ritmo durante entrenamientos largos.</p>
-      </div>
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-amber-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-500/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-amber-400/20 to-red-600/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-        </div>
-        <h3 class="font-display text-xl text-white mb-2">Energía Explosiva</h3>
-        <p class="text-lv-steel text-sm">Combustible de alto octanaje para sesiones de alta intensidad.</p>
-      </div>
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-amber-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-500/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-amber-400/20 to-red-600/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5"/><path d="M14 3l7 7-2.5 2.5L11 5.5 14 3z"/><path d="M3 14l7 7-2.5 2.5-7-7L3 14z"/></svg>
-        </div>
-        <h3 class="font-display text-xl text-white mb-2">Rendimiento Superior</h3>
-        <p class="text-lv-steel text-sm">Supera tus marcas personales y alcanza nuevos niveles de fuerza.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SECCIÓN DE PRODUCTOS — CON ESTILO INTENSO Y ENERGÉTICO
+       SECCIÓN DE PRODUCTOS — TÍTULO DIRECTO (SIN SUBTÍTULO REPETIDO)
   ============================================================= -->
   <section id="productos" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-12">
 
-    <div class="section-heading text-center mb-12 reveal-on-scroll">
-      <div class="flex items-center justify-center gap-3 mb-4">
+    <div class="section-heading text-center mb-10 reveal-on-scroll">
+      <div class="flex items-center justify-center gap-3 mb-3">
         <span class="eyebrow-line"></span>
-        <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Fórmulas para Fuerza y Rendimiento</span>
+        <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Catálogo de Fuerza y Rendimiento</span>
         <span class="eyebrow-line"></span>
       </div>
-      <h2 class="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[0.95]">
-        PRODUCTOS <span class="text-electric-inline">DESTACADOS</span>
+      <h2 class="font-display text-[clamp(2rem,4vw,3.2rem)] leading-[0.95]">
+        PRODUCTOS PARA <span class="text-electric-inline">FUERZA Y RENDIMIENTO</span>
       </h2>
-      <p class="text-lv-steel max-w-lg mx-auto mt-2">Selección premium para quienes buscan potencia, resistencia y rendimiento máximo.</p>
+      <!-- ELIMINADO: <p class="text-lv-steel max-w-lg mx-auto mt-2">Fórmulas premium...</p> -->
     </div>
 
+    <!-- Control de ordenamiento (FUNCIONALIDAD CORREGIDA) -->
     <div class="flex justify-end items-center mb-6 reveal-on-scroll">
       <label for="sort-select" class="text-lv-steel text-xs font-bold uppercase tracking-widest mr-3">Ordenar:</label>
       <select id="sort-select" class="sort-select">
@@ -232,13 +176,14 @@
       </select>
     </div>
 
+    <!-- Grid de productos -->
     <div class="product-grid" id="product-grid">
 
-      <!-- Producto 1: Pre-Workout Fury -->
-      <article class="product-card" data-id="pre-workout-fury-force" data-category="pre-entreno" data-name="Pre-Workout Fury" data-price="S/ 129" data-cat-label="Pre-Entreno" data-img="assets/img/productos/pre-workout-fury.jpg">
+      <!-- Producto 1: Noxrage 700g -->
+      <article class="product-card" data-id="noxrage-700g" data-category="pre-entreno" data-name="NOXRAGE 700G" data-price="S/ 129.90" data-cat-label="Pre-Entreno" data-img="assets/img/Noxrage_700g.png">
         <span class="product-badge badge-bestseller">Bestseller</span>
         <div class="product-img-wrap">
-          <img src="assets/img/productos/pre-workout-fury.jpg" alt="Pre-Workout Fury" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="assets/img/Noxrage_700g.png" alt="Noxrage pre entreno 700g" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="product-placeholder-icon" style="display:none">
             <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
           </div>
@@ -248,12 +193,12 @@
         </div>
         <div class="product-info">
           <p class="product-cat">Pre-Entreno</p>
-          <h3 class="product-name">Pre-Workout Fury</h3>
-          <div class="product-rating">★★★★★ <span>4.9 (312)</span></div>
+          <h3 class="product-name">NOXRAGE 700G</h3>
+          <div class="product-rating">★★★★★ <span>4.9 (410)</span></div>
           <div class="product-price-row">
             <div>
-              <span class="product-price">S/ 129</span>
-              <span class="product-price-old">S/ 149</span>
+              <span class="product-price">S/ 129.90</span>
+              <span class="product-price-old">S/ 145.00</span>
             </div>
             <button class="add-cart-btn" data-ripple>
               <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -262,99 +207,53 @@
         </div>
       </article>
 
-      <!-- Producto 2: Creatine Monohydrate -->
-      <article class="product-card" data-id="creatine-force" data-category="creatina" data-name="Creatine Monohydrate" data-price="S/ 99" data-cat-label="Creatina" data-img="assets/img/productos/creatine-monohydrate.jpg">
+      <!-- Producto 2: Noxrage 350g -->
+      <article class="product-card" data-id="noxrage-350g" data-category="pre-entreno" data-name="NOXRAGE 350G" data-price="S/ 79.90" data-cat-label="Pre-Entreno" data-img="assets/img/Noxrage_350g.png">
+        <div class="product-img-wrap">
+          <img src="assets/img/Noxrage_350g.png" alt="Noxrage pre entreno 350g" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Pre-Entreno</p>
+          <h3 class="product-name">NOXRAGE 350G</h3>
+          <div class="product-rating">★★★★★ <span>4.8 (266)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">S/ 79.90</span>
+              <span class="product-price-old">S/ 90.00</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 3: Noxrage Pack x2 -->
+      <article class="product-card" data-id="noxrage-2uni" data-category="pre-entreno" data-name="NOXRAGE PACK X2" data-price="S/ 219.90" data-cat-label="Pre-Entreno Pack" data-img="assets/img/Noxrage_2uni.png">
         <span class="product-badge badge-new">Nuevo</span>
         <div class="product-img-wrap">
-          <img src="assets/img/productos/creatine-monohydrate.jpg" alt="Creatine Monohydrate" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="assets/img/Noxrage_2uni.png" alt="Noxrage pack x2" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
           </div>
           <button class="quick-view-btn" aria-label="Vista rápida">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
         <div class="product-info">
-          <p class="product-cat">Creatina</p>
-          <h3 class="product-name">Creatine Monohydrate</h3>
-          <div class="product-rating">★★★★★ <span>4.9 (204)</span></div>
-          <div class="product-price-row">
-            <div><span class="product-price">S/ 99</span></div>
-            <button class="add-cart-btn" data-ripple>
-              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-            </button>
-          </div>
-        </div>
-      </article>
-
-      <!-- Producto 3: Beta-Alanine 3000mg -->
-      <article class="product-card" data-id="beta-alanine" data-category="rendimiento" data-name="Beta-Alanine 3000mg" data-price="S/ 79" data-cat-label="Rendimiento" data-img="assets/img/productos/beta-alanine.jpg">
-        <div class="product-img-wrap">
-          <img src="assets/img/productos/beta-alanine.jpg" alt="Beta-Alanine" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-          </div>
-          <button class="quick-view-btn" aria-label="Vista rápida">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
-        </div>
-        <div class="product-info">
-          <p class="product-cat">Rendimiento</p>
-          <h3 class="product-name">Beta-Alanine 3000mg</h3>
-          <div class="product-rating">★★★★★ <span>4.7 (156)</span></div>
-          <div class="product-price-row">
-            <div><span class="product-price">S/ 79</span></div>
-            <button class="add-cart-btn" data-ripple>
-              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-            </button>
-          </div>
-        </div>
-      </article>
-
-      <!-- Producto 4: Caffeine 200mg -->
-      <article class="product-card" data-id="caffeine" data-category="rendimiento" data-name="Caffeine 200mg" data-price="S/ 45" data-cat-label="Rendimiento" data-img="assets/img/productos/caffeine.jpg">
-        <div class="product-img-wrap">
-          <img src="assets/img/productos/caffeine.jpg" alt="Caffeine" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-          </div>
-          <button class="quick-view-btn" aria-label="Vista rápida">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
-        </div>
-        <div class="product-info">
-          <p class="product-cat">Rendimiento</p>
-          <h3 class="product-name">Caffeine 200mg</h3>
-          <div class="product-rating">★★★★★ <span>4.8 (87)</span></div>
-          <div class="product-price-row">
-            <div><span class="product-price">S/ 45</span></div>
-            <button class="add-cart-btn" data-ripple>
-              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-            </button>
-          </div>
-        </div>
-      </article>
-
-      <!-- Producto 5: L-Arginine 1000mg -->
-      <article class="product-card" data-id="l-arginine" data-category="rendimiento" data-name="L-Arginine 1000mg" data-price="S/ 69" data-cat-label="Rendimiento" data-img="assets/img/productos/l-arginine.jpg">
-        <span class="product-badge badge-sale">-10%</span>
-        <div class="product-img-wrap">
-          <img src="assets/img/productos/l-arginine.jpg" alt="L-Arginine" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-          </div>
-          <button class="quick-view-btn" aria-label="Vista rápida">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
-        </div>
-        <div class="product-info">
-          <p class="product-cat">Rendimiento</p>
-          <h3 class="product-name">L-Arginine 1000mg</h3>
-          <div class="product-rating">★★★★☆ <span>4.6 (63)</span></div>
+          <p class="product-cat">Pre-Entreno Pack</p>
+          <h3 class="product-name">NOXRAGE PACK X2</h3>
+          <div class="product-rating">★★★★★ <span>4.9 (198)</span></div>
           <div class="product-price-row">
             <div>
-              <span class="product-price">S/ 69</span>
-              <span class="product-price-old">S/ 77</span>
+              <span class="product-price">S/ 219.90</span>
+              <span class="product-price-old">S/ 250.00</span>
             </div>
             <button class="add-cart-btn" data-ripple>
               <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -363,23 +262,26 @@
         </div>
       </article>
 
-      <!-- Producto 6: Whey Protein Isolate -->
-      <article class="product-card" data-id="whey-isolate-force" data-category="proteina" data-name="Whey Protein Isolate" data-price="S/ 189" data-cat-label="Proteína" data-img="assets/img/productos/whey-protein.jpg">
+      <!-- Producto 4: Combo Bigm Creatine -->
+      <article class="product-card" data-id="combo-bigm-creatine-fuerza" data-category="fuerza" data-name="COMBO BIGM + CREATINE" data-price="S/ 109.90" data-cat-label="Fuerza & Volumen" data-img="assets/img/COMBO BIGM CREATINE_vainilla_2kg_bebidas energeticas.png">
         <div class="product-img-wrap">
-          <img src="assets/img/productos/whey-protein.jpg" alt="Whey Protein Isolate" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="assets/img/COMBO BIGM CREATINE_vainilla_2kg_bebidas energeticas.png" alt="Combo bigm creatine vainilla" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 3v3h6V3"/></svg>
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
           </div>
           <button class="quick-view-btn" aria-label="Vista rápida">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
         <div class="product-info">
-          <p class="product-cat">Proteína</p>
-          <h3 class="product-name">Whey Protein Isolate</h3>
-          <div class="product-rating">★★★★★ <span>4.8 (102)</span></div>
+          <p class="product-cat">Fuerza & Volumen</p>
+          <h3 class="product-name">COMBO BIGM + CREATINE</h3>
+          <div class="product-rating">★★★★★ <span>4.7 (232)</span></div>
           <div class="product-price-row">
-            <div><span class="product-price">S/ 189</span></div>
+            <div>
+              <span class="product-price">S/ 109.90</span>
+              <span class="product-price-old">S/ 120.00</span>
+            </div>
             <button class="add-cart-btn" data-ripple>
               <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
             </button>
@@ -387,23 +289,54 @@
         </div>
       </article>
 
-      <!-- Producto 7: Shaker Pro 700ml -->
-      <article class="product-card" data-id="shaker-pro-force" data-category="accesorios" data-name="Shaker Pro 700ml" data-price="S/ 39" data-cat-label="Accesorios" data-img="assets/img/productos/shaker-pro.jpg">
+      <!-- Producto 5: Combo Whey Pro Creatine 3kg Chocolate -->
+      <article class="product-card" data-id="combo-whey-pro-creatine-3kg-chocolate" data-category="rendimiento" data-name="COMBO WEY PRO + CREATINE 3KG" data-price="S/ 159.90" data-cat-label="Rendimiento" data-img="assets/img/COMBO WEY PRO_CREATINE_chocolate_3kg_bebidas energeticas.png">
+        <span class="product-badge badge-sale">-14%</span>
         <div class="product-img-wrap">
-          <img src="assets/img/productos/shaker-pro.jpg" alt="Shaker Pro" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="assets/img/COMBO WEY PRO_CREATINE_chocolate_3kg_bebidas energeticas.png" alt="Combo whey pro creatine chocolate 3kg" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 4-2 12H9L7 7l1-4z"/></svg>
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
           </div>
           <button class="quick-view-btn" aria-label="Vista rápida">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
         <div class="product-info">
-          <p class="product-cat">Accesorios</p>
-          <h3 class="product-name">Shaker Pro 700ml</h3>
-          <div class="product-rating">★★★★☆ <span>4.5 (63)</span></div>
+          <p class="product-cat">Rendimiento</p>
+          <h3 class="product-name">COMBO WEY PRO + CREATINE 3KG</h3>
+          <div class="product-rating">★★★★★ <span>4.8 (287)</span></div>
           <div class="product-price-row">
-            <div><span class="product-price">S/ 39</span></div>
+            <div>
+              <span class="product-price">S/ 159.90</span>
+              <span class="product-price-old">S/ 185.00</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 6: Combo Whey Pro Creatine 3kg Vainilla -->
+      <article class="product-card" data-id="combo-whey-pro-creatine-3kg-vainilla" data-category="rendimiento" data-name="COMBO WEY PRO + CREATINE VAINILLA 3KG" data-price="S/ 159.90" data-cat-label="Rendimiento" data-img="assets/img/COMBO WEY PRO_CREATINE_vainilla_3kg_bebidas energeticas.png">
+        <div class="product-img-wrap">
+          <img src="assets/img/COMBO WEY PRO_CREATINE_vainilla_3kg_bebidas energeticas.png" alt="Combo whey pro creatine vainilla 3kg" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Rendimiento</p>
+          <h3 class="product-name">COMBO WEY PRO + CREATINE VAINILLA 3KG</h3>
+          <div class="product-rating">★★★★★ <span>4.7 (201)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">S/ 159.90</span>
+              <span class="product-price-old">S/ 185.00</span>
+            </div>
             <button class="add-cart-btn" data-ripple>
               <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
             </button>
@@ -413,7 +346,7 @@
 
     </div>
 
-    <div class="flex justify-center mt-12 reveal-on-scroll">
+    <div class="flex justify-center mt-10 reveal-on-scroll">
       <button class="btn-secondary">Ver más productos</button>
     </div>
   </section>
@@ -421,23 +354,23 @@
   <!-- ============================================================
        SECCIÓN DE ESTADÍSTICAS
   ============================================================= -->
-  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-16">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-12">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-amber-400" data-count-to="7">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Productos</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="6">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Productos</p>
       </div>
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-amber-400" data-count-to="4200" data-suffix="+">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Atletas</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="2900" data-suffix="+">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Clientes felices</p>
       </div>
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-amber-400" data-count-to="97" data-suffix="%">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Rendimiento</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="97" data-suffix="%">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Satisfacción</p>
       </div>
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-amber-400" data-count-to="40" data-suffix="%">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Más fuerza</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="25" data-suffix="%">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Más rendimiento</p>
       </div>
     </div>
   </section>
@@ -601,16 +534,16 @@
         const span = document.createElement('span');
         span.className = 'letter category-hero-letter';
         span.textContent = char === ' ' ? '\u00A0' : char;
-        span.style.background = 'linear-gradient(180deg, #FCD34D, #F59E0B, #DC2626)';
+        span.style.background = 'linear-gradient(180deg, #ffffff, #FF6B6B, #1E9BFF)';
         span.style.webkitBackgroundClip = 'text';
         span.style.backgroundClip = 'text';
         span.style.color = 'transparent';
-        span.style.filter = 'drop-shadow(0 0 20px rgba(245,158,11,0.5))';
+        span.style.filter = 'drop-shadow(0 0 20px rgba(255,77,77,0.45))';
         span.style.animationDelay = `${0.3 + i * 0.06}s`;
         span.style.display = 'inline-block';
         span.style.opacity = '0';
-        span.style.transform = 'translateY(30px) scale(0.8)';
-        span.style.animation = 'categoryHeroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+        span.style.transform = 'translateY(25px) scale(0.85)';
+        span.style.animation = 'categoryHeroIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards';
         titleEl.appendChild(span);
       });
 
@@ -619,30 +552,9 @@
         style.id = 'category-hero-styles';
         style.textContent = `
           @keyframes categoryHeroIn {
-            0% { opacity: 0; transform: translateY(30px) scale(0.8); }
-            60% { opacity: 1; transform: translateY(-6px) scale(1.05); filter: drop-shadow(0 0 40px rgba(245,158,11,0.8)); }
-            100% { opacity: 1; transform: translateY(0) scale(1); filter: drop-shadow(0 0 20px rgba(245,158,11,0.5)); }
-          }
-          .animate-fade-in-up {
-            animation: fadeInUp 1s ease-out 0.6s both;
-          }
-          @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          .animate-bounce-slow {
-            animation: bounceSlow 3s ease-in-out infinite;
-          }
-          @keyframes bounceSlow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
-          }
-          .animate-float {
-            animation: floatY 3s ease-in-out infinite;
-          }
-          @keyframes floatY {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            0% { opacity: 0; transform: translateY(25px) scale(0.85); }
+            60% { opacity: 1; transform: translateY(-4px) scale(1.03); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
           }
         `;
         document.head.appendChild(style);
