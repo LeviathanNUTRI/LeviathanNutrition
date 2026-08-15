@@ -41,21 +41,21 @@
 <body class="bg-lv-black text-white font-body antialiased overflow-x-hidden">
 
   <!-- ============================================================
-       FONDO DINÁMICO (tonos púrpura/azul para recuperación)
+       FONDO DINÁMICO
   ============================================================= -->
-  <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bg-ambient">
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bg-ambient">
     <div class="absolute inset-0 bg-lv-black"></div>
-    <div class="absolute inset-0 bg-gradient-radial from-[#1a0a2e] via-[#0A0E14] to-[#050607] opacity-90 animate-bg-pulse"></div>
-    <div class="absolute top-1/4 left-1/4 w-[800px] h-[800px] rounded-full bg-purple-600/15 blur-[150px] animate-float-1"></div>
-    <div class="absolute bottom-1/3 right-1/4 w-[700px] h-[700px] rounded-full bg-indigo-500/15 blur-[160px] animate-float-2"></div>
-    <div class="absolute top-3/4 left-1/2 w-[600px] h-[600px] rounded-full bg-pink-500/10 blur-[120px] animate-float-3"></div>
-    <div class="absolute top-1/3 right-1/3 w-[500px] h-[500px] rounded-full bg-blue-500/10 blur-[100px] animate-float-4"></div>
-    <div class="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full bg-purple-400/10 blur-[90px] animate-float-5"></div>
-    <div class="absolute top-10 left-20 w-1 h-1 bg-purple-300 rounded-full opacity-70 animate-twinkle"></div>
-    <div class="absolute top-40 right-20 w-1.5 h-1.5 bg-indigo-300 rounded-full opacity-60 animate-twinkle-delay"></div>
-    <div class="absolute bottom-20 left-1/2 w-2 h-2 bg-purple-400 rounded-full opacity-50 animate-twinkle-slow"></div>
-    <div class="absolute top-1/2 left-10 w-1 h-1 bg-blue-300 rounded-full opacity-80 animate-twinkle-fast"></div>
-    <div class="absolute bottom-1/3 right-10 w-1.5 h-1.5 bg-pink-300 rounded-full opacity-60 animate-twinkle"></div>
+    <div class="absolute inset-0 bg-gradient-radial from-[#0B2A4A] via-[#050607] to-[#050607] opacity-90 animate-bg-pulse"></div>
+    <div class="absolute top-1/4 left-1/4 w-[800px] h-[800px] rounded-full bg-lv-cyan/15 blur-[150px] animate-float-1"></div>
+    <div class="absolute bottom-1/3 right-1/4 w-[700px] h-[700px] rounded-full bg-lv-blue-deep/15 blur-[160px] animate-float-2"></div>
+    <div class="absolute top-3/4 left-1/2 w-[600px] h-[600px] rounded-full bg-lv-cyan/20 blur-[120px] animate-float-3"></div>
+    <div class="absolute top-1/3 right-1/3 w-[500px] h-[500px] rounded-full bg-lv-cyan/10 blur-[100px] animate-float-4"></div>
+    <div class="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full bg-lv-blue-deep/10 blur-[90px] animate-float-5"></div>
+    <div class="absolute top-10 left-20 w-1 h-1 bg-lv-blue-deep/70 rounded-full opacity-70 animate-twinkle"></div>
+    <div class="absolute top-40 right-20 w-1.5 h-1.5 bg-lv-cyan/60 rounded-full opacity-60 animate-twinkle-delay"></div>
+    <div class="absolute bottom-20 left-1/2 w-2 h-2 bg-lv-blue-deep/50 rounded-full opacity-50 animate-twinkle-slow"></div>
+    <div class="absolute top-1/2 left-10 w-1 h-1 bg-lv-cyan/80 rounded-full opacity-80 animate-twinkle-fast"></div>
+    <div class="absolute bottom-1/3 right-10 w-1.5 h-1.5 bg-lv-blue-deep/60 rounded-full opacity-60 animate-twinkle"></div>
   </div>
 
   <!-- FONDO DE PARTÍCULAS -->
@@ -80,7 +80,7 @@
               Categorías
               <svg class="w-3 h-3 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
-            <span class="category-active-label">Máxima Recuperación</span>
+            <span class="category-active-label">Máxima recuperación</span>
             <div id="category-dropdown-menu" class="category-dropdown-menu" role="menu">
               <a href="aumentar_masa.html" class="dropdown-item" role="menuitem">Aumento de Masa Muscular</a>
               <a href="musculo_limpio.html" class="dropdown-item" role="menuitem">Músculo Limpio</a>
@@ -130,100 +130,44 @@
   </div>
 
   <!-- ============================================================
-       HERO DE CATEGORÍA — ENFOQUE EN REGENERACIÓN Y DESCANSO
+       HERO DE CATEGORÍA — SOLO VIDEO + TÍTULO (SIN TEXTO EXTRA)
   ============================================================= -->
-  <section id="categoria-hero" class="relative z-10 min-h-[70vh] flex items-center justify-center overflow-hidden">
-    <!-- Video de fondo (recomendación: 1920x1080, MP4 H.264) -->
-    <!-- CAMBIA LA RUTA SEGÚN TU CONTENIDO -->
-    <video class="absolute inset-0 w-full h-full object-cover z-0" autoplay muted loop playsinline>
-      <source src="assets/video/recuperacion_hero.mp4" type="video/mp4">
-      <img src="assets/img/categorias/recuperacion_hero.jpg" alt="Máxima Recuperación" class="absolute inset-0 w-full h-full object-cover" />
+  <section id="categoria-hero" class="relative z-10 min-h-[60vh] flex items-center justify-center overflow-hidden" style="background-image:url('assets/img/Maxima_Recuperacion.jpeg'); background-size:cover; background-position:center;">
+    <!-- Video de fondo -->
+    <video class="absolute inset-0 w-full h-full object-cover z-0" autoplay muted loop playsinline poster="assets/img/Maxima_Recuperacion.jpeg" onerror="this.style.display='none';">
+      <source src="assets/img/Productos_Destacados.mp4" type="video/mp4">
     </video>
 
-    <!-- Capas de degradado con tonos púrpura/azul -->
-    <div class="absolute inset-0 bg-gradient-to-r from-[#050607]/90 via-[#0A0E14]/70 to-transparent z-1"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-[#050607] via-transparent to-transparent z-1"></div>
+    <!-- Capas de degradado (muy sutiles para no opacar el video) -->
+    <div class="absolute inset-0 bg-gradient-to-r from-[#050607]/60 via-[#050607]/20 to-transparent z-1"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#050607]/50 via-transparent to-transparent z-1"></div>
 
-    <div class="relative z-10 text-center max-w-4xl mx-auto px-6 py-20">
-      <div class="inline-block mb-4 px-4 py-1 border border-purple-400/30 rounded-full text-purple-300 text-xs font-bold tracking-[0.2em] uppercase animate-pulse">
-        Regeneración Premium
-      </div>
-
-      <h1 class="font-display text-[clamp(3.5rem,10vw,7rem)] leading-[0.9] text-white category-hero-title">
-        <span class="block" id="category-title-line" data-text="RECUPERACIÓN">RECUPERACIÓN</span>
+    <div class="relative z-10 text-center max-w-4xl mx-auto px-6">
+      <!-- TÍTULO GRANDE CENTRADO (sin badge ni botón) -->
+      <h1 class="font-display text-[clamp(3.5rem,10vw,6.5rem)] leading-[0.9] text-white category-hero-title">
+        <span class="block" id="category-title-line" data-text="MÁXIMA RECUPERACIÓN">MÁXIMA RECUPERACIÓN</span>
       </h1>
-
-      <p class="text-lv-steel text-lg md:text-xl max-w-2xl mx-auto mt-6 leading-relaxed animate-fade-in-up">
-        Fórmulas diseñadas para <span class="text-purple-300 font-bold">acelerar la regeneración muscular</span>, mejorar la calidad del sueño y reducir el tiempo entre entrenamientos.
-      </p>
-
-      <div class="mt-8">
-        <a href="#productos" class="btn-primary group inline-flex items-center gap-3 animate-bounce-slow" style="background: linear-gradient(135deg, #7C3AED, #6D28D9, #4C1D95);">
-          <span>Explorar Productos</span>
-          <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-
-      <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-lv-steel text-xs uppercase tracking-widest animate-float">
-        <span>Desliza</span>
-        <div class="w-px h-8 bg-gradient-to-b from-purple-400 to-transparent"></div>
-      </div>
     </div>
   </section>
 
   <!-- ============================================================
-       SECCIÓN DE BENEFICIOS — RECUPERACIÓN Y DESCANSO
-  ============================================================= -->
-  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-20">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-purple-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-400/20 to-indigo-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-purple-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
-        </div>
-        <h3 class="font-display text-xl text-white mb-2">Regeneración Acelerada</h3>
-        <p class="text-lv-steel text-sm">Reduce el tiempo de recuperación entre entrenamientos intensos.</p>
-      </div>
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-purple-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-400/20 to-indigo-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-purple-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-        <h3 class="font-display text-xl text-white mb-2">Mejor Sueño</h3>
-        <p class="text-lv-steel text-sm">Fórmulas que potencian la calidad del sueño para una recuperación completa.</p>
-      </div>
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-purple-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-400/20 to-indigo-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-purple-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.5L4.5 18a1.5 1.5 0 0 0 1.3 2.3h12.4a1.5 1.5 0 0 0 1.3-2.3L14 8.5V3"/></svg>
-        </div>
-        <h3 class="font-display text-xl text-white mb-2">Reparación Muscular</h3>
-        <p class="text-lv-steel text-sm">Aminoácidos clave para reparar tejido muscular dañado durante el entrenamiento.</p>
-      </div>
-      <div class="group bg-lv-panel/40 backdrop-blur-sm border border-white/5 rounded-2xl p-6 text-center hover:border-purple-400/40 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/10 reveal-on-scroll">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-400/20 to-indigo-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <svg class="w-8 h-8 text-purple-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-        </div>
-        <h3 class="font-display text-xl text-white mb-2">Equilibrio Hormonal</h3>
-        <p class="text-lv-steel text-sm">Ayuda a mantener niveles óptimos de hormonas clave para el rendimiento.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SECCIÓN DE PRODUCTOS — CON ESTILO NOCTURNO Y RELAJANTE
+       SECCIÓN DE PRODUCTOS — TÍTULO DIRECTO (SIN SUBTÍTULO REPETIDO)
   ============================================================= -->
   <section id="productos" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-12">
 
-    <div class="section-heading text-center mb-12 reveal-on-scroll">
-      <div class="flex items-center justify-center gap-3 mb-4">
+    <div class="section-heading text-center mb-10 reveal-on-scroll">
+      <div class="flex items-center justify-center gap-3 mb-3">
         <span class="eyebrow-line"></span>
-        <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Fórmulas para Recuperación Máxima</span>
+        <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Catálogo de Máxima Recuperación</span>
         <span class="eyebrow-line"></span>
       </div>
-      <h2 class="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[0.95]">
-        PRODUCTOS <span class="text-electric-inline">DESTACADOS</span>
+      <h2 class="font-display text-[clamp(2rem,4vw,3.2rem)] leading-[0.95]">
+        PRODUCTOS PARA <span class="text-electric-inline">MÁXIMA RECUPERACIÓN</span>
       </h2>
-      <p class="text-lv-steel max-w-lg mx-auto mt-2">Selección premium para acelerar la regeneración y optimizar el descanso.</p>
+      <!-- ELIMINADO: <p class="text-lv-steel max-w-lg mx-auto mt-2">Fórmulas premium...</p> -->
     </div>
 
+    <!-- Control de ordenamiento (FUNCIONALIDAD CORREGIDA) -->
     <div class="flex justify-end items-center mb-6 reveal-on-scroll">
       <label for="sort-select" class="text-lv-steel text-xs font-bold uppercase tracking-widest mr-3">Ordenar:</label>
       <select id="sort-select" class="sort-select">
@@ -232,15 +176,71 @@
       </select>
     </div>
 
+    <!-- Grid de productos -->
     <div class="product-grid" id="product-grid">
 
-      <!-- Producto 1: Night Fuel ZMA -->
-      <article class="product-card" data-id="night-fuel-zma" data-category="recuperacion" data-name="Night Fuel ZMA" data-price="S/ 79" data-cat-label="Recuperación" data-img="assets/img/productos/night-fuel-zma.jpg">
+      <!-- Producto 1: Combo Nitro Whey Creatine -->
+      <article class="product-card" data-id="combo-nitro-whey-creatine" data-category="recuperacion" data-name="COMBO NITRO WHEY + CREATINE + REGALOS" data-price="S/ 99.90" data-cat-label="Recuperación Muscular" data-img="assets/img/COMBO NITRO WHEY CREATINE_Cookies & Cream_1.1kg_diabolus.png">
         <span class="product-badge badge-bestseller">Bestseller</span>
         <div class="product-img-wrap">
-          <img src="assets/img/productos/night-fuel-zma.jpg" alt="Night Fuel ZMA" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="assets/img/COMBO NITRO WHEY CREATINE_Cookies & Cream_1.1kg_diabolus.png" alt="Combo nitro whey creatine" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/></svg>
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Recuperación Muscular</p>
+          <h3 class="product-name">COMBO NITRO WHEY + CREATINE + REGALOS</h3>
+          <div class="product-rating">★★★★★ <span>4.9 (233)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">S/ 99.90</span>
+              <span class="product-price-old">S/ 115.00</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 2: Collagen Pro -->
+      <article class="product-card" data-id="colageno-hidrolizado" data-category="articulaciones" data-name="COLLAGEN PRO" data-price="S/ 75.00" data-cat-label="Articulaciones" data-img="assets/img/COLAGENO.png">
+        <span class="product-badge badge-new">Nuevo</span>
+        <div class="product-img-wrap">
+          <img src="assets/img/COLAGENO.png" alt="Colágeno hidrolizado" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5s6 7 6 11.5a6 6 0 1 1-12 0c0-4.5 6-11.5 6-11.5z"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Articulaciones</p>
+          <h3 class="product-name">COLLAGEN PRO</h3>
+          <div class="product-rating">★★★★★ <span>4.8 (142)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">S/ 75.00</span>
+              <span class="product-price-old">S/ 85.00</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 3: Combo Iso Whey Creatine -->
+      <article class="product-card" data-id="combo-iso-whey-creatine-recuperacion" data-category="recuperacion" data-name="COMBO ISO WHEY + CREATINE + REGALOS" data-price="S/ 99.90" data-cat-label="Recuperación" data-img="assets/img/COMBO ISO WHEY CREATINE_Cookies & Cream_1.1kg_diabolus.png">
+        <div class="product-img-wrap">
+          <img src="assets/img/COMBO ISO WHEY CREATINE_Cookies & Cream_1.1kg_diabolus.png" alt="Combo iso whey creatine" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
           </div>
           <button class="quick-view-btn" aria-label="Vista rápida">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -248,12 +248,12 @@
         </div>
         <div class="product-info">
           <p class="product-cat">Recuperación</p>
-          <h3 class="product-name">Night Fuel ZMA</h3>
-          <div class="product-rating">★★★★★ <span>4.9 (312)</span></div>
+          <h3 class="product-name">COMBO ISO WHEY + CREATINE + REGALOS</h3>
+          <div class="product-rating">★★★★★ <span>4.7 (198)</span></div>
           <div class="product-price-row">
             <div>
-              <span class="product-price">S/ 79</span>
-              <span class="product-price-old">S/ 95</span>
+              <span class="product-price">S/ 99.90</span>
+              <span class="product-price-old">S/ 115.00</span>
             </div>
             <button class="add-cart-btn" data-ripple>
               <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -262,99 +262,25 @@
         </div>
       </article>
 
-      <!-- Producto 2: L-Glutamine -->
-      <article class="product-card" data-id="l-glutamine-rec" data-category="aminoacidos" data-name="L-Glutamine" data-price="S/ 65" data-cat-label="Aminoácidos" data-img="assets/img/productos/glutamine.jpg">
-        <span class="product-badge badge-new">Nuevo</span>
+      <!-- Producto 4: Combo Whey Pro Creatine 2.5kg Cookies&Cream -->
+      <article class="product-card" data-id="combo-whey-pro-creatine-25-cookies" data-category="recuperacion" data-name="COMBO WEY PRO + CREATINE 2.5KG" data-price="S/ 149.90" data-cat-label="Recuperación + Volumen" data-img="assets/img/COMBO WEY PRO_CREATINE_Cookies & Cream_2.5kg.png">
         <div class="product-img-wrap">
-          <img src="assets/img/productos/glutamine.jpg" alt="L-Glutamine" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="assets/img/COMBO WEY PRO_CREATINE_Cookies & Cream_2.5kg.png" alt="Combo whey pro creatine cookies and cream 2.5kg" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
           </div>
           <button class="quick-view-btn" aria-label="Vista rápida">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
         <div class="product-info">
-          <p class="product-cat">Aminoácidos</p>
-          <h3 class="product-name">L-Glutamine</h3>
-          <div class="product-rating">★★★★★ <span>4.7 (89)</span></div>
-          <div class="product-price-row">
-            <div><span class="product-price">S/ 65</span></div>
-            <button class="add-cart-btn" data-ripple>
-              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-            </button>
-          </div>
-        </div>
-      </article>
-
-      <!-- Producto 3: Melatonin 3mg -->
-      <article class="product-card" data-id="melatonin" data-category="sueño" data-name="Melatonin 3mg" data-price="S/ 49" data-cat-label="Sueño" data-img="assets/img/productos/melatonin.jpg">
-        <div class="product-img-wrap">
-          <img src="assets/img/productos/melatonin.jpg" alt="Melatonin 3mg" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/></svg>
-          </div>
-          <button class="quick-view-btn" aria-label="Vista rápida">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
-        </div>
-        <div class="product-info">
-          <p class="product-cat">Sueño</p>
-          <h3 class="product-name">Melatonin 3mg</h3>
-          <div class="product-rating">★★★★★ <span>4.8 (156)</span></div>
-          <div class="product-price-row">
-            <div><span class="product-price">S/ 49</span></div>
-            <button class="add-cart-btn" data-ripple>
-              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-            </button>
-          </div>
-        </div>
-      </article>
-
-      <!-- Producto 4: Omega 3 + DHA -->
-      <article class="product-card" data-id="omega-3-dha" data-category="vitaminas" data-name="Omega 3 + DHA" data-price="S/ 59" data-cat-label="Vitaminas" data-img="assets/img/productos/omega-3.jpg">
-        <div class="product-img-wrap">
-          <img src="assets/img/productos/omega-3.jpg" alt="Omega 3 + DHA" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/></svg>
-          </div>
-          <button class="quick-view-btn" aria-label="Vista rápida">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
-        </div>
-        <div class="product-info">
-          <p class="product-cat">Vitaminas</p>
-          <h3 class="product-name">Omega 3 + DHA</h3>
-          <div class="product-rating">★★★★★ <span>4.7 (102)</span></div>
-          <div class="product-price-row">
-            <div><span class="product-price">S/ 59</span></div>
-            <button class="add-cart-btn" data-ripple>
-              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-            </button>
-          </div>
-        </div>
-      </article>
-
-      <!-- Producto 5: BCAA Complex Recovery -->
-      <article class="product-card" data-id="bcaa-recovery" data-category="aminoacidos" data-name="BCAA Recovery" data-price="S/ 79" data-cat-label="Aminoácidos" data-img="assets/img/productos/bcaa.jpg">
-        <span class="product-badge badge-sale">-15%</span>
-        <div class="product-img-wrap">
-          <img src="assets/img/productos/bcaa.jpg" alt="BCAA Recovery" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-          </div>
-          <button class="quick-view-btn" aria-label="Vista rápida">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
-        </div>
-        <div class="product-info">
-          <p class="product-cat">Aminoácidos</p>
-          <h3 class="product-name">BCAA Recovery</h3>
-          <div class="product-rating">★★★★☆ <span>4.6 (134)</span></div>
+          <p class="product-cat">Recuperación + Volumen</p>
+          <h3 class="product-name">COMBO WEY PRO + CREATINE 2.5KG</h3>
+          <div class="product-rating">★★★★★ <span>4.8 (220)</span></div>
           <div class="product-price-row">
             <div>
-              <span class="product-price">S/ 79</span>
-              <span class="product-price-old">S/ 93</span>
+              <span class="product-price">S/ 149.90</span>
+              <span class="product-price-old">S/ 170.00</span>
             </div>
             <button class="add-cart-btn" data-ripple>
               <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -363,23 +289,54 @@
         </div>
       </article>
 
-      <!-- Producto 6: Casein Protein -->
-      <article class="product-card" data-id="casein-protein" data-category="proteina" data-name="Casein Protein" data-price="S/ 149" data-cat-label="Proteína" data-img="assets/img/productos/casein.jpg">
+      <!-- Producto 5: Combo Whey Pro Creatine 2.5kg Vainilla -->
+      <article class="product-card" data-id="combo-whey-pro-creatine-25-vainilla" data-category="recuperacion" data-name="COMBO WEY PRO + CREATINE VAINILLA 2.5KG" data-price="S/ 144.90" data-cat-label="Recuperación + Volumen" data-img="assets/img/COMBO WEY PRO_CREATINE_vainilla_2.5kg.png">
+        <span class="product-badge badge-sale">-10%</span>
         <div class="product-img-wrap">
-          <img src="assets/img/productos/casein.jpg" alt="Casein Protein" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="assets/img/COMBO WEY PRO_CREATINE_vainilla_2.5kg.png" alt="Combo whey pro creatine vainilla 2.5kg" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="product-placeholder-icon" style="display:none">
-            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 3v3h6V3"/></svg>
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
           </div>
           <button class="quick-view-btn" aria-label="Vista rápida">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
         <div class="product-info">
-          <p class="product-cat">Proteína</p>
-          <h3 class="product-name">Casein Protein</h3>
-          <div class="product-rating">★★★★★ <span>4.8 (87)</span></div>
+          <p class="product-cat">Recuperación + Volumen</p>
+          <h3 class="product-name">COMBO WEY PRO + CREATINE VAINILLA 2.5KG</h3>
+          <div class="product-rating">★★★★★ <span>4.7 (187)</span></div>
           <div class="product-price-row">
-            <div><span class="product-price">S/ 149</span></div>
+            <div>
+              <span class="product-price">S/ 144.90</span>
+              <span class="product-price-old">S/ 160.00</span>
+            </div>
+            <button class="add-cart-btn" data-ripple>
+              <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 6: Ecocombo Bigm Creatine -->
+      <article class="product-card" data-id="ecocombo-bigm-creatine" data-category="recuperacion" data-name="ECOCOMBO BIGM + CREATINE" data-price="S/ 95.00" data-cat-label="Recuperación Nocturna" data-img="assets/img/ECOCOMBO BIGM CREATINE_chocolate_1.1kg.png">
+        <div class="product-img-wrap">
+          <img src="assets/img/ECOCOMBO BIGM CREATINE_chocolate_1.1kg.png" alt="Ecocombo bigm creatine chocolate" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="product-placeholder-icon" style="display:none">
+            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <button class="quick-view-btn" aria-label="Vista rápida">
+            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="product-info">
+          <p class="product-cat">Recuperación Nocturna</p>
+          <h3 class="product-name">ECOCOMBO BIGM + CREATINE</h3>
+          <div class="product-rating">★★★★★ <span>4.6 (133)</span></div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">S/ 95.00</span>
+              <span class="product-price-old">S/ 105.00</span>
+            </div>
             <button class="add-cart-btn" data-ripple>
               <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
             </button>
@@ -389,7 +346,7 @@
 
     </div>
 
-    <div class="flex justify-center mt-12 reveal-on-scroll">
+    <div class="flex justify-center mt-10 reveal-on-scroll">
       <button class="btn-secondary">Ver más productos</button>
     </div>
   </section>
@@ -397,23 +354,23 @@
   <!-- ============================================================
        SECCIÓN DE ESTADÍSTICAS
   ============================================================= -->
-  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-16">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-12">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-purple-300" data-count-to="6">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Productos</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="6">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Productos</p>
       </div>
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-purple-300" data-count-to="1500" data-suffix="+">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Atletas</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="1800" data-suffix="+">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Clientes felices</p>
       </div>
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-purple-300" data-count-to="97" data-suffix="%">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Satisfacción</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="97" data-suffix="%">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Satisfacción</p>
       </div>
       <div class="reveal-on-scroll">
-        <p class="font-display text-4xl text-purple-300" data-count-to="6" data-suffix="h">0</p>
-        <p class="text-lv-steel text-sm uppercase tracking-widest">Sueño reparador</p>
+        <p class="font-display text-3xl text-lv-cyan" data-count-to="40" data-suffix="%">0</p>
+        <p class="text-lv-steel text-xs uppercase tracking-widest">Menos fatiga</p>
       </div>
     </div>
   </section>
@@ -577,16 +534,16 @@
         const span = document.createElement('span');
         span.className = 'letter category-hero-letter';
         span.textContent = char === ' ' ? '\u00A0' : char;
-        span.style.background = 'linear-gradient(180deg, #C084FC, #8B5CF6, #6D28D9)';
+        span.style.background = 'linear-gradient(180deg, #ffffff, #5FD4FF, #0B5FCC)';
         span.style.webkitBackgroundClip = 'text';
         span.style.backgroundClip = 'text';
         span.style.color = 'transparent';
-        span.style.filter = 'drop-shadow(0 0 20px rgba(139,92,246,0.5))';
+        span.style.filter = 'drop-shadow(0 0 20px rgba(95,212,255,0.45))';
         span.style.animationDelay = `${0.3 + i * 0.06}s`;
         span.style.display = 'inline-block';
         span.style.opacity = '0';
-        span.style.transform = 'translateY(30px) scale(0.8)';
-        span.style.animation = 'categoryHeroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+        span.style.transform = 'translateY(25px) scale(0.85)';
+        span.style.animation = 'categoryHeroIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards';
         titleEl.appendChild(span);
       });
 
@@ -595,30 +552,9 @@
         style.id = 'category-hero-styles';
         style.textContent = `
           @keyframes categoryHeroIn {
-            0% { opacity: 0; transform: translateY(30px) scale(0.8); }
-            60% { opacity: 1; transform: translateY(-6px) scale(1.05); filter: drop-shadow(0 0 40px rgba(139,92,246,0.8)); }
-            100% { opacity: 1; transform: translateY(0) scale(1); filter: drop-shadow(0 0 20px rgba(139,92,246,0.5)); }
-          }
-          .animate-fade-in-up {
-            animation: fadeInUp 1s ease-out 0.6s both;
-          }
-          @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          .animate-bounce-slow {
-            animation: bounceSlow 3s ease-in-out infinite;
-          }
-          @keyframes bounceSlow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
-          }
-          .animate-float {
-            animation: floatY 3s ease-in-out infinite;
-          }
-          @keyframes floatY {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            0% { opacity: 0; transform: translateY(25px) scale(0.85); }
+            60% { opacity: 1; transform: translateY(-4px) scale(1.03); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
           }
         `;
         document.head.appendChild(style);
