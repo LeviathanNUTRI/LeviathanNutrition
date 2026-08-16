@@ -35,13 +35,573 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ===== ESTILOS GENERALES ===== */
+    * { box-sizing: border-box; }
+    body { background: #050607; color: #fff; font-family: 'Manrope', sans-serif; }
+    .font-display { font-family: 'Anton', sans-serif; }
+
+    /* ===== HEADER Y NAV ===== */
+    #site-header {
+      background: rgba(5, 6, 7, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: background 0.3s;
+    }
+    .nav-scanline {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(30,155,255,0.3), transparent);
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+    .logo-mark { height: 52px; width: auto; filter: drop-shadow(0 0 12px rgba(30,155,255,0.3)); transition: filter 0.3s; }
+    .logo-wrap:hover .logo-mark { filter: drop-shadow(0 0 20px rgba(30,155,255,0.6)); }
+    .nav-link {
+      color: #8B96A8;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-link:hover, .nav-link.active-link { color: #fff; }
+    .nav-link.active-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #1E9BFF;
+      box-shadow: 0 0 12px rgba(30,155,255,0.5);
+    }
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: #8B96A8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      cursor: pointer;
+      padding: 8px;
+    }
+    .icon-btn:hover { background: rgba(30,155,255,0.12); border-color: rgba(30,155,255,0.3); color: #fff; }
+    .cart-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #1E9BFF;
+      color: #fff;
+      font-size: 0.6rem;
+      font-weight: 700;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 12px rgba(30,155,255,0.4);
+    }
+
+    /* ===== CAMPO DE BÚSQUEDA EN HEADER ===== */
+    .search-bar-wrap {
+      position: relative;
+      flex: 1;
+      max-width: 320px;
+      margin: 0 0.5rem;
+    }
+    .search-input-header {
+      width: 100%;
+      padding: 0.5rem 1rem 0.5rem 2.6rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 40px;
+      color: #fff;
+      font-size: 0.85rem;
+      outline: none;
+      transition: all 0.3s;
+      font-family: inherit;
+    }
+    .search-input-header::placeholder { color: #5a6678; }
+    .search-input-header:focus {
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(30,155,255,0.4);
+      box-shadow: 0 0 20px rgba(30,155,255,0.08);
+    }
+    .search-bar-wrap::before {
+      content: '';
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238B96A8' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") no-repeat center;
+      background-size: contain;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .search-results-header {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: #0D1420;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 0.5rem 0;
+      max-height: 300px;
+      overflow-y: auto;
+      display: none;
+      z-index: 1000;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+    .search-results-header.show { display: block; }
+    .search-result-item {
+      padding: 0.6rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      color: #d0d7e6;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:hover { background: rgba(30,155,255,0.08); }
+    .search-result-item .sr-icon {
+      width: 28px;
+      height: 28px;
+      background: rgba(30,155,255,0.12);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1E9BFF;
+      flex-shrink: 0;
+    }
+    .search-result-item .sr-name { font-weight: 500; }
+    .search-result-item .sr-cat { color: #5a6678; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* ===== MENÚ HAMBURGUESA ===== */
+    #mobile-menu {
+      display: none;
+      background: rgba(5,6,7,0.97);
+      backdrop-filter: blur(12px);
+      padding: 1.5rem 1.5rem 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    #mobile-menu.open { display: flex; }
+    .mobile-link {
+      color: #8B96A8;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: color 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .mobile-link:hover { color: #fff; }
+    .mobile-link.active { color: #1E9BFF; }
+
+    /* ===== HERO ===== */
+    .hero-bg-layer-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .hero-bg-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.7;
+    }
+    .hero-gradient-left {
+      background: linear-gradient(90deg, #050607 0%, transparent 60%);
+    }
+    .hero-gradient-bottom {
+      background: linear-gradient(0deg, #050607 20%, transparent 60%);
+    }
+    .hero-vignette {
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(5,6,7,0.6) 100%);
+    }
+    .title-chrome {
+      background: linear-gradient(180deg, #ffffff 20%, #a0b4cc 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .title-electric {
+      background: linear-gradient(180deg, #5FD4FF, #1E9BFF, #0B5FCC);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 40px rgba(30,155,255,0.2);
+    }
+    .eyebrow-line {
+      width: 32px;
+      height: 2px;
+      background: linear-gradient(90deg, #1E9BFF, #5FD4FF);
+      border-radius: 4px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #1E9BFF, #0B5FCC);
+      border: none;
+      color: #fff;
+      padding: 0.8rem 2rem;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(30,155,255,0.25);
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(30,155,255,0.4);
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #fff;
+      padding: 0.8rem 2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.25); }
+    .benefit-item { display: flex; align-items: center; gap: 0.8rem; }
+    .benefit-icon {
+      width: 32px;
+      height: 32px;
+      color: #1E9BFF;
+      flex-shrink: 0;
+    }
+    .benefit-title { font-weight: 700; font-size: 0.85rem; color: #fff; }
+    .benefit-desc { font-size: 0.7rem; color: #5a6678; margin: 0; }
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      right: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: #5a6678;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, #1E9BFF, transparent); position: relative; }
+    .scroll-dot { width: 4px; height: 4px; background: #1E9BFF; border-radius: 50%; position: absolute; top: 0; left: -1.5px; animation: scrollDot 2s infinite; }
+    @keyframes scrollDot {
+      0% { top: 0; opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    /* ===== TRUST BAR ===== */
+    .trust-bar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1.5rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .trust-item { display: flex; align-items: center; gap: 0.8rem; }
+    .trust-icon { width: 28px; height: 28px; color: #1E9BFF; }
+    .trust-title { font-weight: 600; font-size: 0.8rem; color: #fff; }
+    .trust-desc { font-size: 0.65rem; color: #5a6678; }
+    .trust-item--accent .trust-icon { color: #5FD4FF; }
+
+    /* ===== CATEGORÍAS ===== */
+    .category-card--large { display: block; border-radius: 20px; overflow: hidden; position: relative; transition: transform 0.3s, box-shadow 0.3s; }
+    .category-card--large:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+    .category-img-wrap--large { position: relative; width: 100%; height: 240px; overflow: hidden; }
+    .category-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+    .category-card--large:hover .category-img { transform: scale(1.05); }
+    .category-overlay--large {
+      position: absolute; inset: 0;
+      background: linear-gradient(0deg, rgba(5,6,7,0.75) 0%, transparent 60%);
+    }
+    .category-name-wrap {
+      position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem;
+      display: flex; flex-direction: column; gap: 0.2rem;
+    }
+    .category-name-large { font-family: 'Anton', sans-serif; font-size: 1.6rem; color: #fff; line-height: 1; letter-spacing: 0.02em; }
+    .category-count-large { font-size: 0.7rem; color: #5a6678; text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* ===== PRODUCTOS ===== */
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+    .product-card {
+      background: rgba(13,20,32,0.4);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .product-card:hover { transform: translateY(-4px); border-color: rgba(30,155,255,0.15); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
+    .product-img-wrap { position: relative; padding-top: 100%; background: rgba(255,255,255,0.02); overflow: hidden; }
+    .product-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; padding: 1rem; transition: transform 0.4s; }
+    .product-card:hover .product-img { transform: scale(1.04); }
+    .product-badge {
+      position: absolute; top: 12px; left: 12px;
+      padding: 0.2rem 0.8rem; border-radius: 40px;
+      font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      z-index: 2;
+    }
+    .badge-bestseller { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #000; }
+    .badge-new { background: linear-gradient(135deg, #34d399, #059669); color: #fff; }
+    .badge-sale { background: linear-gradient(135deg, #f87171, #dc2626); color: #fff; }
+    .badge-oferta { background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; }
+    .badge-promo { background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: #fff; }
+    .quick-view-btn {
+      position: absolute; bottom: 12px; right: 12px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(5,6,7,0.8); border: 1px solid rgba(255,255,255,0.1);
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s, transform 0.3s; cursor: pointer;
+    }
+    .product-card:hover .quick-view-btn { opacity: 1; }
+    .quick-view-btn:hover { background: #1E9BFF; border-color: #1E9BFF; }
+    .product-info { padding: 1rem; }
+    .product-cat { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: #5a6678; margin-bottom: 0.2rem; }
+    .product-name { font-weight: 700; font-size: 0.9rem; color: #fff; margin-bottom: 0.3rem; line-height: 1.2; }
+    .product-rating { display: flex; align-items: center; gap: 0.4rem; font-size: 0.7rem; color: #fbbf24; }
+    .product-rating span { color: #5a6678; }
+    .product-price-row { display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; }
+    .product-price { font-weight: 800; font-size: 1.1rem; color: #fff; }
+    .product-price-old { font-size: 0.7rem; color: #5a6678; text-decoration: line-through; margin-left: 0.4rem; }
+    .add-cart-btn {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(30,155,255,0.12); border: 1px solid rgba(30,155,255,0.15);
+      color: #1E9BFF; display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s; cursor: pointer;
+    }
+    .add-cart-btn:hover { background: #1E9BFF; color: #fff; border-color: #1E9BFF; box-shadow: 0 4px 16px rgba(30,155,255,0.3); }
+    .product-header-row { display: flex; justify-content: space-between; align-items: center; }
+    .product-weight-buttons { display: flex; gap: 0.3rem; }
+    .weight-btn {
+      padding: 0.1rem 0.5rem; border-radius: 20px; font-size: 0.55rem;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+      color: #5a6678; cursor: pointer; transition: all 0.2s;
+    }
+    .weight-btn.active { background: rgba(30,155,255,0.15); border-color: #1E9BFF; color: #fff; }
+
+    /* ===== COMBOS ===== */
+    .product-card--combo { background: rgba(13,20,32,0.6); border-color: rgba(139,92,246,0.2); }
+
+    /* ===== NOSOTROS ===== */
+    .nosotros-section { position: relative; }
+    .nosotros-glow {
+      background: radial-gradient(ellipse at 30% 50%, rgba(30,155,255,0.06), transparent 70%);
+    }
+    .nosotros-img-wrap { position: relative; }
+    .nosotros-video {
+      width: 100%;
+      max-height: 380px;
+      object-fit: cover;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .nosotros-frame {
+      position: absolute; inset: -6px; border-radius: 28px;
+      border: 1px solid rgba(30,155,255,0.08);
+      pointer-events: none;
+    }
+    .pillar-item { display: flex; align-items: center; gap: 0.8rem; }
+    .pillar-icon { width: 28px; height: 28px; color: #1E9BFF; flex-shrink: 0; }
+    .pillar-title { font-weight: 600; font-size: 0.8rem; color: #fff; }
+    .pillar-desc { font-size: 0.65rem; color: #5a6678; }
+    .stats-row { gap: 1rem; }
+    .stat-item { text-align: center; }
+    .stat-number { font-family: 'Anton', sans-serif; font-size: 2rem; color: #fff; line-height: 1; }
+    .stat-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: #5a6678; margin-top: 0.2rem; }
+
+    /* ===== CONTACTO ===== */
+    .contact-info-card { display: flex; align-items: center; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .contact-info-icon { width: 28px; height: 28px; color: #1E9BFF; flex-shrink: 0; }
+    .contact-info-title { font-weight: 600; font-size: 0.8rem; color: #fff; }
+    .contact-info-text { font-size: 0.7rem; color: #5a6678; }
+    .contact-social-row { display: flex; gap: 0.8rem; margin-top: 0.5rem; }
+    .contact-social-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; color: #8B96A8; transition: all 0.3s; }
+    .contact-social-btn:hover { background: rgba(30,155,255,0.1); color: #fff; border-color: rgba(30,155,255,0.2); }
+    .contact-form .form-field { position: relative; }
+    .contact-form input, .contact-form textarea {
+      width: 100%; padding: 0.8rem 1rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; color: #fff; font-size: 0.85rem; transition: border 0.3s; outline: none;
+    }
+    .contact-form input:focus, .contact-form textarea:focus { border-color: rgba(30,155,255,0.3); }
+    .contact-form label {
+      position: absolute; left: 1rem; top: 0.8rem; color: #5a6678; font-size: 0.8rem; transition: all 0.2s; pointer-events: none;
+    }
+    .contact-form input:focus + label, .contact-form input:not(:placeholder-shown) + label,
+    .contact-form textarea:focus + label, .contact-form textarea:not(:placeholder-shown) + label {
+      top: -0.6rem; left: 0.8rem; font-size: 0.6rem; background: #0D1420; padding: 0 0.4rem; color: #1E9BFF;
+    }
+    .contact-form input::placeholder, .contact-form textarea::placeholder { color: transparent; }
+
+    /* ===== FOOTER ===== */
+    .footer-heading { font-weight: 700; font-size: 0.8rem; color: #fff; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .footer-link { display: block; color: #5a6678; font-size: 0.8rem; margin-bottom: 0.4rem; transition: color 0.2s; }
+    .footer-link:hover { color: #fff; }
+    .newsletter-form { display: flex; gap: 0.5rem; }
+    .newsletter-form input { flex: 1; padding: 0.6rem 1rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 40px; color: #fff; font-size: 0.8rem; outline: none; }
+    .newsletter-form input:focus { border-color: rgba(30,155,255,0.3); }
+    .newsletter-form button { width: 40px; height: 40px; border-radius: 50%; background: #1E9BFF; border: none; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.3s; }
+    .newsletter-form button:hover { background: #0B5FCC; }
+
+    /* ===== CARRITO ===== */
+    .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 1000; display: none; }
+    .cart-drawer {
+      position: fixed; top: 0; right: 0; width: 100%; max-width: 420px; height: 100%; background: #0D1420; border-left: 1px solid rgba(255,255,255,0.04); z-index: 1001; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cart-drawer.open { transform: translateX(0); }
+    .cart-drawer-header { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; justify-content: space-between; align-items: center; }
+    .cart-drawer-header h3 { font-size: 1.2rem; font-weight: 700; }
+    .cart-drawer-body { flex: 1; overflow-y: auto; padding: 1rem 1.5rem; }
+    .cart-drawer-footer { padding: 1.5rem; border-top: 1px solid rgba(255,255,255,0.04); }
+    .cart-subtotal-row { display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 1rem; }
+    .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 2000; display: flex; flex-direction: column; gap: 0.5rem; }
+    .toast { background: #0D1420; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 0.8rem 1.2rem; color: #fff; font-size: 0.85rem; box-shadow: 0 12px 30px rgba(0,0,0,0.5); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ===== QUICK VIEW ===== */
+    .pcard {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.96); width: 90%; max-width: 720px; max-height: 90vh; background: #0D1420; border-radius: 32px; border: 1px solid rgba(255,255,255,0.06); z-index: 1500; display: none; flex-direction: column; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+    }
+    .pcard.open { display: flex; animation: modalIn 0.3s ease forwards; }
+    @keyframes modalIn { from { opacity: 0; transform: translate(-50%, -50%) scale(0.96); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+    .pcard-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 0; position: relative; }
+    .pcard-img-wrap { background: rgba(255,255,255,0.02); display: flex; align-items: center; justify-content: center; padding: 2rem; }
+    .pcard-img { max-width: 100%; max-height: 300px; object-fit: contain; }
+    .pcard-info { padding: 2rem 2rem 2rem 1rem; display: flex; flex-direction: column; gap: 0.8rem; }
+    .pcard-title { font-size: 1.4rem; font-weight: 700; }
+    .pcard-rating-row { display: flex; align-items: center; gap: 0.5rem; }
+    .pcard-desc { color: #8B96A8; font-size: 0.85rem; line-height: 1.5; }
+    .pcard-price-row { display: flex; align-items: baseline; gap: 0.5rem; }
+    .pcard-price { font-size: 1.8rem; font-weight: 800; color: #fff; }
+    .pcard-price-old { font-size: 1rem; color: #5a6678; text-decoration: line-through; }
+    .pcard-actions { display: flex; gap: 0.8rem; margin-top: 0.5rem; }
+    .pcard-btn-cart { flex: 1; }
+    .pcard-btn-whatsapp {
+      background: #25D366; border: none; color: #fff; padding: 0.8rem 1.2rem; border-radius: 40px; font-weight: 600; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: background 0.3s;
+    }
+    .pcard-btn-whatsapp:hover { background: #1ebe5c; }
+    .pcard-icon-btn {
+      width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); color: #8B96A8; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;
+    }
+    .pcard-icon-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .pcard-top-right { position: absolute; top: 1rem; right: 1rem; display: flex; flex-direction: column; gap: 0.5rem; z-index: 5; }
+    .pcard-camera-btn { position: absolute; top: 1rem; left: 1rem; z-index: 5; }
+    .pcard-menu-wrap { position: relative; }
+    .pcard-context-menu, .pcard-share-menu {
+      position: absolute; right: 0; top: calc(100% + 8px); background: #0D1420; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 0.4rem 0; min-width: 160px; display: none; box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    }
+    .pcard-context-menu.open, .pcard-share-menu.open { display: block; }
+    .pcard-context-item, .pcard-share-item {
+      display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 1rem; color: #d0d7e6; font-size: 0.8rem; cursor: pointer; transition: background 0.2s; background: none; border: none; width: 100%; text-align: left;
+    }
+    .pcard-context-item:hover, .pcard-share-item:hover { background: rgba(30,155,255,0.06); color: #fff; }
+    .pcard-offer-btn { background: rgba(251,191,36,0.12); border-color: rgba(251,191,36,0.2); color: #fbbf24; }
+    .pcard-offer-btn:hover { background: rgba(251,191,36,0.2); }
+    .pcard-offer-message {
+      position: absolute; right: 0; top: calc(100% + 4px); background: #0D1420; border: 1px solid rgba(251,191,36,0.2); border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.65rem; color: #fbbf24; white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    .pcard-discount-badge {
+      background: #fbbf24; color: #000; padding: 0.2rem 0.8rem; border-radius: 40px; font-weight: 700; font-size: 0.7rem; display: inline-block; align-self: flex-start;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .search-bar-wrap { max-width: 200px; }
+      .product-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+    }
+    @media (max-width: 768px) {
+      .search-bar-wrap { max-width: 140px; margin: 0 0.2rem; }
+      .search-input-header { padding: 0.4rem 0.8rem 0.4rem 2.2rem; font-size: 0.7rem; }
+      .search-bar-wrap::before { left: 10px; width: 14px; height: 14px; }
+      .logo-mark { height: 36px; }
+      header .flex { flex-wrap: nowrap; }
+      .nav-link { display: none; }
+      .icon-btn { width: 32px; height: 32px; padding: 6px; }
+      #menu-toggle { display: flex; }
+
+      /* Hero */
+      .hero .max-w-xl { max-width: 100%; }
+      .title-line { font-size: clamp(2.2rem, 10vw, 3.4rem) !important; }
+      .benefit-item { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+      .scroll-indicator { display: none; }
+
+      /* Trust bar */
+      .trust-bar { flex-direction: column; gap: 1rem; }
+
+      /* Categorías */
+      .category-img-wrap--large { height: 180px; }
+      .category-name-large { font-size: 1.2rem; }
+
+      /* Productos */
+      .product-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+      .product-info { padding: 0.7rem; }
+      .product-name { font-size: 0.75rem; }
+      .product-price { font-size: 0.9rem; }
+
+      /* Nosotros */
+      .nosotros-section .grid { grid-template-columns: 1fr; gap: 2rem; }
+      .nosotros-video { max-height: 260px; }
+      .stats-row { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+      .stat-number { font-size: 1.6rem; }
+
+      /* Combos */
+      .grid-cols-1.md\:grid-cols-3 { grid-template-columns: 1fr; }
+
+      /* Contacto */
+      .contacto .grid { grid-template-columns: 1fr; }
+      .contact-form .grid { grid-template-columns: 1fr; }
+
+      /* Footer */
+      footer .grid { grid-template-columns: 1fr; gap: 2rem; }
+
+      /* Quick view */
+      .pcard-inner { grid-template-columns: 1fr; }
+      .pcard-img-wrap { padding: 1rem; }
+      .pcard-img { max-height: 200px; }
+      .pcard-info { padding: 1rem; }
+      .pcard-price { font-size: 1.4rem; }
+      .pcard-actions { flex-direction: column; }
+    }
+    @media (max-width: 480px) {
+      .search-bar-wrap { max-width: 100px; }
+      .search-input-header { padding: 0.3rem 0.6rem 0.3rem 1.8rem; font-size: 0.6rem; }
+      .search-bar-wrap::before { left: 8px; width: 12px; height: 12px; }
+      .product-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+      .category-img-wrap--large { height: 140px; }
+      .category-name-large { font-size: 1rem; }
+      .btn-primary, .btn-secondary { padding: 0.6rem 1.2rem; font-size: 0.75rem; }
+    }
+  </style>
+
 </head>
 
 <body class="bg-lv-black text-white font-body antialiased overflow-x-hidden">
 
   <!-- ============================================================
-       FONDO DINÁMICO Y PROFESIONAL
+       FONDO DINÁMICO
   ============================================================= -->
   <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bg-ambient">
     <div class="absolute inset-0 bg-lv-black"></div>
@@ -64,15 +624,18 @@
   </div>
 
   <!-- ============================================================
-       HEADER / NAVBAR (con nuevo botón "COMBOS")
+       HEADER / NAVBAR (con búsqueda y menú móvil)
   ============================================================= -->
   <header id="site-header" class="fixed top-0 left-0 w-full z-50 nav-solid">
-    <div class="max-w-[1600px] mx-auto px-6 md:px-8">
-      <div class="flex items-center justify-between h-24 overflow-visible">
+    <div class="max-w-[1600px] mx-auto px-4 md:px-8">
+      <div class="flex items-center justify-between h-20 md:h-24 overflow-visible">
+        <!-- Logo -->
         <a href="#inicio" class="logo-wrap shrink-0 group">
           <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="logo-mark" />
         </a>
-        <nav class="hidden lg:flex items-center gap-10">
+
+        <!-- Navegación desktop -->
+        <nav class="hidden lg:flex items-center gap-6 xl:gap-10">
           <a href="#inicio" class="nav-link active-link">Inicio</a>
           <a href="#productos" class="nav-link">Productos</a>
           <div class="relative" id="category-nav">
@@ -80,30 +643,37 @@
               Categorías
               <svg class="w-3 h-3 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
-            <div id="category-dropdown-menu" class="category-dropdown-menu" role="menu">
-              <a href="aumentar_masa.html" class="dropdown-item" role="menuitem">Aumento de Masa Muscular</a>
-              <a href="musculo_limpio.html" class="dropdown-item" role="menuitem">Músculo Limpio</a>
-              <a href="maxima_recuperacion.html" class="dropdown-item" role="menuitem">Máxima Recuperación</a>
-              <a href="definicion.html" class="dropdown-item" role="menuitem">Definición</a>
-              <a href="belleza_y_bienestar.html" class="dropdown-item" role="menuitem">Belleza y Cuidado</a>
-              <a href="fuerza_y_rendimiento.html" class="dropdown-item" role="menuitem">Fuerza y Rendimiento</a>
+            <div id="category-dropdown-menu" class="category-dropdown-menu" role="menu" style="display:none; position:absolute; top:100%; left:0; background:#0D1420; border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:0.4rem 0; min-width:200px; box-shadow:0 12px 30px rgba(0,0,0,0.6);">
+              <a href="aumentar_masa.html" class="dropdown-item" role="menuitem" style="display:block; padding:0.5rem 1.2rem; color:#8B96A8; font-size:0.8rem; transition:background 0.2s;">Aumento de Masa Muscular</a>
+              <a href="musculo_limpio.html" class="dropdown-item" role="menuitem" style="display:block; padding:0.5rem 1.2rem; color:#8B96A8; font-size:0.8rem; transition:background 0.2s;">Músculo Limpio</a>
+              <a href="maxima_recuperacion.html" class="dropdown-item" role="menuitem" style="display:block; padding:0.5rem 1.2rem; color:#8B96A8; font-size:0.8rem; transition:background 0.2s;">Máxima Recuperación</a>
+              <a href="definicion.html" class="dropdown-item" role="menuitem" style="display:block; padding:0.5rem 1.2rem; color:#8B96A8; font-size:0.8rem; transition:background 0.2s;">Definición</a>
+              <a href="belleza_y_bienestar.html" class="dropdown-item" role="menuitem" style="display:block; padding:0.5rem 1.2rem; color:#8B96A8; font-size:0.8rem; transition:background 0.2s;">Belleza y Cuidado</a>
+              <a href="fuerza_y_rendimiento.html" class="dropdown-item" role="menuitem" style="display:block; padding:0.5rem 1.2rem; color:#8B96A8; font-size:0.8rem; transition:background 0.2s;">Fuerza y Rendimiento</a>
             </div>
           </div>
-          <!-- NUEVO BOTÓN COMBOS -->
           <a href="#combos" class="nav-link">Combos</a>
           <a href="#nosotros" class="nav-link">Nosotros</a>
           <a href="#contacto" class="nav-link">Contacto</a>
         </nav>
-        <div class="flex items-center gap-2">
-          <button id="search-toggle-btn" class="icon-btn" aria-label="Buscar">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          </button>
+
+        <!-- Campo de búsqueda (header) -->
+        <div class="search-bar-wrap flex-1 max-w-[240px] md:max-w-sm mx-2 relative">
+          <input type="text" id="search-input-header" placeholder="Buscar..." class="search-input-header" autocomplete="off">
+          <div id="search-results-header" class="search-results-header"></div>
+        </div>
+
+        <!-- Iconos (cuenta, carrito, menú móvil) -->
+        <div class="flex items-center gap-1 md:gap-2">
           <button class="icon-btn" aria-label="Mi cuenta">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </button>
-          <button class="icon-btn relative" aria-label="Carrito">
+          <button class="icon-btn relative" aria-label="Carrito" id="cart-toggle-btn">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
             <span class="cart-badge" id="cart-count">0</span>
+          </button>
+          <button class="lg:hidden icon-btn" id="menu-toggle" aria-label="Menú">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
           </button>
         </div>
       </div>
@@ -111,22 +681,20 @@
     <div class="nav-scanline"></div>
   </header>
 
-  <!-- ============================================================
-       MODAL DE BÚSQUEDA
-  ============================================================= -->
-  <div id="search-overlay" class="search-overlay">
-    <div class="search-modal">
-      <div class="search-modal-header">
-        <h2 class="font-display text-2xl">Buscar productos</h2>
-        <button id="search-close-btn" class="icon-btn" aria-label="Cerrar búsqueda">
-          <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-        </button>
-      </div>
-      <div class="search-input-wrap">
-        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="search-input" placeholder="Buscar por nombre o categoría..." autofocus />
-      </div>
-      <div id="search-results" class="search-results"></div>
+  <!-- MENÚ MÓVIL -->
+  <div id="mobile-menu" class="lg:hidden">
+    <a href="#inicio" class="mobile-link active">Inicio</a>
+    <a href="#productos" class="mobile-link">Productos</a>
+    <a href="#combos" class="mobile-link">Combos</a>
+    <a href="#nosotros" class="mobile-link">Nosotros</a>
+    <a href="#contacto" class="mobile-link">Contacto</a>
+    <div style="margin-top:0.5rem; border-top:1px solid rgba(255,255,255,0.04); padding-top:0.5rem;">
+      <a href="aumentar_masa.html" class="mobile-link" style="font-size:0.8rem;">Aumento de Masa</a>
+      <a href="musculo_limpio.html" class="mobile-link" style="font-size:0.8rem;">Músculo Limpio</a>
+      <a href="maxima_recuperacion.html" class="mobile-link" style="font-size:0.8rem;">Máx. Recuperación</a>
+      <a href="definicion.html" class="mobile-link" style="font-size:0.8rem;">Definición</a>
+      <a href="belleza_y_bienestar.html" class="mobile-link" style="font-size:0.8rem;">Belleza</a>
+      <a href="fuerza_y_rendimiento.html" class="mobile-link" style="font-size:0.8rem;">Fuerza</a>
     </div>
   </div>
 
@@ -242,7 +810,7 @@
   </section>
 
   <!-- ============================================================
-       CATEGORÍAS (sin cambios)
+       CATEGORÍAS
   ============================================================= -->
   <section id="categorias" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-24">
     <div class="section-heading reveal-on-scroll text-center mb-12">
@@ -371,7 +939,7 @@
 
     <div class="product-grid" id="product-grid">
 
-      <!-- ============ PRODUCTO 1: WHEY PRO + CREATINE (MÁS VENDIDO) ============ -->
+      <!-- ============ PRODUCTO 1: WHEY PRO + CREATINE ============ -->
       <article class="product-card" data-id="whey-pro-creatine" data-category="proteina" data-name="Whey Protein Isolate" data-price="S/ 189" data-cat-label="Proteína" data-img="assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg_bebidas energeticas.png">
         <span class="product-badge badge-bestseller">MÁS VENDIDO</span>
         <div class="product-img-wrap">
@@ -399,9 +967,8 @@
         </div>
       </article>
 
-      <!-- ============ PRODUCTO 2: PRE-ENTRENO NOXRAGE (NUEVO) ============ -->
+      <!-- ============ PRODUCTO 2: PRE-ENTRENO NOXRAGE ============ -->
       <article class="product-card" data-id="noxrage" data-category="pre-entreno" data-name="PRE-ENTRENO NOXRAGE 700G" data-price="S/ 169.90" data-cat-label="Pre-Entreno" data-img="assets/img/Noxrage_2uni.png" data-selected-weight="700g">
-        <!-- Badge OFERTA en la esquina superior derecha -->
         <span class="product-badge badge-oferta">¡OFERTA!</span>
         <div class="product-img-wrap">
           <img src="assets/img/Noxrage_2uni.png" alt="Leviathan PRE-ENTRENO NOXRAGE" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -578,11 +1145,10 @@
   </section>
 
   <!-- ============================================================
-       NUEVA SECCIÓN: COMBOS EN PROMO (ALINEADA A LA IZQUIERDA)
+       COMBOS EN PROMO
   ============================================================= -->
   <section id="combos" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-20">
     <div class="reveal-on-scroll">
-      <!-- Encabezado alineado a la izquierda -->
       <div class="flex items-center gap-3 mb-3">
         <span class="eyebrow-line"></span>
         <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Ahorra en combos</span>
@@ -593,10 +1159,9 @@
       <p class="text-lv-steel max-w-lg mt-2 mb-8">Lleva más por menos. Combos exclusivos con descuentos especiales.</p>
     </div>
 
-    <!-- Grid de 3 combos -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-      <!-- COMBO 1: WHEY PRO + CREATINE (con badge "PROMO") -->
+      <!-- COMBO 1 -->
       <article class="product-card product-card--combo reveal-on-scroll" data-id="whey-pro-creatine" data-category="proteina" data-name="Whey Protein Isolate" data-price="S/ 189" data-cat-label="Proteína" data-img="assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg_bebidas energeticas.png">
         <span class="product-badge badge-promo">PROMO</span>
         <div class="product-img-wrap">
@@ -624,7 +1189,7 @@
         </div>
       </article>
 
-      <!-- COMBO 2: NOXRAGE + REGALO (con badge "PROMO") -->
+      <!-- COMBO 2 -->
       <article class="product-card product-card--combo reveal-on-scroll" data-id="noxrage" data-category="pre-entreno" data-name="PRE-ENTRENO NOXRAGE 700G" data-price="S/ 169.90" data-cat-label="Pre-Entreno" data-img="assets/img/Noxrage_2uni.png" data-selected-weight="700g">
         <span class="product-badge badge-promo">PROMO</span>
         <div class="product-img-wrap">
@@ -658,7 +1223,7 @@
         </div>
       </article>
 
-      <!-- COMBO 3: ECOCOMBO ISO WHEY + CREATINE (con badge "PROMO") -->
+      <!-- COMBO 3 -->
       <article class="product-card product-card--combo reveal-on-scroll" data-category="creatina" data-name="Creatine Monohydrate" data-price="S/ 99" data-cat-label="Creatina" data-img="assets/img/ECOCOMBO ISO WHEY_1.1KG.png">
         <span class="product-badge badge-promo">PROMO</span>
         <div class="product-img-wrap">
@@ -688,7 +1253,6 @@
 
     </div>
 
-    <!-- Botón "Ver más" -->
     <div class="flex justify-center mt-10 reveal-on-scroll">
       <a href="#productos" class="btn-secondary inline-flex items-center gap-2">
         <span>Descubre más combos</span>
@@ -698,23 +1262,20 @@
   </section>
 
   <!-- ============================================================
-       NOSOTROS — CON VIDEO EN LUGAR DE IMAGEN
+       NOSOTROS — VIDEO AJUSTADO
   ============================================================= -->
   <section id="nosotros" class="relative z-10 py-28 overflow-hidden nosotros-section">
     <div class="absolute inset-0 nosotros-glow pointer-events-none"></div>
     <div class="relative max-w-[1600px] mx-auto px-6 md:px-8 grid lg:grid-cols-2 gap-16 items-center">
-      <!-- Lado izquierdo: VIDEO (reemplaza la imagen) -->
+      <!-- Lado izquierdo: VIDEO (ajustado) -->
       <div class="reveal-on-scroll nosotros-img-wrap">
-        <!-- Video que se adapta al contenedor -->
         <video class="nosotros-video" autoplay muted loop playsinline>
-          <!-- CAMBIA LA RUTA POR LA DE TU VIDEO -->
           <source src="assets/Video Gym.mp4" type="video/mp4">
-          <!-- Fallback: si no hay video, muestra la imagen -->
           <img src="assets/img/equipo-leviathan.jpg" alt="Equipo Leviathan Nutrition" class="nosotros-img" />
         </video>
         <div class="nosotros-frame"></div>
       </div>
-      <!-- Lado derecho: texto (sin cambios) -->
+      <!-- Lado derecho: texto -->
       <div>
         <div class="flex items-center gap-3 mb-4 reveal-on-scroll">
           <span class="eyebrow-line"></span>
@@ -773,7 +1334,7 @@
   </section>
 
   <!-- ============================================================
-       CONTACTO (sin cambios)
+       CONTACTO
   ============================================================= -->
   <section id="contacto" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-28">
     <div class="section-heading reveal-on-scroll mb-14">
@@ -833,7 +1394,7 @@
   </section>
 
   <!-- ============================================================
-       FOOTER (sin cambios)
+       FOOTER
   ============================================================= -->
   <footer class="relative z-10 border-t border-white/[0.06] mt-10">
     <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-16 grid md:grid-cols-[1.3fr_0.7fr_0.7fr_1fr] gap-12">
@@ -875,7 +1436,7 @@
   </footer>
 
   <!-- ============================================================
-       CARRITO LATERAL (drawer)
+       CARRITO
   ============================================================= -->
   <div id="cart-overlay" class="cart-overlay"></div>
   <aside id="cart-drawer" class="cart-drawer" aria-hidden="true">
@@ -898,28 +1459,21 @@
     </div>
   </aside>
 
-  <!-- Contenedor de notificaciones toast -->
   <div id="toast-container" class="toast-container"></div>
 
   <!-- ============================================================
-       MODAL DE VISTA RÁPIDA (Quick View) — ACTUALIZADO
+       QUICK VIEW
   ============================================================= -->
   <div id="quickview-overlay" class="cart-overlay"></div>
   <div id="quickview-modal" class="pcard" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="quickview-name">
     <div class="pcard-inner" id="pcard-capture">
-      <!-- Botón cámara (superior izquierda) -->
       <button class="pcard-icon-btn pcard-camera-btn" id="pcard-camera-btn" type="button" aria-label="Capturar tarjeta">
         <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
       </button>
-
-      <!-- Botones superiores derechos: CERRAR → MENÚ → OFERTA (de arriba a abajo) -->
       <div class="pcard-top-right">
-        <!-- Cerrar -->
         <button id="quickview-close-btn" class="pcard-icon-btn" aria-label="Cerrar" type="button">
           <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
-
-        <!-- Menú (tres puntos) -->
         <div class="pcard-menu-wrap">
           <button class="pcard-icon-btn" id="pcard-menu-btn" type="button" aria-label="Más opciones" aria-haspopup="true" aria-expanded="false">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg>
@@ -953,33 +1507,23 @@
             </button>
           </div>
         </div>
-
-        <!-- BOTÓN DE OFERTA (se mostrará solo para productos con oferta) -->
         <button class="pcard-icon-btn pcard-offer-btn" id="pcard-offer-btn" type="button" aria-label="Ver oferta" style="display:none;">
           <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8m2-2h4m0 0v-4m0 4-4-4"/><path d="M9 11h.01"/><path d="M15 11h.01"/></svg>
         </button>
-        <!-- Mensaje de oferta emergente (aparece bajo el botón) -->
         <div id="pcard-offer-message" class="pcard-offer-message" style="display:none;">
           <span>¡POR CADA COMPRA DE 2 UNIDADES LLÉVATE UN DESCUENTO DEL 10%!</span>
         </div>
       </div>
-
-      <!-- Imagen del producto -->
       <div class="pcard-img-wrap">
         <img id="quickview-img" src="" alt="" class="pcard-img">
       </div>
-
-      <!-- Información -->
       <div class="pcard-info">
         <h3 class="pcard-title" id="quickview-name">Nombre del producto</h3>
         <div class="pcard-rating-row">
           <span class="product-rating" id="quickview-rating">★★★★★ <span>4.9 (0)</span></span>
         </div>
         <p class="pcard-desc" id="quickview-desc">Descripción del producto.</p>
-        <div class="pcard-options" id="pcard-options">
-          <!-- Las opciones se generan dinámicamente en JS -->
-        </div>
-        <!-- Badge de descuento por cantidad (se muestra sobre el input de cantidad) -->
+        <div class="pcard-options" id="pcard-options"></div>
         <div id="pcard-discount-badge" class="pcard-discount-badge" style="display:none;">-10%</div>
         <div class="pcard-price-row">
           <div class="pcard-price-wrap">
@@ -1004,6 +1548,204 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="particles.js"></script>
   <script src="interactions.js"></script>
+
+  <!-- ============================================================
+       SCRIPT DE BÚSQUEDA EN HEADER Y MENÚ MÓVIL
+  ============================================================= -->
+  <script>
+    (function() {
+      // ---- BÚSQUEDA EN HEADER ----
+      const searchInput = document.getElementById('search-input-header');
+      const resultsContainer = document.getElementById('search-results-header');
+      const productCards = document.querySelectorAll('#product-grid .product-card');
+      const products = [];
+
+      productCards.forEach(card => {
+        const name = card.dataset.name || card.querySelector('.product-name')?.textContent?.trim() || '';
+        const cat = card.dataset.category || card.dataset.catLabel || '';
+        const img = card.dataset.img || '';
+        const price = card.dataset.price || '';
+        const link = card.querySelector('a')?.href || '#';
+        if (name) {
+          products.push({ name, cat, img, price, link, element: card });
+        }
+      });
+
+      function showSuggestions(query) {
+        if (!query || query.length < 1) {
+          resultsContainer.classList.remove('show');
+          return;
+        }
+        const q = query.toLowerCase();
+        const filtered = products.filter(p =>
+          p.name.toLowerCase().includes(q) ||
+          p.cat.toLowerCase().includes(q)
+        );
+        if (filtered.length === 0) {
+          resultsContainer.classList.remove('show');
+          return;
+        }
+        resultsContainer.innerHTML = filtered.slice(0, 8).map(p => `
+          <div class="search-result-item" data-link="${p.link}">
+            <div class="sr-icon">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 3v3h6V3"/></svg>
+            </div>
+            <div>
+              <div class="sr-name">${p.name}</div>
+              <div class="sr-cat">${p.cat} · ${p.price}</div>
+            </div>
+          </div>
+        `).join('');
+        resultsContainer.classList.add('show');
+
+        // Click en resultado
+        resultsContainer.querySelectorAll('.search-result-item').forEach(item => {
+          item.addEventListener('click', function(e) {
+            const link = this.dataset.link;
+            if (link && link !== '#') {
+              window.location.href = link;
+            } else {
+              // Si no hay link, intentar encontrar el producto y hacer scroll
+              const name = this.querySelector('.sr-name')?.textContent;
+              const product = products.find(p => p.name === name);
+              if (product && product.element) {
+                product.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                product.element.style.transition = 'box-shadow 0.3s';
+                product.element.style.boxShadow = '0 0 0 2px #1E9BFF';
+                setTimeout(() => { product.element.style.boxShadow = ''; }, 1500);
+              }
+            }
+            resultsContainer.classList.remove('show');
+            searchInput.value = '';
+          });
+        });
+      }
+
+      searchInput.addEventListener('input', function() {
+        showSuggestions(this.value);
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.search-bar-wrap')) {
+          resultsContainer.classList.remove('show');
+        }
+      });
+
+      // ---- MENÚ MÓVIL ----
+      const menuToggle = document.getElementById('menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      menuToggle.addEventListener('click', function() {
+        mobileMenu.classList.toggle('open');
+      });
+
+      // Cerrar menú al hacer clic en un enlace
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function() {
+          mobileMenu.classList.remove('open');
+        });
+      });
+
+      // ---- CATEGORÍAS DROPDOWN DESKTOP ----
+      const catDropdownBtn = document.getElementById('category-dropdown-btn');
+      const catDropdownMenu = document.getElementById('category-dropdown-menu');
+      if (catDropdownBtn && catDropdownMenu) {
+        catDropdownBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const isOpen = catDropdownMenu.style.display === 'block';
+          catDropdownMenu.style.display = isOpen ? 'none' : 'block';
+        });
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('#category-nav')) {
+            catDropdownMenu.style.display = 'none';
+          }
+        });
+      }
+
+      // ---- CARRITO BÁSICO (para que funcione el contador) ----
+      let cartCount = 0;
+      const cartBadge = document.getElementById('cart-count');
+      const addButtons = document.querySelectorAll('.add-cart-btn');
+      addButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          cartCount++;
+          cartBadge.textContent = cartCount;
+          // Mostrar toast simple
+          const toast = document.createElement('div');
+          toast.className = 'toast';
+          toast.textContent = 'Producto añadido al carrito';
+          document.getElementById('toast-container').appendChild(toast);
+          setTimeout(() => toast.remove(), 2000);
+        });
+      });
+
+      // ---- ABRIR CARRITO ----
+      const cartToggle = document.getElementById('cart-toggle-btn');
+      const cartDrawer = document.getElementById('cart-drawer');
+      const cartOverlay = document.getElementById('cart-overlay');
+      const cartClose = document.getElementById('cart-close-btn');
+      function openCart() { cartDrawer.classList.add('open'); cartOverlay.style.display = 'block'; }
+      function closeCart() { cartDrawer.classList.remove('open'); cartOverlay.style.display = 'none'; }
+      cartToggle.addEventListener('click', openCart);
+      cartClose.addEventListener('click', closeCart);
+      cartOverlay.addEventListener('click', closeCart);
+
+      // ---- QUICK VIEW ----
+      const quickViewBtns = document.querySelectorAll('.quick-view-btn');
+      const qvModal = document.getElementById('quickview-modal');
+      const qvOverlay = document.getElementById('quickview-overlay');
+      const qvClose = document.getElementById('quickview-close-btn');
+      const qvImg = document.getElementById('quickview-img');
+      const qvName = document.getElementById('quickview-name');
+      const qvPrice = document.getElementById('quickview-price');
+      const qvPriceOld = document.getElementById('quickview-price-old');
+      const qvRating = document.getElementById('quickview-rating');
+      const qvDesc = document.getElementById('quickview-desc');
+      const qvAddBtn = document.getElementById('quickview-add-btn');
+
+      quickViewBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const card = this.closest('.product-card');
+          if (!card) return;
+          const img = card.querySelector('.product-img')?.src || '';
+          const name = card.querySelector('.product-name')?.textContent || '';
+          const price = card.querySelector('.product-price')?.textContent || '';
+          const oldPrice = card.querySelector('.product-price-old')?.textContent || '';
+          const rating = card.querySelector('.product-rating')?.innerHTML || '★★★★★ <span>4.9 (0)</span>';
+          const cat = card.querySelector('.product-cat')?.textContent || '';
+          qvImg.src = img;
+          qvName.textContent = name;
+          qvPrice.textContent = price;
+          qvPriceOld.textContent = oldPrice;
+          qvRating.innerHTML = rating;
+          qvDesc.textContent = `Categoría: ${cat}. ${name} - Suplemento de alta calidad.`;
+          qvModal.classList.add('open');
+          qvOverlay.style.display = 'block';
+        });
+      });
+
+      function closeQuickView() {
+        qvModal.classList.remove('open');
+        qvOverlay.style.display = 'none';
+      }
+      qvClose.addEventListener('click', closeQuickView);
+      qvOverlay.addEventListener('click', closeQuickView);
+
+      // Añadir desde quick view al carrito
+      qvAddBtn.addEventListener('click', function() {
+        cartCount++;
+        cartBadge.textContent = cartCount;
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = `${qvName.textContent} añadido al carrito`;
+        document.getElementById('toast-container').appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
+        closeQuickView();
+      });
+
+    })();
+  </script>
 
 </body>
 </html>
