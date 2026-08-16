@@ -35,573 +35,126 @@
     };
   </script>
 
+  <!-- Estilos personalizados adicionales para mejorar responsive y búsqueda -->
   <style>
-    /* ===== ESTILOS GENERALES ===== */
-    * { box-sizing: border-box; }
-    body { background: #050607; color: #fff; font-family: 'Manrope', sans-serif; }
-    .font-display { font-family: 'Anton', sans-serif; }
-
-    /* ===== HEADER Y NAV ===== */
-    #site-header {
-      background: rgba(5, 6, 7, 0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      transition: background 0.3s;
+    /* Ajustes para el campo de búsqueda en header */
+    #search-input-header:focus {
+      border-color: #1E9BFF;
+      box-shadow: 0 0 0 3px rgba(30,155,255,0.2);
     }
-    .nav-scanline {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(30,155,255,0.3), transparent);
-      width: 100%;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-    }
-    .logo-mark { height: 52px; width: auto; filter: drop-shadow(0 0 12px rgba(30,155,255,0.3)); transition: filter 0.3s; }
-    .logo-wrap:hover .logo-mark { filter: drop-shadow(0 0 20px rgba(30,155,255,0.6)); }
-    .nav-link {
-      color: #8B96A8;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: color 0.3s;
-      position: relative;
-    }
-    .nav-link:hover, .nav-link.active-link { color: #fff; }
-    .nav-link.active-link::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: #1E9BFF;
-      box-shadow: 0 0 12px rgba(30,155,255,0.5);
-    }
-    .icon-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      color: #8B96A8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
-      cursor: pointer;
-      padding: 8px;
-    }
-    .icon-btn:hover { background: rgba(30,155,255,0.12); border-color: rgba(30,155,255,0.3); color: #fff; }
-    .cart-badge {
-      position: absolute;
-      top: -4px;
-      right: -4px;
-      background: #1E9BFF;
-      color: #fff;
-      font-size: 0.6rem;
-      font-weight: 700;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 12px rgba(30,155,255,0.4);
-    }
-
-    /* ===== CAMPO DE BÚSQUEDA EN HEADER ===== */
-    .search-bar-wrap {
-      position: relative;
-      flex: 1;
-      max-width: 320px;
-      margin: 0 0.5rem;
-    }
-    .search-input-header {
-      width: 100%;
-      padding: 0.5rem 1rem 0.5rem 2.6rem;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 40px;
-      color: #fff;
-      font-size: 0.85rem;
-      outline: none;
-      transition: all 0.3s;
-      font-family: inherit;
-    }
-    .search-input-header::placeholder { color: #5a6678; }
-    .search-input-header:focus {
-      background: rgba(255,255,255,0.09);
-      border-color: rgba(30,155,255,0.4);
-      box-shadow: 0 0 20px rgba(30,155,255,0.08);
-    }
-    .search-bar-wrap::before {
-      content: '';
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 18px;
-      height: 18px;
-      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238B96A8' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") no-repeat center;
-      background-size: contain;
-      opacity: 0.6;
-      pointer-events: none;
-    }
-    .search-results-header {
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 0;
-      right: 0;
+    #search-results-header {
       background: #0D1420;
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 16px;
-      padding: 0.5rem 0;
-      max-height: 300px;
-      overflow-y: auto;
-      display: none;
-      z-index: 1000;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 0.75rem;
       backdrop-filter: blur(8px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
     }
-    .search-results-header.show { display: block; }
-    .search-result-item {
-      padding: 0.6rem 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      color: #d0d7e6;
-      font-size: 0.85rem;
+    #search-results-header .result-item {
+      padding: 0.5rem 1rem;
       cursor: pointer;
-      transition: background 0.2s;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-    }
-    .search-result-item:last-child { border-bottom: none; }
-    .search-result-item:hover { background: rgba(30,155,255,0.08); }
-    .search-result-item .sr-icon {
-      width: 28px;
-      height: 28px;
-      background: rgba(30,155,255,0.12);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #1E9BFF;
-      flex-shrink: 0;
-    }
-    .search-result-item .sr-name { font-weight: 500; }
-    .search-result-item .sr-cat { color: #5a6678; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; }
-
-    /* ===== MENÚ HAMBURGUESA ===== */
-    #mobile-menu {
-      display: none;
-      background: rgba(5,6,7,0.97);
-      backdrop-filter: blur(12px);
-      padding: 1.5rem 1.5rem 2rem;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-    #mobile-menu.open { display: flex; }
-    .mobile-link {
+      transition: background 0.15s;
       color: #8B96A8;
-      font-size: 1rem;
-      font-weight: 600;
-      padding: 0.6rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      transition: color 0.2s;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .mobile-link:hover { color: #fff; }
-    .mobile-link.active { color: #1E9BFF; }
-
-    /* ===== HERO ===== */
-    .hero-bg-layer-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-    .hero-bg-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.7;
-    }
-    .hero-gradient-left {
-      background: linear-gradient(90deg, #050607 0%, transparent 60%);
-    }
-    .hero-gradient-bottom {
-      background: linear-gradient(0deg, #050607 20%, transparent 60%);
-    }
-    .hero-vignette {
-      background: radial-gradient(ellipse at center, transparent 40%, rgba(5,6,7,0.6) 100%);
-    }
-    .title-chrome {
-      background: linear-gradient(180deg, #ffffff 20%, #a0b4cc 80%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .title-electric {
-      background: linear-gradient(180deg, #5FD4FF, #1E9BFF, #0B5FCC);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: 0 0 40px rgba(30,155,255,0.2);
-    }
-    .eyebrow-line {
-      width: 32px;
-      height: 2px;
-      background: linear-gradient(90deg, #1E9BFF, #5FD4FF);
-      border-radius: 4px;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, #1E9BFF, #0B5FCC);
-      border: none;
-      color: #fff;
-      padding: 0.8rem 2rem;
-      border-radius: 40px;
-      font-weight: 700;
-      font-size: 0.85rem;
-      letter-spacing: 0.04em;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      transition: all 0.3s;
-      box-shadow: 0 4px 20px rgba(30,155,255,0.25);
-      cursor: pointer;
-    }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(30,155,255,0.4);
-    }
-    .btn-secondary {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.12);
-      color: #fff;
-      padding: 0.8rem 2rem;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      letter-spacing: 0.04em;
-      transition: all 0.3s;
-      cursor: pointer;
-    }
-    .btn-secondary:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.25); }
-    .benefit-item { display: flex; align-items: center; gap: 0.8rem; }
-    .benefit-icon {
-      width: 32px;
-      height: 32px;
-      color: #1E9BFF;
-      flex-shrink: 0;
-    }
-    .benefit-title { font-weight: 700; font-size: 0.85rem; color: #fff; }
-    .benefit-desc { font-size: 0.7rem; color: #5a6678; margin: 0; }
-    .scroll-indicator {
-      position: absolute;
-      bottom: 2rem;
-      right: 3rem;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 0.4rem;
-      color: #5a6678;
-      font-size: 0.6rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      gap: 0.5rem;
     }
-    .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, #1E9BFF, transparent); position: relative; }
-    .scroll-dot { width: 4px; height: 4px; background: #1E9BFF; border-radius: 50%; position: absolute; top: 0; left: -1.5px; animation: scrollDot 2s infinite; }
-    @keyframes scrollDot {
-      0% { top: 0; opacity: 1; }
-      100% { top: 100%; opacity: 0; }
+    #search-results-header .result-item:hover,
+    #search-results-header .result-item:focus {
+      background: rgba(30,155,255,0.1);
+      color: white;
+    }
+    #search-results-header .result-item .highlight {
+      color: #5FD4FF;
+      font-weight: 600;
     }
 
-    /* ===== TRUST BAR ===== */
-    .trust-bar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1.5rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.04); }
-    .trust-item { display: flex; align-items: center; gap: 0.8rem; }
-    .trust-icon { width: 28px; height: 28px; color: #1E9BFF; }
-    .trust-title { font-weight: 600; font-size: 0.8rem; color: #fff; }
-    .trust-desc { font-size: 0.65rem; color: #5a6678; }
-    .trust-item--accent .trust-icon { color: #5FD4FF; }
-
-    /* ===== CATEGORÍAS ===== */
-    .category-card--large { display: block; border-radius: 20px; overflow: hidden; position: relative; transition: transform 0.3s, box-shadow 0.3s; }
-    .category-card--large:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-    .category-img-wrap--large { position: relative; width: 100%; height: 240px; overflow: hidden; }
-    .category-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-    .category-card--large:hover .category-img { transform: scale(1.05); }
-    .category-overlay--large {
-      position: absolute; inset: 0;
-      background: linear-gradient(0deg, rgba(5,6,7,0.75) 0%, transparent 60%);
-    }
-    .category-name-wrap {
-      position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem;
-      display: flex; flex-direction: column; gap: 0.2rem;
-    }
-    .category-name-large { font-family: 'Anton', sans-serif; font-size: 1.6rem; color: #fff; line-height: 1; letter-spacing: 0.02em; }
-    .category-count-large { font-size: 0.7rem; color: #5a6678; text-transform: uppercase; letter-spacing: 0.08em; }
-
-    /* ===== PRODUCTOS ===== */
-    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
-    .product-card {
-      background: rgba(13,20,32,0.4);
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(255,255,255,0.04);
-      border-radius: 20px;
+    /* Ajuste del video en sección Nosotros */
+    .nosotros-video-wrap {
+      max-height: 350px;
       overflow: hidden;
-      transition: all 0.3s;
-      position: relative;
+      border-radius: 1.5rem;
     }
-    .product-card:hover { transform: translateY(-4px); border-color: rgba(30,155,255,0.15); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
-    .product-img-wrap { position: relative; padding-top: 100%; background: rgba(255,255,255,0.02); overflow: hidden; }
-    .product-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; padding: 1rem; transition: transform 0.4s; }
-    .product-card:hover .product-img { transform: scale(1.04); }
-    .product-badge {
-      position: absolute; top: 12px; left: 12px;
-      padding: 0.2rem 0.8rem; border-radius: 40px;
-      font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
-      z-index: 2;
-    }
-    .badge-bestseller { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #000; }
-    .badge-new { background: linear-gradient(135deg, #34d399, #059669); color: #fff; }
-    .badge-sale { background: linear-gradient(135deg, #f87171, #dc2626); color: #fff; }
-    .badge-oferta { background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; }
-    .badge-promo { background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: #fff; }
-    .quick-view-btn {
-      position: absolute; bottom: 12px; right: 12px;
-      width: 36px; height: 36px; border-radius: 50%;
-      background: rgba(5,6,7,0.8); border: 1px solid rgba(255,255,255,0.1);
-      color: #fff; display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 0.3s, transform 0.3s; cursor: pointer;
-    }
-    .product-card:hover .quick-view-btn { opacity: 1; }
-    .quick-view-btn:hover { background: #1E9BFF; border-color: #1E9BFF; }
-    .product-info { padding: 1rem; }
-    .product-cat { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: #5a6678; margin-bottom: 0.2rem; }
-    .product-name { font-weight: 700; font-size: 0.9rem; color: #fff; margin-bottom: 0.3rem; line-height: 1.2; }
-    .product-rating { display: flex; align-items: center; gap: 0.4rem; font-size: 0.7rem; color: #fbbf24; }
-    .product-rating span { color: #5a6678; }
-    .product-price-row { display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; }
-    .product-price { font-weight: 800; font-size: 1.1rem; color: #fff; }
-    .product-price-old { font-size: 0.7rem; color: #5a6678; text-decoration: line-through; margin-left: 0.4rem; }
-    .add-cart-btn {
-      width: 34px; height: 34px; border-radius: 50%;
-      background: rgba(30,155,255,0.12); border: 1px solid rgba(30,155,255,0.15);
-      color: #1E9BFF; display: flex; align-items: center; justify-content: center;
-      transition: all 0.3s; cursor: pointer;
-    }
-    .add-cart-btn:hover { background: #1E9BFF; color: #fff; border-color: #1E9BFF; box-shadow: 0 4px 16px rgba(30,155,255,0.3); }
-    .product-header-row { display: flex; justify-content: space-between; align-items: center; }
-    .product-weight-buttons { display: flex; gap: 0.3rem; }
-    .weight-btn {
-      padding: 0.1rem 0.5rem; border-radius: 20px; font-size: 0.55rem;
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
-      color: #5a6678; cursor: pointer; transition: all 0.2s;
-    }
-    .weight-btn.active { background: rgba(30,155,255,0.15); border-color: #1E9BFF; color: #fff; }
-
-    /* ===== COMBOS ===== */
-    .product-card--combo { background: rgba(13,20,32,0.6); border-color: rgba(139,92,246,0.2); }
-
-    /* ===== NOSOTROS ===== */
-    .nosotros-section { position: relative; }
-    .nosotros-glow {
-      background: radial-gradient(ellipse at 30% 50%, rgba(30,155,255,0.06), transparent 70%);
-    }
-    .nosotros-img-wrap { position: relative; }
     .nosotros-video {
       width: 100%;
-      max-height: 380px;
+      height: auto;
+      max-height: 350px;
       object-fit: cover;
-      border-radius: 24px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-      border: 1px solid rgba(255,255,255,0.04);
-    }
-    .nosotros-frame {
-      position: absolute; inset: -6px; border-radius: 28px;
-      border: 1px solid rgba(30,155,255,0.08);
-      pointer-events: none;
-    }
-    .pillar-item { display: flex; align-items: center; gap: 0.8rem; }
-    .pillar-icon { width: 28px; height: 28px; color: #1E9BFF; flex-shrink: 0; }
-    .pillar-title { font-weight: 600; font-size: 0.8rem; color: #fff; }
-    .pillar-desc { font-size: 0.65rem; color: #5a6678; }
-    .stats-row { gap: 1rem; }
-    .stat-item { text-align: center; }
-    .stat-number { font-family: 'Anton', sans-serif; font-size: 2rem; color: #fff; line-height: 1; }
-    .stat-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: #5a6678; margin-top: 0.2rem; }
-
-    /* ===== CONTACTO ===== */
-    .contact-info-card { display: flex; align-items: center; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-    .contact-info-icon { width: 28px; height: 28px; color: #1E9BFF; flex-shrink: 0; }
-    .contact-info-title { font-weight: 600; font-size: 0.8rem; color: #fff; }
-    .contact-info-text { font-size: 0.7rem; color: #5a6678; }
-    .contact-social-row { display: flex; gap: 0.8rem; margin-top: 0.5rem; }
-    .contact-social-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; color: #8B96A8; transition: all 0.3s; }
-    .contact-social-btn:hover { background: rgba(30,155,255,0.1); color: #fff; border-color: rgba(30,155,255,0.2); }
-    .contact-form .form-field { position: relative; }
-    .contact-form input, .contact-form textarea {
-      width: 100%; padding: 0.8rem 1rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; color: #fff; font-size: 0.85rem; transition: border 0.3s; outline: none;
-    }
-    .contact-form input:focus, .contact-form textarea:focus { border-color: rgba(30,155,255,0.3); }
-    .contact-form label {
-      position: absolute; left: 1rem; top: 0.8rem; color: #5a6678; font-size: 0.8rem; transition: all 0.2s; pointer-events: none;
-    }
-    .contact-form input:focus + label, .contact-form input:not(:placeholder-shown) + label,
-    .contact-form textarea:focus + label, .contact-form textarea:not(:placeholder-shown) + label {
-      top: -0.6rem; left: 0.8rem; font-size: 0.6rem; background: #0D1420; padding: 0 0.4rem; color: #1E9BFF;
-    }
-    .contact-form input::placeholder, .contact-form textarea::placeholder { color: transparent; }
-
-    /* ===== FOOTER ===== */
-    .footer-heading { font-weight: 700; font-size: 0.8rem; color: #fff; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .footer-link { display: block; color: #5a6678; font-size: 0.8rem; margin-bottom: 0.4rem; transition: color 0.2s; }
-    .footer-link:hover { color: #fff; }
-    .newsletter-form { display: flex; gap: 0.5rem; }
-    .newsletter-form input { flex: 1; padding: 0.6rem 1rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 40px; color: #fff; font-size: 0.8rem; outline: none; }
-    .newsletter-form input:focus { border-color: rgba(30,155,255,0.3); }
-    .newsletter-form button { width: 40px; height: 40px; border-radius: 50%; background: #1E9BFF; border: none; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.3s; }
-    .newsletter-form button:hover { background: #0B5FCC; }
-
-    /* ===== CARRITO ===== */
-    .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 1000; display: none; }
-    .cart-drawer {
-      position: fixed; top: 0; right: 0; width: 100%; max-width: 420px; height: 100%; background: #0D1420; border-left: 1px solid rgba(255,255,255,0.04); z-index: 1001; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .cart-drawer.open { transform: translateX(0); }
-    .cart-drawer-header { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; justify-content: space-between; align-items: center; }
-    .cart-drawer-header h3 { font-size: 1.2rem; font-weight: 700; }
-    .cart-drawer-body { flex: 1; overflow-y: auto; padding: 1rem 1.5rem; }
-    .cart-drawer-footer { padding: 1.5rem; border-top: 1px solid rgba(255,255,255,0.04); }
-    .cart-subtotal-row { display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 1rem; }
-    .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 2000; display: flex; flex-direction: column; gap: 0.5rem; }
-    .toast { background: #0D1420; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 0.8rem 1.2rem; color: #fff; font-size: 0.85rem; box-shadow: 0 12px 30px rgba(0,0,0,0.5); animation: slideUp 0.3s ease; }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* ===== QUICK VIEW ===== */
-    .pcard {
-      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.96); width: 90%; max-width: 720px; max-height: 90vh; background: #0D1420; border-radius: 32px; border: 1px solid rgba(255,255,255,0.06); z-index: 1500; display: none; flex-direction: column; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.8);
-    }
-    .pcard.open { display: flex; animation: modalIn 0.3s ease forwards; }
-    @keyframes modalIn { from { opacity: 0; transform: translate(-50%, -50%) scale(0.96); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
-    .pcard-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 0; position: relative; }
-    .pcard-img-wrap { background: rgba(255,255,255,0.02); display: flex; align-items: center; justify-content: center; padding: 2rem; }
-    .pcard-img { max-width: 100%; max-height: 300px; object-fit: contain; }
-    .pcard-info { padding: 2rem 2rem 2rem 1rem; display: flex; flex-direction: column; gap: 0.8rem; }
-    .pcard-title { font-size: 1.4rem; font-weight: 700; }
-    .pcard-rating-row { display: flex; align-items: center; gap: 0.5rem; }
-    .pcard-desc { color: #8B96A8; font-size: 0.85rem; line-height: 1.5; }
-    .pcard-price-row { display: flex; align-items: baseline; gap: 0.5rem; }
-    .pcard-price { font-size: 1.8rem; font-weight: 800; color: #fff; }
-    .pcard-price-old { font-size: 1rem; color: #5a6678; text-decoration: line-through; }
-    .pcard-actions { display: flex; gap: 0.8rem; margin-top: 0.5rem; }
-    .pcard-btn-cart { flex: 1; }
-    .pcard-btn-whatsapp {
-      background: #25D366; border: none; color: #fff; padding: 0.8rem 1.2rem; border-radius: 40px; font-weight: 600; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: background 0.3s;
-    }
-    .pcard-btn-whatsapp:hover { background: #1ebe5c; }
-    .pcard-icon-btn {
-      width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); color: #8B96A8; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;
-    }
-    .pcard-icon-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
-    .pcard-top-right { position: absolute; top: 1rem; right: 1rem; display: flex; flex-direction: column; gap: 0.5rem; z-index: 5; }
-    .pcard-camera-btn { position: absolute; top: 1rem; left: 1rem; z-index: 5; }
-    .pcard-menu-wrap { position: relative; }
-    .pcard-context-menu, .pcard-share-menu {
-      position: absolute; right: 0; top: calc(100% + 8px); background: #0D1420; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 0.4rem 0; min-width: 160px; display: none; box-shadow: 0 12px 30px rgba(0,0,0,0.6);
-    }
-    .pcard-context-menu.open, .pcard-share-menu.open { display: block; }
-    .pcard-context-item, .pcard-share-item {
-      display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 1rem; color: #d0d7e6; font-size: 0.8rem; cursor: pointer; transition: background 0.2s; background: none; border: none; width: 100%; text-align: left;
-    }
-    .pcard-context-item:hover, .pcard-share-item:hover { background: rgba(30,155,255,0.06); color: #fff; }
-    .pcard-offer-btn { background: rgba(251,191,36,0.12); border-color: rgba(251,191,36,0.2); color: #fbbf24; }
-    .pcard-offer-btn:hover { background: rgba(251,191,36,0.2); }
-    .pcard-offer-message {
-      position: absolute; right: 0; top: calc(100% + 4px); background: #0D1420; border: 1px solid rgba(251,191,36,0.2); border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.65rem; color: #fbbf24; white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    }
-    .pcard-discount-badge {
-      background: #fbbf24; color: #000; padding: 0.2rem 0.8rem; border-radius: 40px; font-weight: 700; font-size: 0.7rem; display: inline-block; align-self: flex-start;
+      display: block;
     }
 
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 1024px) {
-      .search-bar-wrap { max-width: 200px; }
-      .product-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+    /* Product grid responsive */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 1.5rem;
     }
-    @media (max-width: 768px) {
-      .search-bar-wrap { max-width: 140px; margin: 0 0.2rem; }
-      .search-input-header { padding: 0.4rem 0.8rem 0.4rem 2.2rem; font-size: 0.7rem; }
-      .search-bar-wrap::before { left: 10px; width: 14px; height: 14px; }
-      .logo-mark { height: 36px; }
-      header .flex { flex-wrap: nowrap; }
-      .nav-link { display: none; }
-      .icon-btn { width: 32px; height: 32px; padding: 6px; }
-      #menu-toggle { display: flex; }
-
-      /* Hero */
-      .hero .max-w-xl { max-width: 100%; }
-      .title-line { font-size: clamp(2.2rem, 10vw, 3.4rem) !important; }
-      .benefit-item { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
-      .scroll-indicator { display: none; }
-
-      /* Trust bar */
-      .trust-bar { flex-direction: column; gap: 1rem; }
-
-      /* Categorías */
-      .category-img-wrap--large { height: 180px; }
-      .category-name-large { font-size: 1.2rem; }
-
-      /* Productos */
-      .product-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
-      .product-info { padding: 0.7rem; }
-      .product-name { font-size: 0.75rem; }
-      .product-price { font-size: 0.9rem; }
-
-      /* Nosotros */
-      .nosotros-section .grid { grid-template-columns: 1fr; gap: 2rem; }
-      .nosotros-video { max-height: 260px; }
-      .stats-row { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-      .stat-number { font-size: 1.6rem; }
-
-      /* Combos */
-      .grid-cols-1.md\:grid-cols-3 { grid-template-columns: 1fr; }
-
-      /* Contacto */
-      .contacto .grid { grid-template-columns: 1fr; }
-      .contact-form .grid { grid-template-columns: 1fr; }
-
-      /* Footer */
-      footer .grid { grid-template-columns: 1fr; gap: 2rem; }
-
-      /* Quick view */
-      .pcard-inner { grid-template-columns: 1fr; }
-      .pcard-img-wrap { padding: 1rem; }
-      .pcard-img { max-height: 200px; }
-      .pcard-info { padding: 1rem; }
-      .pcard-price { font-size: 1.4rem; }
-      .pcard-actions { flex-direction: column; }
+    @media (min-width: 640px) {
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
-    @media (max-width: 480px) {
-      .search-bar-wrap { max-width: 100px; }
-      .search-input-header { padding: 0.3rem 0.6rem 0.3rem 1.8rem; font-size: 0.6rem; }
-      .search-bar-wrap::before { left: 8px; width: 12px; height: 12px; }
-      .product-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-      .category-img-wrap--large { height: 140px; }
-      .category-name-large { font-size: 1rem; }
-      .btn-primary, .btn-secondary { padding: 0.6rem 1.2rem; font-size: 0.75rem; }
+    @media (min-width: 1024px) {
+      .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (min-width: 1280px) {
+      .product-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /* Ajustes para móvil en header */
+    @media (max-width: 639px) {
+      .header-search-input {
+        width: 120px;
+        font-size: 0.75rem;
+        padding: 0.25rem 0.75rem 0.25rem 2rem;
+      }
+      .header-search-icon {
+        left: 0.75rem;
+        width: 1rem;
+        height: 1rem;
+      }
+      .logo-mark {
+        height: 2.5rem;
+      }
+      .nav-link {
+        font-size: 0.75rem;
+      }
+    }
+
+    /* Ajustes de espaciado en móvil */
+    @media (max-width: 639px) {
+      .section-heading h2 {
+        font-size: 1.8rem;
+      }
+      .category-card--large .category-name-large {
+        font-size: 1rem;
+      }
+      .benefit-item .benefit-title {
+        font-size: 0.8rem;
+      }
+      .trust-item .trust-title {
+        font-size: 0.7rem;
+      }
+      .contact-info-card {
+        padding: 0.75rem;
+      }
+    }
+
+    /* Ocultar el modal de búsqueda antiguo (ya no se usa) */
+    #search-overlay {
+      display: none !important;
     }
   </style>
 
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body class="bg-lv-black text-white font-body antialiased overflow-x-hidden">
 
   <!-- ============================================================
-       FONDO DINÁMICO
+       FONDO DINÁMICO Y PROFESIONAL
   ============================================================= -->
   <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bg-ambient">
     <div class="absolute inset-0 bg-lv-black"></div>
@@ -624,14 +177,14 @@
   </div>
 
   <!-- ============================================================
-       HEADER / NAVBAR (con búsqueda y menú móvil)
+       HEADER / NAVBAR (con búsqueda integrada)
   ============================================================= -->
   <header id="site-header" class="fixed top-0 left-0 w-full z-50 nav-solid">
-    <div class="max-w-[1600px] mx-auto px-4 md:px-8">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8">
       <div class="flex items-center justify-between h-20 md:h-24 overflow-visible">
         <!-- Logo -->
         <a href="#inicio" class="logo-wrap shrink-0 group">
-          <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="logo-mark" />
+          <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="logo-mark h-10 md:h-14 w-auto" />
         </a>
 
         <!-- Navegación desktop -->
@@ -643,13 +196,13 @@
               Categorías
               <svg class="w-3 h-3 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
-            <div id="category-dropdown-menu" class="category-dropdown-menu" role="menu" style="display:none; position:absolute; top:100%; left:0; background:#0D1420; border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:0.4rem 0; min-width:200px; box-shadow:0 12px 30px rgba(0,0,0,0.6);">
-              <a href="aumentar_masa.html" class="dropdown-item" role="menuitem" style="display:block; padding:0.5rem 1.2rem; color:#8B96A8; font-size:0.8rem; transition:background 0.2s;">Aumento de Masa Muscular</a>
-              <a href="musculo_limpio.html" class="dropdown-item" role="menuitem" style="display:block; padding:0.5rem 1.2rem; color:#8B96A8; font-size:0.8rem; transition:background 0.2s;">Músculo Limpio</a>
-              <a href="maxima_recuperacion.html" class="dropdown-item" role="menuitem" style="display:block; padding:0.5rem 1.2rem; color:#8B96A8; font-size:0.8rem; transition:background 0.2s;">Máxima Recuperación</a>
-              <a href="definicion.html" class="dropdown-item" role="menuitem" style="display:block; padding:0.5rem 1.2rem; color:#8B96A8; font-size:0.8rem; transition:background 0.2s;">Definición</a>
-              <a href="belleza_y_bienestar.html" class="dropdown-item" role="menuitem" style="display:block; padding:0.5rem 1.2rem; color:#8B96A8; font-size:0.8rem; transition:background 0.2s;">Belleza y Cuidado</a>
-              <a href="fuerza_y_rendimiento.html" class="dropdown-item" role="menuitem" style="display:block; padding:0.5rem 1.2rem; color:#8B96A8; font-size:0.8rem; transition:background 0.2s;">Fuerza y Rendimiento</a>
+            <div id="category-dropdown-menu" class="category-dropdown-menu" role="menu">
+              <a href="aumentar_masa.html" class="dropdown-item" role="menuitem">Aumento de Masa Muscular</a>
+              <a href="musculo_limpio.html" class="dropdown-item" role="menuitem">Músculo Limpio</a>
+              <a href="maxima_recuperacion.html" class="dropdown-item" role="menuitem">Máxima Recuperación</a>
+              <a href="definicion.html" class="dropdown-item" role="menuitem">Definición</a>
+              <a href="belleza_y_bienestar.html" class="dropdown-item" role="menuitem">Belleza y Cuidado</a>
+              <a href="fuerza_y_rendimiento.html" class="dropdown-item" role="menuitem">Fuerza y Rendimiento</a>
             </div>
           </div>
           <a href="#combos" class="nav-link">Combos</a>
@@ -657,46 +210,35 @@
           <a href="#contacto" class="nav-link">Contacto</a>
         </nav>
 
-        <!-- Campo de búsqueda (header) -->
-        <div class="search-bar-wrap flex-1 max-w-[240px] md:max-w-sm mx-2 relative">
-          <input type="text" id="search-input-header" placeholder="Buscar..." class="search-input-header" autocomplete="off">
-          <div id="search-results-header" class="search-results-header"></div>
-        </div>
+        <!-- Acciones derecha: búsqueda + iconos -->
+        <div class="flex items-center gap-2">
+          <!-- Campo de búsqueda (siempre visible) -->
+          <div class="relative flex items-center">
+            <input
+              type="text"
+              id="search-input-header"
+              placeholder="Buscar..."
+              class="header-search-input bg-lv-panel border border-white/10 rounded-full py-1.5 pl-8 pr-3 text-sm text-white placeholder-lv-steel focus:outline-none focus:border-lv-blue transition-colors w-36 sm:w-48 lg:w-64"
+            />
+            <svg class="header-search-icon absolute left-2.5 w-4 h-4 text-lv-steel pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <!-- Contenedor de resultados -->
+            <div id="search-results-header" class="absolute top-full left-0 w-full bg-lv-panel border border-white/10 rounded-lg mt-1 overflow-hidden z-50 hidden"></div>
+          </div>
 
-        <!-- Iconos (cuenta, carrito, menú móvil) -->
-        <div class="flex items-center gap-1 md:gap-2">
+          <!-- Botón cuenta -->
           <button class="icon-btn" aria-label="Mi cuenta">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </button>
-          <button class="icon-btn relative" aria-label="Carrito" id="cart-toggle-btn">
+          <!-- Carrito -->
+          <button class="icon-btn relative" aria-label="Carrito">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
             <span class="cart-badge" id="cart-count">0</span>
-          </button>
-          <button class="lg:hidden icon-btn" id="menu-toggle" aria-label="Menú">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
           </button>
         </div>
       </div>
     </div>
     <div class="nav-scanline"></div>
   </header>
-
-  <!-- MENÚ MÓVIL -->
-  <div id="mobile-menu" class="lg:hidden">
-    <a href="#inicio" class="mobile-link active">Inicio</a>
-    <a href="#productos" class="mobile-link">Productos</a>
-    <a href="#combos" class="mobile-link">Combos</a>
-    <a href="#nosotros" class="mobile-link">Nosotros</a>
-    <a href="#contacto" class="mobile-link">Contacto</a>
-    <div style="margin-top:0.5rem; border-top:1px solid rgba(255,255,255,0.04); padding-top:0.5rem;">
-      <a href="aumentar_masa.html" class="mobile-link" style="font-size:0.8rem;">Aumento de Masa</a>
-      <a href="musculo_limpio.html" class="mobile-link" style="font-size:0.8rem;">Músculo Limpio</a>
-      <a href="maxima_recuperacion.html" class="mobile-link" style="font-size:0.8rem;">Máx. Recuperación</a>
-      <a href="definicion.html" class="mobile-link" style="font-size:0.8rem;">Definición</a>
-      <a href="belleza_y_bienestar.html" class="mobile-link" style="font-size:0.8rem;">Belleza</a>
-      <a href="fuerza_y_rendimiento.html" class="mobile-link" style="font-size:0.8rem;">Fuerza</a>
-    </div>
-  </div>
 
   <!-- ============================================================
        HERO (sin cambios)
@@ -718,17 +260,17 @@
     </div>
     <div class="absolute inset-0 z-[2] pointer-events-none overflow-hidden" id="hero-sparks"></div>
 
-    <div class="relative z-10 max-w-[1600px] w-full mx-auto px-6 md:px-8 pt-40 pb-16">
+    <div class="relative z-10 max-w-[1600px] w-full mx-auto px-4 sm:px-6 md:px-8 pt-40 pb-16">
       <div class="max-w-xl">
         <div class="sr flex items-center gap-3 mb-6">
           <span class="eyebrow-line"></span>
           <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Suplementos de alto rendimiento</span>
         </div>
         <h1 class="font-display leading-[0.85] mb-6">
-          <span class="block title-line title-chrome text-[clamp(3rem,6.5vw,6rem)]" id="title-line-1" data-text="DESATA"></span>
-          <span class="block title-line title-electric text-[clamp(3rem,6.5vw,6rem)]" id="title-line-2" data-text="TU PODER"></span>
+          <span class="block title-line title-chrome text-[clamp(2.8rem,6.5vw,6rem)]" id="title-line-1" data-text="DESATA"></span>
+          <span class="block title-line title-electric text-[clamp(2.8rem,6.5vw,6rem)]" id="title-line-2" data-text="TU PODER"></span>
         </h1>
-        <p class="sr sr-delay-1 text-lv-steel text-lg max-w-md mb-10 leading-relaxed">
+        <p class="sr sr-delay-1 text-lv-steel text-base sm:text-lg max-w-md mb-10 leading-relaxed">
           Suplementos premium para atletas y apasionados del fitness que buscan superar sus límites cada día.
         </p>
         <div class="sr sr-delay-2 flex flex-wrap items-center gap-5 mb-16">
@@ -738,7 +280,7 @@
           </button>
           <button class="btn-secondary" data-ripple>Sobre Nosotros</button>
         </div>
-        <div class="sr sr-delay-3 grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-8">
+        <div class="sr sr-delay-3 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-6">
           <div class="benefit-item">
             <div class="benefit-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5"/><path d="M14 3l7 7-2.5 2.5L11 5.5 14 3z"/><path d="M3 14l7 7-2.5 2.5-7-7L3 14z"/><path d="M6.5 17.5 3 21"/><path d="M17.5 6.5 21 3"/></svg></div>
             <p class="benefit-title">Máxima Calidad</p>
@@ -771,25 +313,25 @@
   <!-- ============================================================
        TRUST BAR
   ============================================================= -->
-  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 pt-14 pb-10">
-    <div class="trust-bar reveal-on-scroll">
-      <div class="trust-item">
+  <section class="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 pt-14 pb-10">
+    <div class="trust-bar reveal-on-scroll flex flex-wrap justify-center gap-6 md:gap-8">
+      <div class="trust-item flex items-center gap-3">
         <div class="trust-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h10M12 17v4M7 4h10l-1 8a4 4 0 0 1-8 0L7 4z"/><path d="M5 4h14M5 8H3.5A1.5 1.5 0 0 1 2 6.5v0A1.5 1.5 0 0 1 3.5 5H5m14 3h1.5A1.5 1.5 0 0 0 22 6.5v0A1.5 1.5 0 0 0 20.5 5H19"/></svg></div>
         <div><p class="trust-title">Alto Rendimiento</p><p class="trust-desc">Potencia tu mejor versión</p></div>
       </div>
-      <div class="trust-item">
+      <div class="trust-item flex items-center gap-3">
         <div class="trust-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg></div>
         <div><p class="trust-title">Calidad Garantizada</p><p class="trust-desc">Productos 100% originales</p></div>
       </div>
-      <div class="trust-item trust-item--accent">
+      <div class="trust-item trust-item--accent flex items-center gap-3">
         <div class="trust-icon trust-icon--accent"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="7" width="15" height="11" rx="1"/><path d="M16 10h3.5L22 13.5V18h-6"/><circle cx="6" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/></svg></div>
         <div><p class="trust-title">Envíos a todo el Perú</p><p class="trust-desc">Rápido y seguro</p></div>
       </div>
-      <div class="trust-item">
+      <div class="trust-item flex items-center gap-3">
         <div class="trust-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
         <div><p class="trust-title">Compra Segura</p><p class="trust-desc">Protegemos tu información</p></div>
       </div>
-      <div class="trust-item">
+      <div class="trust-item flex items-center gap-3">
         <div class="trust-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3v5zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3v5z"/></svg></div>
         <div><p class="trust-title">Atención Personalizada</p><p class="trust-desc">Estamos para ayudarte</p></div>
       </div>
@@ -799,33 +341,33 @@
   <!-- ============================================================
        MARCAS
   ============================================================= -->
-  <section class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 pb-20">
-    <div class="flex items-center justify-between flex-wrap gap-8 reveal-on-scroll">
-      <span class="brand-placeholder">OPTIMUM NUTRITION</span>
-      <span class="brand-placeholder">MUSCLETECH</span>
-      <span class="brand-placeholder">CELLUCOR</span>
-      <span class="brand-placeholder">XTEND</span>
-      <span class="brand-placeholder">DYMATIZE</span>
+  <section class="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 pb-20">
+    <div class="flex items-center justify-center flex-wrap gap-6 md:gap-12 reveal-on-scroll">
+      <span class="brand-placeholder text-xs sm:text-sm font-bold tracking-wider">OPTIMUM NUTRITION</span>
+      <span class="brand-placeholder text-xs sm:text-sm font-bold tracking-wider">MUSCLETECH</span>
+      <span class="brand-placeholder text-xs sm:text-sm font-bold tracking-wider">CELLUCOR</span>
+      <span class="brand-placeholder text-xs sm:text-sm font-bold tracking-wider">XTEND</span>
+      <span class="brand-placeholder text-xs sm:text-sm font-bold tracking-wider">DYMATIZE</span>
     </div>
   </section>
 
   <!-- ============================================================
        CATEGORÍAS
   ============================================================= -->
-  <section id="categorias" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-24">
-    <div class="section-heading reveal-on-scroll text-center mb-12">
+  <section id="categorias" class="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 py-16 md:py-24">
+    <div class="section-heading reveal-on-scroll text-center mb-10">
       <div class="flex items-center justify-center gap-3 mb-4">
         <span class="eyebrow-line"></span>
         <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Encuentra tu arsenal</span>
         <span class="eyebrow-line"></span>
       </div>
-      <h2 class="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[0.95] category-title-animate">
+      <h2 class="font-display text-[clamp(2rem,4.5vw,3.6rem)] leading-[0.95] category-title-animate">
         ELIGE TU <span class="text-electric-inline">CATEGORÍA</span>
       </h2>
-      <p class="text-lv-steel max-w-lg mx-auto mt-3">Cada objetivo tiene su fórmula. Elige la categoría que se alinea con tu entrenamiento.</p>
+      <p class="text-lv-steel max-w-lg mx-auto mt-3 text-sm sm:text-base">Cada objetivo tiene su fórmula. Elige la categoría que se alinea con tu entrenamiento.</p>
     </div>
     <div class="max-w-5xl mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
         <a href="aumentar_masa.html" class="category-card category-card--large reveal-on-scroll" data-category-page="aumento_masa_muscular">
           <div class="category-img-wrap category-img-wrap--large">
             <img src="assets/img/Aumentar_Masa.jpeg" alt="Aumentar Masa" class="category-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
@@ -911,7 +453,7 @@
   <!-- ============================================================
        PRODUCTOS DESTACADOS
   ============================================================= -->
-  <section id="productos" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-24">
+  <section id="productos" class="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 py-16 md:py-24">
 
     <div class="video-header reveal-on-scroll">
       <video class="header-video" autoplay muted loop playsinline>
@@ -923,7 +465,7 @@
           <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Fórmulas de élite</span>
           <span class="eyebrow-line"></span>
         </div>
-        <h2 class="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[0.95]">
+        <h2 class="font-display text-[clamp(2rem,4.5vw,3.6rem)] leading-[0.95]">
           PRODUCTOS <span class="text-electric-inline">DESTACADOS</span>
         </h2>
       </div>
@@ -931,7 +473,7 @@
 
     <div class="flex justify-end items-center mt-6 mb-2 reveal-on-scroll">
       <label for="sort-select" class="text-lv-steel text-xs font-bold uppercase tracking-widest mr-3">Ordenar:</label>
-      <select id="sort-select" class="sort-select">
+      <select id="sort-select" class="sort-select bg-lv-panel border border-white/10 rounded py-1 px-3 text-sm text-white">
         <option value="default">Más vendido</option>
         <option value="price-desc">Mayor a menor precio</option>
       </select>
@@ -939,7 +481,7 @@
 
     <div class="product-grid" id="product-grid">
 
-      <!-- ============ PRODUCTO 1: WHEY PRO + CREATINE ============ -->
+      <!-- ============ PRODUCTO 1: WHEY PRO + CREATINE (MÁS VENDIDO) ============ -->
       <article class="product-card" data-id="whey-pro-creatine" data-category="proteina" data-name="Whey Protein Isolate" data-price="S/ 189" data-cat-label="Proteína" data-img="assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg_bebidas energeticas.png">
         <span class="product-badge badge-bestseller">MÁS VENDIDO</span>
         <div class="product-img-wrap">
@@ -967,7 +509,7 @@
         </div>
       </article>
 
-      <!-- ============ PRODUCTO 2: PRE-ENTRENO NOXRAGE ============ -->
+      <!-- ============ PRODUCTO 2: PRE-ENTRENO NOXRAGE (NUEVO) ============ -->
       <article class="product-card" data-id="noxrage" data-category="pre-entreno" data-name="PRE-ENTRENO NOXRAGE 700G" data-price="S/ 169.90" data-cat-label="Pre-Entreno" data-img="assets/img/Noxrage_2uni.png" data-selected-weight="700g">
         <span class="product-badge badge-oferta">¡OFERTA!</span>
         <div class="product-img-wrap">
@@ -980,9 +522,9 @@
           </button>
         </div>
         <div class="product-info">
-          <div class="product-header-row">
+          <div class="product-header-row flex flex-wrap items-center gap-2">
             <p class="product-cat">Pre-Entreno</p>
-            <div class="product-weight-buttons" data-weight="700g">
+            <div class="product-weight-buttons flex gap-1" data-weight="700g">
               <button class="weight-btn active" data-weight="700g">700g</button>
               <button class="weight-btn" data-weight="350g">350g</button>
             </div>
@@ -1145,9 +687,9 @@
   </section>
 
   <!-- ============================================================
-       COMBOS EN PROMO
+       NUEVA SECCIÓN: COMBOS EN PROMO
   ============================================================= -->
-  <section id="combos" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-20">
+  <section id="combos" class="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 py-16 md:py-20">
     <div class="reveal-on-scroll">
       <div class="flex items-center gap-3 mb-3">
         <span class="eyebrow-line"></span>
@@ -1156,10 +698,10 @@
       <h2 class="font-display text-[clamp(2rem,4vw,3.2rem)] leading-[0.95] text-white">
         COMBOS EN <span class="text-electric-inline">PROMO</span>
       </h2>
-      <p class="text-lv-steel max-w-lg mt-2 mb-8">Lleva más por menos. Combos exclusivos con descuentos especiales.</p>
+      <p class="text-lv-steel max-w-lg mt-2 mb-8 text-sm sm:text-base">Lleva más por menos. Combos exclusivos con descuentos especiales.</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
       <!-- COMBO 1 -->
       <article class="product-card product-card--combo reveal-on-scroll" data-id="whey-pro-creatine" data-category="proteina" data-name="Whey Protein Isolate" data-price="S/ 189" data-cat-label="Proteína" data-img="assets/img/COMBO WEY PRO_CREATINE_chocolate_1.1kg_bebidas energeticas.png">
@@ -1202,9 +744,9 @@
           </button>
         </div>
         <div class="product-info">
-          <div class="product-header-row">
+          <div class="product-header-row flex flex-wrap items-center gap-2">
             <p class="product-cat">Pre-Entreno</p>
-            <div class="product-weight-buttons" data-weight="700g">
+            <div class="product-weight-buttons flex gap-1" data-weight="700g">
               <button class="weight-btn active" data-weight="700g">700g</button>
               <button class="weight-btn" data-weight="350g">350g</button>
             </div>
@@ -1262,13 +804,13 @@
   </section>
 
   <!-- ============================================================
-       NOSOTROS — VIDEO AJUSTADO
+       NOSOTROS — CON VIDEO AJUSTADO
   ============================================================= -->
-  <section id="nosotros" class="relative z-10 py-28 overflow-hidden nosotros-section">
+  <section id="nosotros" class="relative z-10 py-16 md:py-28 overflow-hidden nosotros-section">
     <div class="absolute inset-0 nosotros-glow pointer-events-none"></div>
-    <div class="relative max-w-[1600px] mx-auto px-6 md:px-8 grid lg:grid-cols-2 gap-16 items-center">
-      <!-- Lado izquierdo: VIDEO (ajustado) -->
-      <div class="reveal-on-scroll nosotros-img-wrap">
+    <div class="relative max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 grid lg:grid-cols-2 gap-10 md:gap-16 items-center">
+      <!-- Lado izquierdo: VIDEO con altura limitada -->
+      <div class="reveal-on-scroll nosotros-video-wrap">
         <video class="nosotros-video" autoplay muted loop playsinline>
           <source src="assets/Video Gym.mp4" type="video/mp4">
           <img src="assets/img/equipo-leviathan.jpg" alt="Equipo Leviathan Nutrition" class="nosotros-img" />
@@ -1281,52 +823,52 @@
           <span class="eyebrow-line"></span>
           <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Nuestra historia</span>
         </div>
-        <h2 class="reveal-on-scroll font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[0.95] mb-6">
+        <h2 class="reveal-on-scroll font-display text-[clamp(2rem,4.5vw,3.6rem)] leading-[0.95] mb-6">
           MÁS QUE UNA MARCA,<br><span class="text-electric-inline">UN ESTILO DE VIDA</span>
         </h2>
-        <p class="reveal-on-scroll text-lv-steel leading-relaxed mb-6 max-w-lg">
+        <p class="reveal-on-scroll text-lv-steel leading-relaxed mb-6 max-w-lg text-sm sm:text-base">
           Leviathan Nutrition nació de una obsesión: crear suplementos a la altura de quienes no aceptan límites.
           Cada fórmula pasa por control de calidad estricto, respaldada por ciencia real y probada por atletas
           que entrenan al máximo nivel.
         </p>
-        <p class="reveal-on-scroll text-lv-steel leading-relaxed mb-10 max-w-lg">
+        <p class="reveal-on-scroll text-lv-steel leading-relaxed mb-10 max-w-lg text-sm sm:text-base">
           No vendemos promesas vacías. Vendemos resultados medibles, ingredientes transparentes y la disciplina
           de un depredador que nunca se detiene.
         </p>
-        <div class="reveal-on-scroll grid grid-cols-2 gap-6 mb-12">
-          <div class="pillar-item">
+        <div class="reveal-on-scroll grid grid-cols-2 gap-4 md:gap-6 mb-10">
+          <div class="pillar-item flex items-center gap-3">
             <div class="pillar-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.5L4.5 18a1.5 1.5 0 0 0 1.3 2.3h12.4a1.5 1.5 0 0 0 1.3-2.3L14 8.5V3"/></svg></div>
             <div><p class="pillar-title">Ciencia Real</p><p class="pillar-desc">Fórmulas respaldadas por estudios clínicos</p></div>
           </div>
-          <div class="pillar-item">
+          <div class="pillar-item flex items-center gap-3">
             <div class="pillar-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 11 5.2-1.6 9-6 9-11V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg></div>
             <div><p class="pillar-title">Calidad Certificada</p><p class="pillar-desc">Producción bajo normas internacionales</p></div>
           </div>
-          <div class="pillar-item">
+          <div class="pillar-item flex items-center gap-3">
             <div class="pillar-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
             <div><p class="pillar-title">Comunidad</p><p class="pillar-desc">Miles de atletas confían en nosotros</p></div>
           </div>
-          <div class="pillar-item">
+          <div class="pillar-item flex items-center gap-3">
             <div class="pillar-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
             <div><p class="pillar-title">Resultados</p><p class="pillar-desc">Rendimiento medible desde la semana 1</p></div>
           </div>
         </div>
-        <div class="reveal-on-scroll grid grid-cols-4 gap-4 stats-row">
-          <div class="stat-item">
-            <p class="stat-number" data-count-to="9">0</p>
-            <p class="stat-label">Años</p>
+        <div class="reveal-on-scroll grid grid-cols-4 gap-2 md:gap-4 stats-row">
+          <div class="stat-item text-center">
+            <p class="stat-number text-2xl md:text-3xl font-display text-lv-cyan" data-count-to="9">0</p>
+            <p class="stat-label text-xs uppercase tracking-wider">Años</p>
           </div>
-          <div class="stat-item">
-            <p class="stat-number" data-count-to="15000" data-suffix="+">0</p>
-            <p class="stat-label">Atletas</p>
+          <div class="stat-item text-center">
+            <p class="stat-number text-2xl md:text-3xl font-display text-lv-cyan" data-count-to="15000" data-suffix="+">0</p>
+            <p class="stat-label text-xs uppercase tracking-wider">Atletas</p>
           </div>
-          <div class="stat-item">
-            <p class="stat-number" data-count-to="42">0</p>
-            <p class="stat-label">Productos</p>
+          <div class="stat-item text-center">
+            <p class="stat-number text-2xl md:text-3xl font-display text-lv-cyan" data-count-to="42">0</p>
+            <p class="stat-label text-xs uppercase tracking-wider">Productos</p>
           </div>
-          <div class="stat-item">
-            <p class="stat-number" data-count-to="12">0</p>
-            <p class="stat-label">Países</p>
+          <div class="stat-item text-center">
+            <p class="stat-number text-2xl md:text-3xl font-display text-lv-cyan" data-count-to="12">0</p>
+            <p class="stat-label text-xs uppercase tracking-wider">Países</p>
           </div>
         </div>
       </div>
@@ -1336,54 +878,54 @@
   <!-- ============================================================
        CONTACTO
   ============================================================= -->
-  <section id="contacto" class="relative z-10 max-w-[1600px] mx-auto px-6 md:px-8 py-28">
-    <div class="section-heading reveal-on-scroll mb-14">
+  <section id="contacto" class="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 py-16 md:py-28">
+    <div class="section-heading reveal-on-scroll mb-10 md:mb-14">
       <div class="flex items-center gap-3 mb-4">
         <span class="eyebrow-line"></span>
         <span class="text-lv-blue text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Hablemos</span>
       </div>
-      <h2 class="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[0.95] mb-4">PONTE EN <span class="text-electric-inline">CONTACTO</span></h2>
-      <p class="text-lv-steel max-w-lg">¿Dudas sobre un producto o tu pedido? Nuestro equipo te responde en menos de 24 horas.</p>
+      <h2 class="font-display text-[clamp(2rem,4.5vw,3.6rem)] leading-[0.95] mb-4">PONTE EN <span class="text-electric-inline">CONTACTO</span></h2>
+      <p class="text-lv-steel max-w-lg text-sm sm:text-base">¿Dudas sobre un producto o tu pedido? Nuestro equipo te responde en menos de 24 horas.</p>
     </div>
-    <div class="grid lg:grid-cols-[0.85fr_1.15fr] gap-10">
+    <div class="grid lg:grid-cols-[0.85fr_1.15fr] gap-8 md:gap-10">
       <div class="reveal-on-scroll flex flex-col gap-5">
-        <div class="contact-info-card">
-          <div class="contact-info-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-          <div><p class="contact-info-title">Ubicación</p><p class="contact-info-text">Trujillo, La Libertad, Perú</p></div>
+        <div class="contact-info-card flex items-center gap-4 p-4 bg-lv-panel/30 rounded-xl border border-white/5">
+          <div class="contact-info-icon w-8 h-8 text-lv-blue"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div><p class="contact-info-title font-bold text-sm">Ubicación</p><p class="contact-info-text text-lv-steel text-sm">Trujillo, La Libertad, Perú</p></div>
         </div>
-        <div class="contact-info-card">
-          <div class="contact-info-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-          <div><p class="contact-info-title">Teléfono / WhatsApp</p><p class="contact-info-text">+51 905649768</p></div>
+        <div class="contact-info-card flex items-center gap-4 p-4 bg-lv-panel/30 rounded-xl border border-white/5">
+          <div class="contact-info-icon w-8 h-8 text-lv-blue"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div><p class="contact-info-title font-bold text-sm">Teléfono / WhatsApp</p><p class="contact-info-text text-lv-steel text-sm">+51 905649768</p></div>
         </div>
-        <div class="contact-info-card">
-          <div class="contact-info-icon"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" fill="none"/><path d="M22 6 12 13 2 6"/></svg></div>
-          <div><p class="contact-info-title">Correo</p><p class="contact-info-text">contacto@leviathannutrition.com</p></div>
+        <div class="contact-info-card flex items-center gap-4 p-4 bg-lv-panel/30 rounded-xl border border-white/5">
+          <div class="contact-info-icon w-8 h-8 text-lv-blue"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" fill="none"/><path d="M22 6 12 13 2 6"/></svg></div>
+          <div><p class="contact-info-title font-bold text-sm">Correo</p><p class="contact-info-text text-lv-steel text-sm">contacto@leviathannutrition.com</p></div>
         </div>
-        <div class="contact-social-row">
-          <a href="#" class="contact-social-btn" aria-label="Instagram"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
-          <a href="#" class="contact-social-btn" aria-label="Facebook"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-          <a href="#" class="contact-social-btn" aria-label="TikTok"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
-          <a href="#" class="contact-social-btn" aria-label="YouTube"><svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></a>
+        <div class="contact-social-row flex gap-3 mt-2">
+          <a href="#" class="contact-social-btn w-10 h-10 rounded-full bg-lv-panel/50 flex items-center justify-center hover:bg-lv-blue/20 transition-colors" aria-label="Instagram"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="#" class="contact-social-btn w-10 h-10 rounded-full bg-lv-panel/50 flex items-center justify-center hover:bg-lv-blue/20 transition-colors" aria-label="Facebook"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="#" class="contact-social-btn w-10 h-10 rounded-full bg-lv-panel/50 flex items-center justify-center hover:bg-lv-blue/20 transition-colors" aria-label="TikTok"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
+          <a href="#" class="contact-social-btn w-10 h-10 rounded-full bg-lv-panel/50 flex items-center justify-center hover:bg-lv-blue/20 transition-colors" aria-label="YouTube"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></a>
         </div>
       </div>
       <form id="contact-form" class="reveal-on-scroll contact-form" novalidate>
         <div class="grid sm:grid-cols-2 gap-5">
-          <div class="form-field">
-            <input type="text" id="field-name" name="name" placeholder=" " required>
-            <label for="field-name">Nombre completo</label>
+          <div class="form-field relative">
+            <input type="text" id="field-name" name="name" placeholder=" " required class="w-full bg-lv-panel/50 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-lv-blue outline-none transition-colors peer">
+            <label for="field-name" class="absolute left-4 top-3 text-lv-steel text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-0.75rem] peer-focus:text-xs peer-focus:text-lv-blue bg-lv-black px-1">Nombre completo</label>
           </div>
-          <div class="form-field">
-            <input type="email" id="field-email" name="email" placeholder=" " required>
-            <label for="field-email">Correo electrónico</label>
+          <div class="form-field relative">
+            <input type="email" id="field-email" name="email" placeholder=" " required class="w-full bg-lv-panel/50 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-lv-blue outline-none transition-colors peer">
+            <label for="field-email" class="absolute left-4 top-3 text-lv-steel text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-0.75rem] peer-focus:text-xs peer-focus:text-lv-blue bg-lv-black px-1">Correo electrónico</label>
           </div>
         </div>
-        <div class="form-field mt-5">
-          <input type="text" id="field-subject" name="subject" placeholder=" " required>
-          <label for="field-subject">Asunto</label>
+        <div class="form-field relative mt-5">
+          <input type="text" id="field-subject" name="subject" placeholder=" " required class="w-full bg-lv-panel/50 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-lv-blue outline-none transition-colors peer">
+          <label for="field-subject" class="absolute left-4 top-3 text-lv-steel text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-0.75rem] peer-focus:text-xs peer-focus:text-lv-blue bg-lv-black px-1">Asunto</label>
         </div>
-        <div class="form-field mt-5">
-          <textarea id="field-message" name="message" rows="5" placeholder=" " required></textarea>
-          <label for="field-message">Cuéntanos en qué te ayudamos</label>
+        <div class="form-field relative mt-5">
+          <textarea id="field-message" name="message" rows="5" placeholder=" " required class="w-full bg-lv-panel/50 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-lv-blue outline-none transition-colors resize-none peer"></textarea>
+          <label for="field-message" class="absolute left-4 top-3 text-lv-steel text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-0.75rem] peer-focus:text-xs peer-focus:text-lv-blue bg-lv-black px-1">Cuéntanos en qué te ayudamos</label>
         </div>
         <button type="submit" class="btn-primary mt-6 w-full sm:w-auto justify-center" id="contact-submit-btn" data-ripple>
           <span id="contact-submit-label">Enviar Mensaje</span>
@@ -1397,38 +939,38 @@
        FOOTER
   ============================================================= -->
   <footer class="relative z-10 border-t border-white/[0.06] mt-10">
-    <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-16 grid md:grid-cols-[1.3fr_0.7fr_0.7fr_1fr] gap-12">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 py-12 md:py-16 grid grid-cols-1 md:grid-cols-[1.3fr_0.7fr_0.7fr_1fr] gap-10 md:gap-12">
       <div>
-        <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="h-16 w-auto mb-4" style="filter: drop-shadow(0 0 10px rgba(30,155,255,0.3));">
+        <img src="assets/img/logo_leviathan.png" alt="Leviathan Nutrition" class="h-14 md:h-16 w-auto mb-4" style="filter: drop-shadow(0 0 10px rgba(30,155,255,0.3));">
         <p class="text-lv-steel text-sm max-w-xs leading-relaxed">Suplementos premium para atletas que desatan su poder cada día. Ciencia, calidad y rendimiento en cada fórmula.</p>
       </div>
       <div>
-        <p class="footer-heading">Tienda</p>
-        <a href="#productos" class="footer-link">Productos</a>
-        <a href="#categorias" class="footer-link">Categorías</a>
-        <a href="#" class="footer-link">Ofertas</a>
-        <a href="#" class="footer-link">Novedades</a>
+        <p class="footer-heading font-display text-lg mb-4">Tienda</p>
+        <a href="#productos" class="footer-link block text-lv-steel text-sm hover:text-white transition-colors py-1">Productos</a>
+        <a href="#categorias" class="footer-link block text-lv-steel text-sm hover:text-white transition-colors py-1">Categorías</a>
+        <a href="#" class="footer-link block text-lv-steel text-sm hover:text-white transition-colors py-1">Ofertas</a>
+        <a href="#" class="footer-link block text-lv-steel text-sm hover:text-white transition-colors py-1">Novedades</a>
       </div>
       <div>
-        <p class="footer-heading">Empresa</p>
-        <a href="#nosotros" class="footer-link">Nosotros</a>
-        <a href="#contacto" class="footer-link">Contacto</a>
-        <a href="#" class="footer-link">Blog</a>
-        <a href="#" class="footer-link">Trabaja con nosotros</a>
+        <p class="footer-heading font-display text-lg mb-4">Empresa</p>
+        <a href="#nosotros" class="footer-link block text-lv-steel text-sm hover:text-white transition-colors py-1">Nosotros</a>
+        <a href="#contacto" class="footer-link block text-lv-steel text-sm hover:text-white transition-colors py-1">Contacto</a>
+        <a href="#" class="footer-link block text-lv-steel text-sm hover:text-white transition-colors py-1">Blog</a>
+        <a href="#" class="footer-link block text-lv-steel text-sm hover:text-white transition-colors py-1">Trabaja con nosotros</a>
       </div>
       <div>
-        <p class="footer-heading">Únete a la manada</p>
+        <p class="footer-heading font-display text-lg mb-4">Únete a la manada</p>
         <p class="text-lv-steel text-sm mb-4">Recibe descuentos exclusivos y lanzamientos antes que nadie.</p>
-        <form class="newsletter-form" id="newsletter-form">
-          <input type="email" placeholder="tu@correo.com" required>
-          <button type="submit" aria-label="Suscribirse">
-            <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <form class="newsletter-form flex" id="newsletter-form">
+          <input type="email" placeholder="tu@correo.com" required class="flex-1 bg-lv-panel border border-white/10 rounded-l-lg py-2 px-4 text-sm text-white focus:outline-none focus:border-lv-blue">
+          <button type="submit" aria-label="Suscribirse" class="bg-lv-blue hover:bg-lv-blue-deep transition-colors px-4 rounded-r-lg">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </button>
         </form>
       </div>
     </div>
     <div class="border-t border-white/[0.06]">
-      <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-6 flex flex-wrap items-center justify-between gap-4">
+      <div class="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 py-6 flex flex-wrap items-center justify-between gap-4">
         <p class="text-lv-steel text-xs">© 2026 Leviathan Nutrition. Todos los derechos reservados.</p>
         <p class="text-lv-steel text-xs">Desata tu poder.</p>
       </div>
@@ -1436,7 +978,7 @@
   </footer>
 
   <!-- ============================================================
-       CARRITO
+       CARRITO LATERAL (drawer)
   ============================================================= -->
   <div id="cart-overlay" class="cart-overlay"></div>
   <aside id="cart-drawer" class="cart-drawer" aria-hidden="true">
@@ -1459,10 +1001,11 @@
     </div>
   </aside>
 
+  <!-- Contenedor de notificaciones toast -->
   <div id="toast-container" class="toast-container"></div>
 
   <!-- ============================================================
-       QUICK VIEW
+       MODAL DE VISTA RÁPIDA (Quick View)
   ============================================================= -->
   <div id="quickview-overlay" class="cart-overlay"></div>
   <div id="quickview-modal" class="pcard" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="quickview-name">
@@ -1545,205 +1088,108 @@
     </div>
   </div>
 
+  <!-- ============================================================
+       SCRIPTS
+  ============================================================= -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="particles.js"></script>
   <script src="interactions.js"></script>
 
-  <!-- ============================================================
-       SCRIPT DE BÚSQUEDA EN HEADER Y MENÚ MÓVIL
-  ============================================================= -->
+  <!-- Script para búsqueda en header con sugerencias -->
   <script>
     (function() {
-      // ---- BÚSQUEDA EN HEADER ----
-      const searchInput = document.getElementById('search-input-header');
+      const input = document.getElementById('search-input-header');
       const resultsContainer = document.getElementById('search-results-header');
-      const productCards = document.querySelectorAll('#product-grid .product-card');
-      const products = [];
+      if (!input || !resultsContainer) return;
 
+      // Obtener todos los productos del DOM (tarjetas)
+      const productCards = document.querySelectorAll('.product-card');
+      const products = [];
       productCards.forEach(card => {
         const name = card.dataset.name || card.querySelector('.product-name')?.textContent?.trim() || '';
-        const cat = card.dataset.category || card.dataset.catLabel || '';
+        const category = card.dataset.category || card.dataset.catLabel || '';
         const img = card.dataset.img || '';
         const price = card.dataset.price || '';
-        const link = card.querySelector('a')?.href || '#';
-        if (name) {
-          products.push({ name, cat, img, price, link, element: card });
-        }
+        const link = card.querySelector('a') ? card.querySelector('a').href : '#';
+        products.push({ name, category, img, price, link, element: card });
       });
 
-      function showSuggestions(query) {
-        if (!query || query.length < 1) {
-          resultsContainer.classList.remove('show');
-          return;
-        }
-        const q = query.toLowerCase();
-        const filtered = products.filter(p =>
-          p.name.toLowerCase().includes(q) ||
-          p.cat.toLowerCase().includes(q)
-        );
-        if (filtered.length === 0) {
-          resultsContainer.classList.remove('show');
-          return;
-        }
-        resultsContainer.innerHTML = filtered.slice(0, 8).map(p => `
-          <div class="search-result-item" data-link="${p.link}">
-            <div class="sr-icon">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 3v3h6V3"/></svg>
-            </div>
-            <div>
-              <div class="sr-name">${p.name}</div>
-              <div class="sr-cat">${p.cat} · ${p.price}</div>
-            </div>
-          </div>
-        `).join('');
-        resultsContainer.classList.add('show');
-
-        // Click en resultado
-        resultsContainer.querySelectorAll('.search-result-item').forEach(item => {
-          item.addEventListener('click', function(e) {
-            const link = this.dataset.link;
-            if (link && link !== '#') {
-              window.location.href = link;
-            } else {
-              // Si no hay link, intentar encontrar el producto y hacer scroll
-              const name = this.querySelector('.sr-name')?.textContent;
-              const product = products.find(p => p.name === name);
-              if (product && product.element) {
-                product.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                product.element.style.transition = 'box-shadow 0.3s';
-                product.element.style.boxShadow = '0 0 0 2px #1E9BFF';
-                setTimeout(() => { product.element.style.boxShadow = ''; }, 1500);
-              }
-            }
-            resultsContainer.classList.remove('show');
-            searchInput.value = '';
-          });
+      function search(query) {
+        query = query.toLowerCase().trim();
+        if (!query) return [];
+        return products.filter(p => {
+          const nameMatch = p.name.toLowerCase().includes(query);
+          const catMatch = p.category.toLowerCase().includes(query);
+          return nameMatch || catMatch;
         });
       }
 
-      searchInput.addEventListener('input', function() {
-        showSuggestions(this.value);
-      });
-
-      document.addEventListener('click', function(e) {
-        if (!e.target.closest('.search-bar-wrap')) {
-          resultsContainer.classList.remove('show');
+      function renderResults(results) {
+        resultsContainer.innerHTML = '';
+        if (results.length === 0) {
+          const empty = document.createElement('div');
+          empty.className = 'result-item';
+          empty.textContent = 'No se encontraron productos';
+          resultsContainer.appendChild(empty);
+          resultsContainer.classList.remove('hidden');
+          return;
         }
-      });
-
-      // ---- MENÚ MÓVIL ----
-      const menuToggle = document.getElementById('menu-toggle');
-      const mobileMenu = document.getElementById('mobile-menu');
-      menuToggle.addEventListener('click', function() {
-        mobileMenu.classList.toggle('open');
-      });
-
-      // Cerrar menú al hacer clic en un enlace
-      mobileMenu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function() {
-          mobileMenu.classList.remove('open');
-        });
-      });
-
-      // ---- CATEGORÍAS DROPDOWN DESKTOP ----
-      const catDropdownBtn = document.getElementById('category-dropdown-btn');
-      const catDropdownMenu = document.getElementById('category-dropdown-menu');
-      if (catDropdownBtn && catDropdownMenu) {
-        catDropdownBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          const isOpen = catDropdownMenu.style.display === 'block';
-          catDropdownMenu.style.display = isOpen ? 'none' : 'block';
-        });
-        document.addEventListener('click', function(e) {
-          if (!e.target.closest('#category-nav')) {
-            catDropdownMenu.style.display = 'none';
+        results.forEach(p => {
+          const div = document.createElement('div');
+          div.className = 'result-item';
+          // Resaltar coincidencia
+          let displayName = p.name;
+          const idx = p.name.toLowerCase().indexOf(input.value.toLowerCase());
+          if (idx !== -1) {
+            const before = p.name.slice(0, idx);
+            const match = p.name.slice(idx, idx + input.value.length);
+            const after = p.name.slice(idx + input.value.length);
+            displayName = before + '<span class="highlight">' + match + '</span>' + after;
           }
+          div.innerHTML = `
+            <span>${displayName}</span>
+            <span class="text-xs text-lv-steel ml-auto">${p.category}</span>
+          `;
+          div.addEventListener('click', function() {
+            // Desplazarse al producto y resaltarlo
+            if (p.element) {
+              p.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              p.element.style.transition = 'box-shadow 0.3s';
+              p.element.style.boxShadow = '0 0 0 3px #1E9BFF';
+              setTimeout(() => { p.element.style.boxShadow = ''; }, 2000);
+            }
+            resultsContainer.classList.add('hidden');
+            input.value = '';
+          });
+          resultsContainer.appendChild(div);
         });
+        resultsContainer.classList.remove('hidden');
       }
 
-      // ---- CARRITO BÁSICO (para que funcione el contador) ----
-      let cartCount = 0;
-      const cartBadge = document.getElementById('cart-count');
-      const addButtons = document.querySelectorAll('.add-cart-btn');
-      addButtons.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          cartCount++;
-          cartBadge.textContent = cartCount;
-          // Mostrar toast simple
-          const toast = document.createElement('div');
-          toast.className = 'toast';
-          toast.textContent = 'Producto añadido al carrito';
-          document.getElementById('toast-container').appendChild(toast);
-          setTimeout(() => toast.remove(), 2000);
-        });
+      input.addEventListener('input', function() {
+        const query = this.value;
+        if (query.length < 1) {
+          resultsContainer.classList.add('hidden');
+          return;
+        }
+        const results = search(query);
+        renderResults(results);
       });
 
-      // ---- ABRIR CARRITO ----
-      const cartToggle = document.getElementById('cart-toggle-btn');
-      const cartDrawer = document.getElementById('cart-drawer');
-      const cartOverlay = document.getElementById('cart-overlay');
-      const cartClose = document.getElementById('cart-close-btn');
-      function openCart() { cartDrawer.classList.add('open'); cartOverlay.style.display = 'block'; }
-      function closeCart() { cartDrawer.classList.remove('open'); cartOverlay.style.display = 'none'; }
-      cartToggle.addEventListener('click', openCart);
-      cartClose.addEventListener('click', closeCart);
-      cartOverlay.addEventListener('click', closeCart);
-
-      // ---- QUICK VIEW ----
-      const quickViewBtns = document.querySelectorAll('.quick-view-btn');
-      const qvModal = document.getElementById('quickview-modal');
-      const qvOverlay = document.getElementById('quickview-overlay');
-      const qvClose = document.getElementById('quickview-close-btn');
-      const qvImg = document.getElementById('quickview-img');
-      const qvName = document.getElementById('quickview-name');
-      const qvPrice = document.getElementById('quickview-price');
-      const qvPriceOld = document.getElementById('quickview-price-old');
-      const qvRating = document.getElementById('quickview-rating');
-      const qvDesc = document.getElementById('quickview-desc');
-      const qvAddBtn = document.getElementById('quickview-add-btn');
-
-      quickViewBtns.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          const card = this.closest('.product-card');
-          if (!card) return;
-          const img = card.querySelector('.product-img')?.src || '';
-          const name = card.querySelector('.product-name')?.textContent || '';
-          const price = card.querySelector('.product-price')?.textContent || '';
-          const oldPrice = card.querySelector('.product-price-old')?.textContent || '';
-          const rating = card.querySelector('.product-rating')?.innerHTML || '★★★★★ <span>4.9 (0)</span>';
-          const cat = card.querySelector('.product-cat')?.textContent || '';
-          qvImg.src = img;
-          qvName.textContent = name;
-          qvPrice.textContent = price;
-          qvPriceOld.textContent = oldPrice;
-          qvRating.innerHTML = rating;
-          qvDesc.textContent = `Categoría: ${cat}. ${name} - Suplemento de alta calidad.`;
-          qvModal.classList.add('open');
-          qvOverlay.style.display = 'block';
-        });
+      // Cerrar resultados al hacer clic fuera
+      document.addEventListener('click', function(e) {
+        if (!resultsContainer.contains(e.target) && e.target !== input) {
+          resultsContainer.classList.add('hidden');
+        }
       });
 
-      function closeQuickView() {
-        qvModal.classList.remove('open');
-        qvOverlay.style.display = 'none';
-      }
-      qvClose.addEventListener('click', closeQuickView);
-      qvOverlay.addEventListener('click', closeQuickView);
-
-      // Añadir desde quick view al carrito
-      qvAddBtn.addEventListener('click', function() {
-        cartCount++;
-        cartBadge.textContent = cartCount;
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.textContent = `${qvName.textContent} añadido al carrito`;
-        document.getElementById('toast-container').appendChild(toast);
-        setTimeout(() => toast.remove(), 2000);
-        closeQuickView();
+      // Tecla Escape para cerrar
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          resultsContainer.classList.add('hidden');
+          this.blur();
+        }
       });
-
     })();
   </script>
 
