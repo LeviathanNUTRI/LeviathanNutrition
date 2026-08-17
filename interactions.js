@@ -1214,8 +1214,8 @@
       const baseName = 'PRE-ENTRENO NOXRAGE';
       nameEl.textContent = `${baseName} ${weight.toUpperCase()}`;
     }
-    const unitPrice = weight === '700g' ? 169.90 : 129.90;
-    const oldPrice = weight === '700g' ? 180 : 150;
+    const unitPrice = weight === '700g' ? 139.90 : 78.90;
+    const oldPrice = weight === '700g' ? 160.00 : 90.00;
     if (priceEl) priceEl.textContent = `S/ ${unitPrice.toFixed(2)}`;
     if (oldPriceEl) oldPriceEl.textContent = `S/ ${oldPrice}`;
     card.dataset.selectedWeight = weight;
